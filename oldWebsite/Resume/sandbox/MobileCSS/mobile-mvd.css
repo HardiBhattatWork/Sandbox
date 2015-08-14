@@ -1,0 +1,100 @@
+#mvdDate {
+   display: block;
+   color: #54558E;
+   height: 1%;
+   width: 150px;
+}
+
+.mvdDagger  {
+    display: inline;
+    font-weight: normal;
+    margin-left: 2px;
+    font-size: 75%;
+    text-align: left;
+    vertical-align: top;
+}
+
+.currentBalance .mvdDagger {
+    font-size: 14px;
+}
+
+#mvdDate .mvdDagger{
+    float: left;
+}
+
+#panel_mvdDate {
+   display: none;
+}
+
+div.paid p {
+    height: 15px;
+}
+
+div.paid p .mvdDagger {
+    vertical-align: middle;
+}
+
+#mvdOverlay { display: block; position: absolute; top: 0; left: 0; z-index: 220000; width: 100%; background: url('../../../img/base/mobile/mobile-overlay-background@2x.png') 0 0 repeat; background-size: 4px 4px; }
+#mvdPanelParent { display: block; opacity: 0; width: 100%; margin: 0 auto; height: auto; position: absolute; z-index: 220000; top: 0; }
+#mvdPanelArrow { display: block; position: absolute; z-index: 220003; left: 4.5%; width: 14px; top: -27px; height: 14px; background: #FFF; transform: rotate(45deg); -webkit-transform: rotate(45deg); }
+#mvdPanelBody { display: block; position: absolute; z-index: 220002; width: 86%; padding: 6%; left: 1%; top: -175px; height: auto; background: #FFF; border-radius: 10px; -webkit-box-shadow: 0 4px 8px rgba(0, 0, 0, .4); box-shadow: 0 4px 8px rgba(0, 0, 0, .4); }
+#mvdPanel-close { display: block; position: absolute; top: 19px; right: 19px; width: 20px; height: 20px; color: #CCC; font-weight: bold; text-align: center; background-position: -12px -611px; }
+#mvdPanelBody p, #mvdPanelBody p strong, #mvdPanelBody ul.traditional li { font-size: 10pt; }
+    
+#rewards .navBoxLrg {
+   width:167px;
+}
+#rewards .navBoxLrg{
+   height:75px;
+   background: #ffffff; /* Old browsers */
+   background: linear-gradient(top, #ffffff 0%,#999999 100%); /* W3C */
+   background: -moz-linear-gradient(top, #ffffff 0%, #999999 100%); /* FF3.6+ */
+   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#999999)); /* Chrome,Safari4+ */
+   background: -webkit-linear-gradient(top, #ffffff 0%,#999999 100%); /* Chrome10+,Safari5.1+ */
+   background: -o-linear-gradient(top, #ffffff 0%,#999999 100%); /* Opera11.10+ */
+   background: -ms-linear-gradient(top, #ffffff 0%,#999999 100%); /* IE10+ */
+   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#999999',GradientType=0 ); /* IE6-9 */
+   text-transform:uppercase;
+   color:#ffffff;
+   -moz-border-radius: 5px;
+   border-radius: 5px;
+   -moz-border-radius-bottomleft: 0px;
+   border-bottom-left-radius: 0px;
+   cursor:pointer;
+   -moz-box-shadow: 1px 1px 3px #555;
+   -webkit-box-shadow: 1px 1px 3px #555;
+   box-shadow: 1px 1px 3px #555;
+   position:relative;
+}
+#mvdText, #rewards .rew {
+   display: none;
+}
+#mvdProfile {
+   padding-left: 10px;
+   padding-right: 150px;
+}
+#mvdAccount {
+   padding-left: 10px;
+   padding-right: 50px;
+}
+#accountSettingsSummarySection, #accountSettingsSum {
+   display: none;
+}
+#emptyRewards {
+   position: absolute; 
+   height: 100px; 
+   width: 175px; 
+   z-index:10; 
+   margin-left: -5px;
+   margin-top: -5px;
+   background:url('../../img/base/EmptyRewards.png');
+}
+
+#activityDropdownIcon {
+    height: 13px;
+    left: 10px;
+    position: relative;
+    top: 30px;
+    width: 14px;
+    background:  no-repeat scroll center -4320px transparent;
+}

@@ -1,0 +1,34 @@
+T: Age, Workclass, ID-Number, Education, Education-num, Marital-Status, Occupation, Relationship, Race, Sex, Capital-gain, Capital-loss, Hours-per-week, Native-Country, Wage
+
+50, Self-emp-not-inc, 83311, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 0, 0, 13, United-States, <=50K
+52, Self-emp-not-inc, 209642, HS-grad, 9, Married-civ-spouse, Exec-managerial, Husband, White, Male, 0, 0, 45, United-States, >50K
+39, State-gov, 77516, Bachelors, 13, Never-married, Adm-clerical, Not-in-family, White, Male, 2174, 0, 40, United-States, <=50K
+31, Private, 45781, Masters, 14, Never-married, Prof-specialty, Not-in-family, White, Female, 14084, 0, 50, United-States, >50K
+18, Private, 309634, 11th, 7, Never-married, Other-service, Own-child, White, Female, 0, 0, 22, United-States, <=50K
+42, Private, 159449, Bachelors, 13, Married-civ-spouse, Exec-managerial, Husband, White, Male, 5178, 0, 40, United-States, >50K
+31, Local-gov, 125927, 7th-8th, 4, Married-civ-spouse, Farming-fishing, Husband, White, Male, 0, 0, 40, United-States, <=50K
+37, Private, 280464, Some-college, 10, Married-civ-spouse, Exec-managerial, Husband, Black, Male, 0, 0, 80, United-States, >50K
+59, Private, 159937, HS-grad, 9, Married-civ-spouse, Sales, Husband, White, Male, 0, 0, 48, United-States, <=50K
+30, State-gov, 141297, Bachelors, 13, Married-civ-spouse, Prof-specialty, Husband, Asian-Pac-Islander, Male, 0, 0, 40, India, >50K
+33, Private, 202051, Masters, 14, Married-civ-spouse, Prof-specialty, Husband, White, Male, 0, 0, 50, United-States, <=50K
+45, Private, 363677, Doctorate, 16, Married-civ-spouse, Prof-specialty, Wife, White, Female, 0, 1977, 30, United-States, >50K
+19, Private, 301606, Some-college, 10, Never-married, Other-service, Own-child, Black, Male, 0, 0, 35, United-States, <=50K
+43, State-gov, 506329, Bachelors, 13, Married-civ-spouse, Prof-specialty, Husband, Asian-Pac-Islander, Male, 15024, 0, 40, ?, >50K
+39, Private, 365739, Some-college, 10, Divorced, Craft-repair, Not-in-family, White, Male, 0, 0, 40, United-States, <=50K
+34, Private, 98283, Prof-school, 15, Never-married, Tech-support, Not-in-family, Asian-Pac-Islander, Male, 0, 1564, 40, India, >50K
+37, State-gov, 48211, HS-grad, 9, Divorced, Adm-clerical, Unmarried, White, Female, 0, 0, 35, United-States, <=50K
+40, Private, 193524, Doctorate, 16, Married-civ-spouse, Prof-specialty, Husband, White, Male, 0, 0, 60, United-States, >50K
+35, Private, 36270, HS-grad, 9, Divorced, Craft-repair, Not-in-family, White, Male, 0, 0, 60, United-States, <=50K
+54, ?, 180211, Some-college, 10, Married-civ-spouse, ?, Husband, Asian-Pac-Islander, Male, 0, 0, 60, South, >50K
+34, Private, 175413, Assoc-acdm, 12, Divorced, Sales, Unmarried, Black, Female, 0, 0, 45, United-States, <=50K
+31, Private, 84154, Some-college, 10, Married-civ-spouse, Sales, Husband, White, Male, 0, 0, 38, ?, >50K
+21, Private, 205759, HS-grad, 9, Never-married, Handlers-cleaners, Own-child, White, Male, 0, 0, 40, United-States, <=50K
+57, Federal-gov, 337895, Bachelors, 13, Married-civ-spouse, Prof-specialty, Husband, Black, Male, 0, 0, 40, United-States, >50K
+50, Private, 193884, 7th-8th, 4, Married-civ-spouse, Craft-repair, Husband, White, Male, 0, 0, 40, Ecuador, <=50K
+50, Federal-gov, 251585, Bachelors, 13, Divorced, Exec-managerial, Not-in-family, White, Male, 0, 0, 55, United-States, >50K
+17, Private, 191260, 9th, 5, Never-married, Other-service, Own-child, White, Male, 1055, 0, 24, United-States, <=50K
+43, Private, 237993, Some-college, 10, Married-civ-spouse, Tech-support, Husband, White, Male, 0, 0, 40, United-States, >50K
+33, Private, 111746, Assoc-acdm, 12, Married-civ-spouse, Craft-repair, Husband, White, Male, 0, 0, 45, Portugal, <=50K
+53, Private, 169846, HS-grad, 9, Married-civ-spouse, Adm-clerical, Wife, White, Female, 0, 0, 40, United-States, >50K
+59, Local-gov, 286967, HS-grad, 9, Married-civ-spouse, Transport-moving, Husband, White, Male, 0, 0, 45, United-States, <=50K
+29, Self-emp-not-inc, 162298, Bachelors, 13, Married-civ-spouse, Sales, Husband, White, Male, 0, 0, 70, United-States, >50K

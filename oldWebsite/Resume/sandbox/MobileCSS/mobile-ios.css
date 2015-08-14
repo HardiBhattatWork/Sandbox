@@ -1,0 +1,2 @@
+/* ios specific global styles */
+.gpu, ul#sections, nav#mobileMenu, div#overlay, div#modalParent { -webkit-transform: translateZ(0); transform: translateZ(0); }

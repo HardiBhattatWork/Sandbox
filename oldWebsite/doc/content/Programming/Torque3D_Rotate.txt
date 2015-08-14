@@ -1,0 +1,39 @@
+<font color="#13B7FD" size="15"><b>Torque 3D</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>Rotate Method</b></font>
+<br>
+//===========================================================================<br>
+//<br>
+//! \file   Rotate<br>
+//! \brief  This program simulates an Rotation by randomly changing the<br>
+//          last rd coordinate or angle<br>
+//<br>
+//===========================================================================<br>
+function Rotate(%shape, %amount)<br>
+{<br>
+	%xfrm = %shape.getTransform();<br>
+	%lx = getword(%xfrm, 0); //get the current transform values<br>
+	%ly = getword(%xfrm, 1);<br>
+	%lz = getword(%xfrm, 2);<br>
+	%rx = getword(%xfrm, 3);<br>
+	%ry = getword(%xfrm, 4);<br>
+	%rz = getword(%xfrm, 5);<br>
+	%rd = getword(%xfrm, 6);<br>
+<br>
+   	%rd += 0.01;   //adjust the rd angle<br>
+	//loop through the sink for %dist (cycles)<br>
+	if (%amount > 0)<br>
+	{<br>
+	   	%rd += 0.01;   //adjust the rd angle<br>
+		//moving the building<br>
+		%shape.setTransform(%lx SPC %ly SPC %lz SPC %rx SPC %ry SPC %rz SPC %rd );<br>
+		//loop through the earthquake for %amount<br>
+	    schedule(70, 0, Rotate, %shape, (%amount-1));<br>
+	}//end if    <br>
+	else <br>
+	{<br>
+		%shape.setTransform($lxConst SPC $lyConst SPC $lzConst SPC $rxConst SPC $ryConst SPC $rzConst SPC $rdConst );<br>
+		echo ("Rotate: done.");<br>
+	}  	<br>
+}<br>
+<br>

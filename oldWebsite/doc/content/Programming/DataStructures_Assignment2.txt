@@ -1,0 +1,174 @@
+<font color="#13B7FD" size="15"><b>Data Structures</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>SimpleBinaryTreeDriver.java</b></font>
+<br>
+import java.io.*;<br>
+public class SimpleBinaryTreeDriver<br>
+{<br>
+    public static void main (String[] args) throws IOException<br>
+    {<br>
+	BufferedReader input = new BufferedReader (new FileReader ("DataFile.txt"));<br>
+<br>
+	SimpleBinaryTree Tree1 = new SimpleBinaryTree ();<br>
+	Tree1.initTreeFromFile (input);<br>
+	//Tree1.printArray ();<br>
+	Tree1.display ();<br>
+    }<br>
+}<br>
+<br>
+<br><font color="#cccccc" size="11"><b>SimpleBinaryTree.java</b></font>
+<br>
+/*****************************************************************************/<br>
+/*                                                                           */<br>
+/* SimpleBinaryTree.java                                                     */<br>
+/*                                                                           */<br>
+/* Author: Hardik Bhatt                                                      */<br>
+/* Date: 2004 October 7                                                      */<br>
+/*                                                                           */<br>
+/* A class that implements a simplified Binary Tree class using the array-   */<br>
+/* based representation, and printing the contents of the tree in a certain  */<br>
+/* format.                                                                   */<br>
+/*****************************************************************************/<br>
+<br>
+import java.io.*;<br>
+public class SimpleBinaryTree<br>
+{<br>
+    private final int capacity = 50;//max size of the array<br>
+    Object [] array = new Object [capacity];//array objects<br>
+    private int i;<br>
+<br>
+    public SimpleBinaryTree ()  //default constructor<br>
+    {<br>
+	for (i = 0 ; i %3c capacity ; i++)<br>
+	{<br>
+	    array [i] = null;//initilizing the array as null<br>
+	}//end of loop<br>
+    }//end of default constructor<br>
+<br>
+
+    public void initTreeFromFile (BufferedReader input) throws IOException<br>
+    {<br>
+	String numberNode = input.readLine (); //stores number as string<br>
+	int size = Integer.parseInt (numberNode); //converting string to int<br>
+	int j; //loop counter<br>
+	for (j = 1 ; j %3C= size ; j++)//stores the values from file into the <br>
+	//array starting from the root<br>
+	{<br>
+	    array [j] = input.readLine ();<br>
+	}//end of loop<br>
+    }//end od initTreeFromFile() method<br>
+<br>
+
+    public int root () //root method<br>
+    {<br>
+	int index = 1;<br>
+	return index; //returns the index of the root which is always 1<br>
+    }//end of root method<br>
+<br>
+
+    public int Left (int i)//left method<br>
+    {<br>
+	return (2 * i);//returns the index of the i'th left child<br>
+    }//end of Left method<br>
+<br>
+
+    public int Right (int i)<br>
+    {<br>
+	return (2 * i + 1);//returns the index of the i'th right child<br>
+    }//end of Right method<br>
+<br>
+
+    public boolean hasLeft (int i)//method that checks for a left child<br>
+    {<br>
+	if (array [2 * i] == null)//if null, there is no left child<br>
+	    return false;<br>
+	else<br>
+	    return true;//else there is a left chile<br>
+    }//end of hasLeft mehtod<br>
+<br>
+
+    public boolean hasRight (int i) //method that checks for a right child<br>
+    {<br>
+	if (array [2 * i + 1] == null)//if null, right child does no exist<br>
+	    return false;<br>
+	else<br>
+	    return true;//else there is a right child<br>
+    }//end of hasRight method<br>
+<br>
+
+    public void display () //Method to call a recursion to display the <br>
+    //content of the array<br>
+    {<br>
+	preorderHelper (root (), 0);//calling the recursive function<br>
+    }<br>
+<br>
+
+    public void preorderHelper (int data, int depth)//recursive method<br>
+    {<br>
+	int i; //counter<br>
+	if (hasLeft (data) == true)<br>
+	{<br>
+	    preorderHelper (Left (data), depth + 1);//recurses untill leftchild<br>
+	    // is null<br>
+	}<br>
+	for (i = 1 ; i %3c depth ; i++)//prints the values of the tree from left,<br>
+	//middle, right or in preorder form<br>
+	{<br>
+	    System.out.print ("." + " ");<br>
+	}<br>
+	System.out.println (array [data]);<br>
+	if (hasRight (data) == true)<br>
+	{<br>
+	    preorderHelper (Right (data), depth + 1);//recurses untill leftchild <br>
+	    //is null<br>
+	}<br>
+    }//end of preorderHelper method<br>
+<br>
+
+    public void printArray () //check the content of the array<br>
+    {<br>
+	int i;<br>
+	for (i = 0 ; i %3c capacity ; i++)<br>
+	{<br>
+	    System.out.println (array [i]);<br>
+	}<br>
+    }<br>
+}<br>
+<br>
+<br>DataFile.txt<br>
+15<br>
+1<br>
+4<br>
+3<br>
+3<br>
+5<br>
+6<br>
+5<br>
+6<br>
+2<br>
+4<br>
+5<br>
+7<br>
+7<br>
+3<br>
+5<br>
+6<br>
+<br>
+<br>Output:<br>
+. . 6<br>
+. 3<br>
+. . 2<br>
+4<br>
+. . 4<br>
+. 5<br>
+. . 5<br>
+1<br>
+. . 7<br>
+. 6<br>
+. . 7<br>
+3<br>
+. . 3<br>
+. 5<br>
+. . 5<br>
+
+

@@ -1,0 +1,36 @@
+<font color="#13B7FD" size="15"><b>Torque 3D</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>Quicksand Method</b></font>
+<br>
+//===========================================================================<br>
+//<br>
+//! \file   Sink<br>
+//! \brief  This program simulates a QuickSand by changing the z coordinate<br>
+//          given by user<br>
+//<br>
+//===========================================================================<br>
+function Sink (%shape, %dist)<br>
+{<br>
+	%lx = getword(%shape.getTransform(), 0); //get the current transform values<br>
+	%ly = getword(%shape.getTransform(), 1);<br>
+	%lz = getword(%shape.getTransform(), 2);<br>
+	%rx = getword(%shape.getTransform(), 3);<br>
+	%ry = getword(%shape.getTransform(), 4);<br>
+	%rz = getword(%shape.getTransform(), 5);<br>
+	%rd = getword(%shape.getTransform(), 6);<br>
+	<br>
+	//loop through the sink for %dist (cycles)<br>
+	if (%dist > 0)<br>
+	{<br>
+		%lz -= 0.02;//setting the result<br>
+		echo ("the z ", %lz );	<br>
+		//moving the building<br>
+		%shape.setTransform(%lx SPC %ly SPC %lz SPC %rx SPC %ry SPC %rz SPC %rd );<br>
+		schedule(70, 0, QuickSand, %shape, (%dist-1));<br>
+	}//end if<br>
+	else <br>
+	{<br>
+		echo ("Sink: done.");v
+	}    <br>
+}<br>
+<br>

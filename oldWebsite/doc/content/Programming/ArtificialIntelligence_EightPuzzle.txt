@@ -1,0 +1,193 @@
+<font color="#13B7FD" size="15"><b>Artificial Intelligence</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>Eightpuzzle AStar Search Method</b></font>
+<br>
+/*****************************************************************************/<br>
+/*                                                                           */<br>
+/* EightPuzzle.java                                                          */<br>
+/*                                                                           */<br>
+/* Author: Hardik Bhatt                                                      */<br>
+/* Date: March 11, 2006                                                      */<br>
+/*                                                                           */<br>
+/*                                                                           */<br>
+/*                                                                           */<br>
+/* Instance Variables:                                                       */<br>
+/*      currentState - represents the current state you are in               */<br>
+/*      goalState - Represents the goal you want to reach from currentState  */<br>
+/*      SIZE - the size of the array                                         */<br>
+/*      BoardPanel - set up the board                                        */<br>
+/*      panelWidth - 100 pixel board cell                                    */<br>
+/*      blankX, blankY - The X-Y position of the blank space                 */<br>
+/*      depthCounter - The counter of f(n)                                   */<br>
+/*                                                                           */<br>
+/*                                                                           */<br>
+/* Methods:                                                                  */<br>
+/*   main - A simple main method that implements the Astar algorithm         */<br>
+/*   EightPuzzle - setting up the board a 2D grid                            */<br>
+/*   wait - Pause the program for the given amount                           */<br>
+/*   findBlank - finds the blank tile in the board                           */<br>
+/*   goalReached - checks to see if the goral is reached                     */<br>
+/*   evalState1 - Evaluates the state, check the difference in current and   */ <br>
+/*                goal states                                                */<br>
+/*   evalState2 - Evaluates the state, check the similarity from the current */<br>
+/*                and goal state                                             */<br>
+/*   finalState - Used by evalState1 and evalState2 to get the final state   */<br>
+/*   move - moves the blank tile to the indicated spot                       */<br>
+/*   legalmove - checks to see if you are able to go to a perticular position*/<br>
+/*   Astar - performs the Astar routine                                      */<br>
+/*   random - performs a random routine                                      */<br>
+/*                                                                           */<br>
+/*****************************************************************************/<br>
+<br>
+import java.awt.*;<br>
+import javax.swing.*;<br>
+<br>
+//***********************************************************************<br>
+public class EightPuzzle<br>
+    extends JFrame<br>
+{<br>
+    //*** this is initially the start state<br>
+    static char[] [] currentState = {<br>
+	    {'1', '2', '3'},<br>
+	    {'4', '5', '6'},<br>
+	    {'7', '8', ' '}<br>
+	};<br>
+<br>
+    //*** the desired goal state<br>
+    static char[] [] goalState = {<br>
+	    {' ', '1', '2'},<br>
+	    {'4', '5', '3'},<br>
+	    {'7', '8', '6'}<br>
+	};<br>
+<br>
+    public boolean legalmove (char movedir, char[][] state)<br>
+    {<br>
+	//*** identify where blank is in current configuration<br>
+	findBlank (currentState);<br>
+	//*** the new blank positions are initialized<br>
+	int nblankX = blankX, nblankY = blankY;<br>
+	//*** new blank locations are updated based on directions<br>
+	showState (state);<br>
+	if ((movedir == 'L') && ((nblankY - 1) >= 0))<br>
+	    return true;<br>
+	else if ((movedir == 'R') && ((nblankY + 1) %3c state.length))<br>
+	    return true;<br>
+	else if ((movedir == 'U') && ((nblankX - 1) >= 0))<br>
+	    return true;<br>
+	else if ((movedir == 'D') && ((nblankX + 1) %3c state.length))<br>
+	    return true;<br>
+<br>
+	return false;<br>
+    }<br>
+<br>
+    public void Astar ()<br>
+    {<br>
+	PriorityQueue openQueue;<br>
+	PQLinkEntry closeQueue, front;<br>
+	//*** create a new frame and make it visible<br>
+	EightPuzzle ePuzz = new EightPuzzle ();<br>
+	ePuzz.setVisible (true);<br>
+	char temp;<br>
+	EPuzzleMove lastMove;<br>
+	int MyPriority = 0;<br>
+<br>
+	//*** starting the program<br>
+	lastMove = new EPuzzleMove (currentState);<br>
+	openQueue = new PriorityQueue ();<br>
+	front = new PQLinkEntry(lastMove, -1, null);<br>
+	closeQueue = new PQLinkEntry (lastMove, evalState1 (currentState, depthCounter), front);<br>
+	System.out.println ("The starting priority " + closeQueue.getPriority ());<br>
+<br>
+	while (!ePuzz.goalReached (currentState))<br>
+	{<br>
+	    depthCounter++;<br>
+	    ePuzz.wait (200); //waiting<br>
+	    if (legalmove ('L', currentState))<br>
+	    {<br>
+	    <br>
+		System.out.println ("Going Left is valid.");<br>
+		lastMove = (EPuzzleMove) front.getElement ();<br>
+		if (lastMove.getMove () != 'R' || lastMove.getMove () == ' ')<br>
+		{<br>
+		    findBlank (currentState);<br>
+		    int nblankX = blankX, nblankY = blankY;<br>
+		    temp = currentState [nblankX] [nblankY - 1];<br>
+		    currentState [nblankX] [nblankY - 1] = ' ';<br>
+		    currentState [nblankX] [nblankY] = temp;<br>
+		    openQueue.arrive (new EPuzzleMove (currentState, 'L'), evalState1 (currentState, depthCounter));<br>
+		    System.out.println ("The Left priority " + openQueue.getPriority ());<br>
+		    <br>
+		    currentState [nblankX] [nblankY - 1] = temp;<br>
+		    currentState [nblankX] [nblankY] = ' ';<br>
+		}<br>
+	    }<br>
+	    if (legalmove ('R', currentState))<br>
+	    {<br>
+		System.out.println ("Going Right is valid.");<br>
+		lastMove = (EPuzzleMove) front.getElement ();<br>
+		if (lastMove.getMove () != 'L' || lastMove.getMove () == ' ')<br>
+		{<br>
+		    findBlank (currentState);<br>
+		    int nblankX = blankX, nblankY = blankY;<br>
+		    temp = currentState [nblankX] [nblankY + 1];<br>
+		    currentState [nblankX] [nblankY + 1] = ' ';<br>
+		    currentState [nblankX] [nblankY] = temp;<br>
+		    openQueue.arrive (new EPuzzleMove (currentState, 'R'), evalState1 (currentState, depthCounter));<br>
+		    System.out.println ("The Right priority " + openQueue.getPriority ());<br>
+		    <br>
+		    currentState [nblankX] [nblankY + 1] = temp;<br>
+		    currentState [nblankX] [nblankY] = ' ';<br>
+		}<br>
+	    }<br>
+	    if (legalmove ('U', currentState))<br>
+	    {<br>
+		System.out.println ("Going Up is valid.");<br>
+		lastMove = (EPuzzleMove) front.getElement ();<br>
+		if (lastMove.getMove () != 'D' || lastMove.getMove () == ' ')<br>
+		{<br>
+		    findBlank (currentState);<br>
+		    int nblankX = blankX, nblankY = blankY;<br>
+		    temp = currentState [nblankX - 1] [nblankY];<br>
+		    currentState [nblankX - 1] [nblankY] = ' ';<br>
+		    currentState [nblankX] [nblankY] = temp;<br>
+		    openQueue.arrive (new EPuzzleMove (currentState, 'U'), evalState1 (currentState, depthCounter));<br>
+		    System.out.println ("The Up priority " + openQueue.getPriority ());<br>
+		    <br>
+		    currentState [nblankX - 1] [nblankY] = temp;<br>
+		    currentState [nblankX] [nblankY] = ' ';<br>
+		}<br>
+	    }<br>
+	    if (legalmove ('D', currentState))<br>
+	    {<br>
+		System.out.println ("Going Down is valid.");<br>
+		lastMove = (EPuzzleMove) front.getElement ();<br>
+		if (lastMove.getMove () != 'U' || lastMove.getMove () == ' ')<br>
+		{<br>
+		    findBlank (currentState);<br>
+		    int nblankX = blankX, nblankY = blankY;<br>
+		    temp = currentState [nblankX + 1] [nblankY];<br>
+		    currentState [nblankX + 1] [nblankY] = ' ';<br>
+		    currentState [nblankX] [nblankY] = temp;<br>
+		    openQueue.arrive (new EPuzzleMove (currentState, 'D'), evalState1 (currentState, depthCounter));<br>
+		    System.out.println ("The Down priority " + openQueue.getPriority ());<br>
+		    <br>
+		    currentState [nblankX + 1] [nblankY] = temp;<br>
+		    currentState [nblankX] [nblankY] = ' ';<br>
+		}<br>
+	    }<br>
+	    if (!openQueue.isEmpty ())<br>
+	    {<br>
+		MyPriority = openQueue.getPriority ();<br>
+		lastMove = (EPuzzleMove) openQueue.leave ();<br>
+		closeQueue = new PQLinkEntry (lastMove, MyPriority, front);<br>
+		ePuzz.move (lastMove.getMove ());<br>
+	    }<br>
+	    else if (ePuzz.goalReached (currentState))<br>
+	    {<br>
+		System.out.println ("You have reached your goal");<br>
+	    }<br>
+	}<br>
+	System.out.println ("You have reached your goal");<br>
+    }<br>    
+}<br>
+<br>

@@ -1,0 +1,392 @@
+<font color="#13B7FD" size="15"><b>Computer Graphics</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>3D Environment</b></font>
+<br>
+#include <stdlib.h>			// standard definitions<br>
+#include <iostream.h>			// C++ I/O<br>
+#include <stdio.h>			// C I/O (for sprintf)<br> 
+#include <math.h>			// standard definitions<br>
+<br>
+#include <GL/glut.h>			// GLUT<br>
+#include <GL/glu.h>			// GLU<br>
+#include <GL/gl.h>			// OpenGL<br>
+<br>
+#define FOVY 60<br>
+<br>
+#define NO_SHIPS 2           /*number of ships */<br>
+#define NO_CLOUDS 8          /*number of clouds */<br>
+#define SHIP_TVEL_INC 2      /*incremen/decrement amounts for ship velocities */<br>
+#define SHIP_TVEL_DEC -2<br>
+#define SHIP_RVEL_INC 0.2<br>
+#define SHIP_RVEL_DEC -0.2<br>
+#define INNER 1              /*inner radius of torus */<br>
+#define OUTER 4              /*outer radius of torus */ <br>
+#define SPHERERADIUS 10            /*radius of sphere */<br>
+#define NEAR 1               /*clipping plane near and far */<br>
+#define FAR 10000<br>
+#define NO_LIGHTS 2<br>
+GLboolean MYPAUSE = false; //boolean that keep track of pause of game<br>
+GLboolean MYTRACE = false;<br>
+<br>
+/* window dimensi0ns */<br>
+int wh=300;<br>
+int ww=400;<br>
+<br>
+GLfloat Radious = 3.141598/180;<br>
+/* parameters for drawing sphere and torus */<br>
+GLint NO_STACKS=20;<br>
+GLint NO_SLICES=20;<br>
+GLint NO_SIDES=20;<br>
+GLint NO_RINGS=20;<br>
+<br>
+/*variable that stores which ship is in use*/<br>
+GLint Ship = 0;<br>
+<br>
+GLfloat ship_color[4]={1.0,0.627,0.478};  /*color of a ship */<br>
+GLfloat ground_color[4]={0.0, 1.0, 0.0}; <br>
+ <br>
+/* The ground should be located at z=0 plane, you can use (0,0,0) as the lower left corner and (200, 200, 0) as the upper right corner. */<br>
+<br>
+/*several initializations */<br>
+/* cloud coordinates(x,y,z) for each cloud */ <br>
+GLfloat cloud_coords[NO_CLOUDS][3]={{30, 30, 30},<br>
+			   {30, 170, 15},<br>
+			   {80, 110, 25},<br>
+			   {70,  60, 12},<br>
+			   {90, 150, 13},<br>
+			   {120,  80, 17},<br>
+			   {150,  40, 15},<br>
+			   {160, 170, 22}};<br>
+<br>
+/*cloud colors(rgb) for each cloud */<br>
+GLfloat cloud_colors[NO_CLOUDS][3]={{0.30, 0.30, 0.30},<br>
+			   {1.00, 0.00, 0.00},<br>
+			   {0.00, 1.00, 0.00},<br>
+			   {0.00, 0.00, 1.00},<br>
+			   {1.00, 1.00, 0.00},<br>
+			   {1.00, 0.00, 1.00},<br>
+			   {0.00, 1.00, 1.00},<br>
+			   {1.00, 1.00, 1.00}};<br>
+					 <br>
+/*ship coordinates for all ships, (x,y,z) for each ship*/<br>
+GLfloat ship_coords[NO_SHIPS][3]={{100.0,10.0,10.0},<br>
+			  {105.0,0.0,15.0}};<br>
+<br>
+
+/*velocites (translational and rotational) for each ship */<br>
+GLfloat ship_velocities[NO_SHIPS][2]={{0.0,0.0},<br>
+				     {-2.0,0.0}};<br>
+<br>
+
+/*heading initializations for each ship */<br>
+GLfloat ship_headings[NO_SHIPS]={0.0, 180.0};<br>
+<br>
+/* NEW !!!! Light and Material Related */<br>
+/* spcular color component for an object */<br>
+GLfloat spec_color[4]={1.0, 1.0, 1.0, 1.0};<br>
+<br>
+GLfloat global_ambient_intensity[4] = {0.2, 0.2, 0.2, 1.0};<br>
+<br>
+/* light coordinates */<br>
+GLfloat light_coords[NO_LIGHTS][4]={{0.5,-1.0,1.5,0.0},<br>
+                           {-0.5,1.0,0.5,0.0}};<br>
+<br>
+/* light components */<br>
+GLfloat light_ambient[NO_LIGHTS][4]={{0.2, 0.2, 0.2, 1.0},<br>
+                            {0.2, 0.2, 0.2, 1.0}};<br>
+<br>
+
+GLfloat light_diffuse[NO_LIGHTS][4]={{1.0, 1.0, 1.0, 1.0},<br>
+                            {1.0, 1.0, 1.0, 1.0}};<br>
+<br>
+
+GLfloat light_specular[NO_LIGHTS][4]={{2.0, 2.0, 2.0, 1.0},<br>
+                             {2.0, 2.0, 2.0, 1.0}}; <br>
+<br>
+GLfloat fog_color[]={ 0.5, 0.5, 0.5, 1.0}; /* fog color */<br>
+<br>
+GLfloat shininess = 100.0;<br>
+<br>
+
+/* initial viewer location and At location*/<br>
+static GLdouble viewer[]= {0.0, 0.0, 0.0}; <br>
+static GLdouble at[]= {0.0, 0.0, 0.0};<br>
+<br>
+void myInit();<br>
+void myReshape(int ww, int wh);<br>
+void myDisplay();<br>
+void myKeyboard(unsigned char c, int x, int y);<br>
+void myMouse(int btn, int state, int x, int y);<br>
+void myTimeOut(int id);<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// main program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+int main(int argc, char **argv)<br>
+{<br>
+    <br>				
+    glutInit(&argc, argv);   //initialize glut and gl<br>
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);<br>
+    glutInitWindowSize(ww, wh);   // window<br>
+    //glutInitWindowPosition(0,0);    // upper left<br>
+    glutCreateWindow("My OpenGL Program: Assignment 3"); 	// create the window<br>
+<br>
+	//register callbacks<br>
+	glutReshapeFunc(myReshape);     // call myReshape if window is resized<br>
+    glutDisplayFunc(myDisplay);		//  call myDisplay to redraw window<br>
+    //keyboard entries<br>
+    glutKeyboardFunc(myKeyboard);   // call myKeyboard when key is hit<br>
+	glutMouseFunc(myMouse);         // call in mouse event<br>
+	<br>
+	glEnable(GL_DEPTH_TEST);<br>
+	glutTimerFunc(100, myTimeOut, 0);<br>
+    <br>
+    myInit();				// our own initializations<br>
+<br>
+    glutMainLoop();			// pass control to GLUT, start it running<br>
+    return 0;               // ANSI C expects this<br>
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+//	Sets up some default OpenGL values, like the viewer and the at for<br>
+//  the look at function in myDisplay.<br>
+//-----------------------------------------------------------------------<br>
+void myInit()<br>
+{<br>
+    glClearColor(fog_color[0], fog_color[1], fog_color[2], fog_color[3]);		// background color<br>
+    glShadeModel(GL_SMOOTH);		// smooth shading<br>
+<br>
+	viewer[0] = ship_coords[Ship][0] + OUTER * sin(ship_headings[Ship]*Radious);<br>
+	viewer[1] = ship_coords[Ship][1] + OUTER * cos(ship_headings[Ship]*Radious);<br>
+	viewer[2] = ship_coords[Ship][2];<br>
+<br>
+	at[0] = viewer[0] + sin(ship_headings[Ship]*Radious);<br>
+	at[1] = viewer[1] + cos(ship_headings[Ship]*Radious);<br>
+	at[2] = viewer[2];<br>
+<br>
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// reshape callback function<br>
+//	This is called each time the window is reshaped<br>
+//-----------------------------------------------------------------------<br>
+void myReshape(int ww, int wh) <br>
+{<br>
+	
+   // update projection<br>
+  glViewport (0, 0, ww,  wh);  // update the viewport<br>
+<br>
+/* Use a perspective view */<br>
+<br>
+  glMatrixMode(GL_PROJECTION);              // update the projection<br>
+  glLoadIdentity();               <br>
+<br>
+  gluPerspective(FOVY,(GLdouble) ww/wh, NEAR, FAR);<br>
+  <br>
+  glMatrixMode(GL_MODELVIEW);<br>
+<br>
+  glutPostRedisplay();                      // request redisplay<br>
+}<br>
+<br>
+
+//-----------------------------------------------------------------------<br>
+// display callback function<br>
+//	This is called each time application needs to redraw itself.<br>
+// This function draws the ship and the clouds for the world that is made<br>
+//-----------------------------------------------------------------------<br>
+void myDisplay()<br>
+{<br>
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);       // clear the window<br>
+    int i, j;<br>
+	/* Update viewer position in modelview matrix */<br>
+<br>
+	glLoadIdentity();<br>
+	gluLookAt(viewer[0], viewer[1], viewer[2], at[0], at[1], at[2], 0.0, 0.0, 1.0);<br>
+<br>
+	
+	glFogi(GL_FOG_MODE, GL_EXP);		// Fog Mode<br>
+	glFogfv(GL_FOG_COLOR, fog_color);			// Set Fog Color<br>
+	glFogf(GL_FOG_DENSITY, 0.01f);				// How Dense Will The Fog Be<br>
+	glHint(GL_FOG_HINT, GL_DONT_CARE);			// Fog Hint Value<br>
+	glFogf(GL_FOG_START, 1.0f);				// Fog Start Depth<br>
+	glFogf(GL_FOG_END, 5.0f);				// Fog End Depth<br>
+	glEnable(GL_FOG);					// Enables GL_FOG<br>
+	<br>
+	glEnable(GL_LIGHTING);<br>
+	<br>
+	glEnable(GL_LIGHT0);<br>
+	glLightfv(GL_LIGHT0, GL_POSITION, light_coords[0]);<br>
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient[0]);<br>
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse[0]);<br>
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular[0]);<br>
+<br>
+	glEnable(GL_LIGHT1);<br>
+	glLightfv(GL_LIGHT1, GL_POSITION, light_coords[1]);<br>
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient[1]);<br>
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse[1]);<br>
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular[1]);<br>
+<br>
+   	
+	for (i =0; i %3c NO_CLOUDS; i++)<br>
+	{<br>
+		glPushMatrix();<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, cloud_colors[i]);<br>
+		glTranslatef(cloud_coords[i][0], cloud_coords[i][1], cloud_coords[i][2]);<br>
+		glutSolidSphere(SPHERERADIUS, NO_STACKS, NO_SLICES); // parameters: radius, number of slices (longitude), no stacks (latitude)<br>
+		glPopMatrix();<br>
+	}<br>
+<br>
+	for (j =0; j %3c NO_SHIPS; j++)<br>
+	{<br>
+		glPushMatrix();<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ship_color);<br>
+		glTranslatef(ship_coords[j][0], ship_coords[j][1], ship_coords[j][2]);<br>
+		glutSolidTorus(INNER, OUTER, NO_SIDES, NO_RINGS); // inner radius, outer radis, no sides, no rings<br>
+		glRotatef(90, 0, 1, 0);<br>
+		glutSolidTorus(INNER, OUTER, NO_SIDES, NO_RINGS); // inner radius, outer radis, no sides, no rings<br>
+		glPopMatrix();<br>
+	}<br>
+<br>
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, ground_color);<br>
+	glRectf(0.0, 0.0, 200.0, 200.0);<br>
+    glFlush();				// force OpenGL to render now<br>
+    glutSwapBuffers();			// swap buffers<br>
+
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// keyboard callback function<br>
+//	This is called whenever a keyboard key is hit.<br>
+//-----------------------------------------------------------------------<br>
+<br>
+void myKeyboard(unsigned char c, int x, int y)<br>
+{<br>
+    switch (c)<br>
+    {<br>
+      case 'q':<br>
+		  exit(0);			// exit<br>
+		  break;<br>
+	  case 'a':<br>
+		  ship_velocities[Ship][0] += SHIP_TVEL_INC;    //increase by constant amount<br>
+		  break;<br>
+	  case 's':<br>
+		  ship_velocities[Ship][0] += SHIP_TVEL_DEC;    //decrease by constant amount<br>
+		  break;<br>
+	  case 'l':<br>
+		  ship_velocities[Ship][1] += SHIP_RVEL_INC;    //increase the ship's rightward rotation<br>
+		  break;<br>
+	  case 'k':<br>
+		  ship_velocities[Ship][1] += SHIP_RVEL_DEC;    //decrease the ship's rightward rotation<br>
+		  break;<br>
+	}<br>
+    glutPostRedisplay();		// request redisplay<br>
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// mouse callback function<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+void myMouse(int btn, int state, int x, int y)<br>
+{<br>
+	if ((btn == GLUT_LEFT_BUTTON)&&(state == GLUT_DOWN))   //changes from ship1 ro ship 2<br>
+	{<br>
+	   if(Ship == 0)<br>
+	   {<br>
+		   Ship = 1;<br>
+		   viewer[0] = ship_coords[Ship][0] + OUTER * sin(ship_headings[Ship]*Radious);<br>
+		   viewer[1] = ship_coords[Ship][1] + OUTER * cos(ship_headings[Ship]*Radious);<br>
+		   viewer[2] = ship_coords[Ship][2];<br>
+		   at[0] = viewer[0] + sin(ship_headings[Ship]*Radious);<br>
+	       at[1] = viewer[1] + cos(ship_headings[Ship]*Radious);<br>
+	       at[2] = viewer[2];<br>
+<br>
+	   }<br>
+	   else<br>
+	   {<br>
+		   Ship = 0;<br>
+		   viewer[0] = ship_coords[Ship][0] + OUTER * sin(ship_headings[Ship]*Radious);<br>
+		   viewer[1] = ship_coords[Ship][1] + OUTER * cos(ship_headings[Ship]*Radious);<br>
+		   viewer[2] = ship_coords[Ship][2];<br>
+		   at[0] = viewer[0] + sin(ship_headings[Ship]*Radious);<br>
+	       at[1] = viewer[1] + cos(ship_headings[Ship]*Radious);<br>
+	       at[2] = viewer[2];<br>
+<br>
+	   }<br>
+	}<br>
+	<br>
+	if ((btn == GLUT_MIDDLE_BUTTON) && (state == GLUT_DOWN) && MYPAUSE == false)  //Pause<br>
+	{<br>
+		glutIdleFunc(NULL);<br>
+		MYPAUSE = true;<br>
+	}<br>
+	else if ((btn == GLUT_MIDDLE_BUTTON) && (state == GLUT_DOWN) && MYPAUSE == true)  //UnPause<br>
+	{<br>
+		glutTimerFunc(100, myTimeOut, 0);<br>
+		MYPAUSE = false;<br>
+	}<br>
+<br>
+	if ((btn == GLUT_RIGHT_BUTTON) && (state == GLUT_DOWN))  //Step by step runtime after pause <br>
+	{<br>
+		glutIdleFunc(NULL);<br>
+		MYTRACE = true;<br>
+	}<br>
+<br>
+	glutPostRedisplay();		// request redisplay<br>
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// myTimeOut callback function<br>
+//  essentially runs the whole program by updation the Heading, Location,<br>
+//  Velocity, as well as taking care of the Pause feature.<br>
+//-----------------------------------------------------------------------<br>
+<br>
+void myTimeOut(int id) <br>
+{<br>
+<br>
+	if (MYPAUSE == false || MYTRACE == true)<br>
+	{<br>
+		//translational<br>
+		ship_coords[0][0] += ship_velocities[0][0]*sin(ship_headings[0]*Radious);<br>
+		ship_coords[0][1] += ship_velocities[0][0]*cos(ship_headings[0]*Radious);<br>
+<br>
+		ship_coords[1][0] += ship_velocities[1][0]*sin(ship_headings[1]*Radious);<br>
+		ship_coords[1][1] += ship_velocities[1][0]*cos(ship_headings[1]*Radious);<br>
+<br>
+		//ship_coords[Ship][0] += ship_velocities[Ship][1]*sin(ship_headings[Ship]*Radious);<br>
+		ship_headings[Ship] += ship_velocities[Ship][1];<br>
+		//ship_coords[Ship][1] += ship_velocities[Ship][1]*cos(ship_headings[Ship]*Radious);<br>
+		ship_headings[Ship] += ship_velocities[Ship][1];<br>
+<br>
+		viewer[0] = ship_coords[Ship][0] + OUTER*sin(ship_headings[Ship]*Radious);<br>
+		viewer[1] = ship_coords[Ship][1] + OUTER*cos(ship_headings[Ship]*Radious);<br>
+		viewer[2] = ship_coords[Ship][2];<br>
+		at[0] = viewer[0] + sin(ship_headings[Ship]*Radious);<br>
+	    at[1] = viewer[1] + cos(ship_headings[Ship]*Radious);<br>
+	    at[2] = viewer[2];<br>
+<br>
+        if(MYTRACE == true)<br>
+		{<br>
+			printf("Ships Heading = %i\n", ship_headings[0]);<br>
+			printf("Ships Heading = %i\n", ship_headings[1]);<br>
+<br>
+			printf("Ships Translational Velocity = %i\n", ship_velocities[0][0]);<br>
+			printf("Ships Translational Velocity = %i\n", ship_velocities[1][0]);<br>
+<br>
+			printf("Ships Rotational Velocity = %i\n", ship_velocities[0][1]);<br>
+			printf("Ships Rotational Velocity = %i\n", ship_velocities[1][1]);<br>
+<br>
+			printf("Ship 1's coordinate x = %i and y = %i\n", ship_coords[0][0],ship_coords[0][1]);<br>
+			printf("Ship 2's coordinate x = %i and y = %i\n", ship_coords[1][0],ship_coords[1][1]);<br>
+<br>
+			printf("\n");<br>
+		}<br>
+<br>
+		MYTRACE = false;<br>
+	}<br>
+<br>
+	// advance the state of animation incrementally<br>
+	glutPostRedisplay();			  // request redisplay<br>
+	glutTimerFunc(100, myTimeOut, 0);  // request next timer event<br>
+}<br>
+<br>

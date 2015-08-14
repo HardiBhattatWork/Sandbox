@@ -1,0 +1,121 @@
+<font color="#13B7FD" size="15"><b>Organization & Architecture</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>HammingDistance.java</b></font>
+<br>
+/*
+File: HammingDistance<br>
+Date: 3/30/05<br>
+Author: Hardik Bhatt<br>
+Discription:The purpose of this program is to find the hamming distance between<br>
+a set of given numbers. this is done by comparing the binary numbers of one<br>
+number with the other numbers in the set to see if the binary numbers two numbers<br>
+match on a particular space.<br>
+*/<br>
+import java.io.*;<br>
+import java.util.*;<br>
+import java.lang.*;<br>
+public class HammingDistance<br>
+{<br>
+    static int minDistance = 2147483647; //global variable holding the maximum number<br>
+    //you can possibly go upto<br>
+    static int BestDist = 2147483647; //global variable holding the maximum number<br>
+    //you can possibly go upto<br>
+    protected final static int SetL = 15; //global variable that holds the number<br>
+    //of sets of numbers in the array.<br>
+<br>
+    public static void main (String[] args) throws IOException<br>
+    {<br>
+	//an array of numbers<br>
+	int set[] = {0, 105, 42, 67, 76, 37, 102, 15, 112, 25, 90, 51, 60, 85, 22, 127};<br>
+	//prompting to mind the minimum Hamming Distance in the set.<br>
+	System.out.println ("The Minimum Distance in the set is " + minHammingDistance (set));<br>
+	//Prompting the user to enter a number which would be used to find<br>
+	//the best match hamming distance from the set<br>
+	System.out.print ("Please enter your number ");<br>
+	BufferedReader input = new BufferedReader (new InputStreamReader (System.in));<br>
+	String line;<br>
+	line = input.readLine ();<br>
+	//Finding the best match hamming distance<br>
+	System.out.println ("the Best Match of a given code word is " + bestMatch (Integer.parseInt (line), set));<br>
+    }<br>
+<br>
+
+    //in this method we are trying to do a basic comparasion between two numbers<br>
+    //so as to find their hamming code and return how much of a difference there is<br>
+    public static int getHammingDistance (int A, int B)<br>
+    {<br>
+	int counter = 0; //stores the Hdifference between the numbers<br>
+	while (A > 0 || B > 0) //while both the numbers are positive<br>
+	{<br>
+	    //if both the numbers binary digit is different it incrimints counter<br>
+	    //else it will go to the next set of binary digits untill it goes<br>
+	    //theough the whole binary code of that number.<br>
+	    if ((A & 1) != (B & 1))<br>
+		counter++;<br>
+	    A >>= 1; //shifts the number to the next set of binary number<br>
+	    B >>= 1; //shifts the number to the next set of binary number<br>
+	}<br>
+	return counter; //then returns the counter<br>
+    }<br>
+<br>
+
+    //this method is used to find the minimum distence between the given<br>
+    //set of numbers. It first get an array of numbers from main and then<br>
+    //brakes it down and compare every number with each other once using<br>
+    //the getHammingDistance function up above.<br>
+    public static int minHammingDistance (final int set[])<br>
+    {<br>
+	int SetA = 0; //Stores the number that is being compared.<br>
+	int SetB = 0; //Stores the munber that is being compared to.<br>
+	int HDist = 0; //stores the distance given by the getHammingDistance<br>
+	//function.<br>
+	//a double for loop to grab a number from the array to compare<br>
+	//it with the rest.<br>
+	for (int i = 0 ; i %3C SetL ; i++)<br>
+	{<br>
+	    for (int j = i + 1 ; j %3C= SetL ; j++)<br>
+	    {<br>
+		SetA = set [i]; //stores the number<br>
+		SetB = set [j]; //stores the number<br>
+		HDist = getHammingDistance (SetA, SetB); //store the number<br>
+		//representing the distance<br>
+		if (HDist %3C minDistance) //compares if this number is smaller then<br>
+		    //the globel number stored<br>
+		    minDistance = HDist;//if min stores it in as a globel number<br>
+		    //to be compared later.<br>
+	    }<br>
+	}<br>
+	return minDistance; //returns the minimun Hamming Sidtance<br>
+    }<br>
+<br>
+
+    //in the bestMatch method the purpose is to get the best match value of<br>
+    //a number given by the user. so the A is the number given by the user<br>
+    //and the set is the number array that is being used to compare<br>
+    public static int bestMatch (final int A, final int set[])<br>
+    {<br>
+	int SetB = 0; //stores the numbers in the set<br>
+	int HDist = 0; //stores the distance given by the getHammingDistance<br>
+	//function.<br>
+	//this foor loop is used to compare the number given by the user<br>
+	//with the numbers in the set and then find the best match hamming<br>
+	//distance to in other word onceagain the minimum distence between<br>
+	//the given number and the numbers in the set.<br>
+	for (int i = 0 ; i %3C SetL ; i++)<br>
+	{<br>
+	    SetB = set [i]; //stores the number<br>
+	    HDist = getHammingDistance (A, SetB); //store the number<br>
+	    //representing the distance<br>
+	    if (HDist %3C BestDist) //compares if this number is smaller then<br>
+		//the globel number stored<br>
+		BestDist = HDist;//if min stores it in as a globel number<br>
+		    //to be compared later.<br>
+	}<br>
+	return BestDist;//returns the Best Match Hamming Sidtance<br>
+    }<br>
+}<br>
+<br>
+<br>Output:<br>
+The Minimum Distance in the set is 3<br>
+Please enter your number 435235235<br>
+the Best Match of a given code word is 13<br>

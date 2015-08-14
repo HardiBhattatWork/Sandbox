@@ -1,0 +1,35 @@
+10
+5
+9
+39
+98
+6
+3
+7
+72
+56
+62
+Output:
+Please enter the file name
+aray.txt
+5
+9
+39
+98
+6
+3
+7
+72
+56
+62
+The contents of memory are as follows:
+Cell 0 referenced cell 5,Cell 5 referenced cell 3,Cell 3 contained data 98
+Cell 1 referenced cell 9,Cell 9 contained data 62
+Cell 2 contained data 39
+Cell 3 contained data 98
+Cell 4 referenced cell 6,Cell 6 referenced cell 7,Cell 7 contained data 72
+Cell 5 referenced cell 3,Cell 3 contained data 98
+Cell 6 referenced cell 7,Cell 7 contained data 72
+Cell 7 contained data 72
+Cell 8 contained data 56
+Cell 9 contained data 62

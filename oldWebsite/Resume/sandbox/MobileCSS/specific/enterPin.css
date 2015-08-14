@@ -1,0 +1,48 @@
+/*pinComplete.jsp*/
+
+thead tr {
+    border-bottom: 1px solid #DDD;
+}
+
+.col1 {
+    width: 43%;
+    padding-right: 5px;
+    margin-right: -40px;
+    padding-top: 10px;
+}
+
+.col2 {
+    width: 37%;
+}
+
+.col3 {
+    width: 20%;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: block;
+    width: 90%;
+}
+
+#yui-dt0-th-name {
+    padding-bottom: 5px;
+}
+
+#yui-dt0-th-last4, #yui-dt0-th-activationDate {
+    padding-top: 3px;
+} 
+
+.greyBack {
+    background-color: #DDD;
+}
+
+.yui-dt0-col-last4.yui-dt-col-last4.pb10.col2 {
+    padding-top: 10px;
+}
+
+.yui-dt0-col-activationDate.yui-dt-col-activationDate.yui-dt-last.pb10.col3 {
+    padding-top: 10px;
+}

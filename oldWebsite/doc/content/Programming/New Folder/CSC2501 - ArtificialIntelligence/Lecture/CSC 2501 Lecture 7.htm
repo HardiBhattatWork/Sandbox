@@ -1,0 +1,417 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.sju.edu/~bforoura/courses/lectures/luger/lab7.html -->
+<HTML><HEAD><TITLE>CSC 2501: Lecture 7</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="CSC 2501 Lecture 7_files/style.css" type=text/css rel=stylesheet><!------------------------------------------------------>
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY>
+<DIV align=center>
+<TABLE height="100%" cellSpacing=3 cellPadding=3 width="85%" bgColor=silver 
+border=0>
+  <TBODY>
+  <TR>
+    <TH>
+      <TABLE height="100%" cellSpacing=5 cellPadding=5 width="100%" 
+      bgColor=white border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV><B class=a>Lecture 7 (Chapter 9)<BR>Symbolic Machine 
+            Learning</B> <BR><BR><BR><IMG height=160 alt=None 
+            src="CSC 2501 Lecture 7_files/cover.jpg" width=400 border=0> </DIV><PRE class=a><OL>
+<!------------------------------------------------------>
+<LI><B class=b>9.0 Introduction</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The <B>ability to learn</B> must be part of any system that would claim to process <B>intelligence</B>
+
+
+-- <B>Intelligent agents</B> must be able to change through:
+ 
+    -- Their interactions with the world
+    -- Their experience of their own internal states and processes
+
+
+-- <B>Knowledge engineering bottleneck</B>
+ 
+   -- The major obstacle to widespread use of intelligent systems
+
+   -- The cost and difficulty of building expert systems using conventional, hard-wired 
+      methods
+
+   -- The solution would be to have <B>systems that begin with minimal knowledge and learn 
+      from examples, advice or their own explorations of the domain</B>
+
+
+-- <B>Herbert Simon's definition of <U>learning</U> (1983)</B>
+   <I>
+          Any change in a system that allows it to perform better the second time 
+          on repetition of the same task or on another task drawn from the same 
+          population.
+   </I>
+
+
+-- <B>Central role of induction in learning</B>
+   
+   -- Learner learns from examples drawn from some domain of interest
+
+   -- Since most interesting domains tend to be large, a learner usually examines a small
+      fraction of all possible cases
+
+   -- From a limited experiences, therefore, the learner must <B>generalize correctly
+      to unseen instances of the domain</B>
+
+   -- <B>Learners must generalize heuristically</B> because in most cases <B>the available
+      data are not enough to guarantee optimal generalization</B>
+
+   -- <B>Inductive bias</B> refers to learners' ability to select those aspects of their experience that 
+      are <I>most likely</I> to prove effective in the future
+
+
+
+-- <B>Symbolic learning</B>:
+   
+   -- Also known as <B>inductive or concept learning</B> within our context
+
+   -- Models learning as the acquisition of explicitly represented domain knowledge
+
+   -- Learner constructs or modifies <B>expressions in a formal language, such as logic</B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>9.3 The ID3 Decision Tree Algorithm</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Quinlan's Iterative Dichotomizer (ID3, 1986) induces concepts from a set of examples
+
+
+-- ID3 represents concepts as <B>decision trees</B>, which allow us to determine the
+   classification of an object by testing its values for certain properties
+
+
+-- <B>Example: Estimating an individual's credit risk</B>
+
+   -- Below is the list of people known to be credit risks, where each individual is nothing
+      but a <B>training example consisting of a list of properties</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/tab9_1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   
+   -- The following induced decision tree represents the classification of individuals described
+      in above table
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9_13.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+   -- In a <B>decision tree</B>:
+ 
+      -- Each <B>internal node</B> represents <B>a test on some property</B> and each possible 
+         value of that property test represents a branch
+
+      -- <B>Leaf nodes</B> represent <B>classifications</B>
+
+      -- An individual of an unknown type may be classified by traversing the tree
+
+      -- Note that in classifying any given instance, the tree does not use all the properties
+
+      -- The structure and size of an induced tree depend on the order with which training 
+         examples are scanned and processes. Here is another smaller tree with the same 
+         classification power:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9_14.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Occam's Razor</B>
+
+   -- The time-honored heuristic of preferring simplicity and avoiding unnecessary complex
+      assumptions
+
+   -- Due to <B>William of Occam</B>, a medieval philosopher who lived in the 1300s and 
+      articulated:
+      
+            <I>It is vain to do with more what can be done with less... Entities should
+            not be multiplied beyond necessity</I>
+
+   -- Given a set of training examples and a number of different decision trees that can correctly 
+      classify them, ID3 assumes that the <B>simplest tree that covers all the training examples</B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>9.3.1 Top-Down Decision Tree (DT) Induction</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- ID3 constructs DTs in a <B>top-down</B> fashion
+
+-- It examines the set of training examples and selects a property to test at the tree's current 
+   node and partitions the training examples into two disjoint subsets
+
+-- The above step continues (recursively) until all members of a partition are of the same class, 
+   which then becomes a leaf node
+
+-- In the DT shown in Fig 9.14, note that ID3 selected <B>income</B> as the root property using 
+   a heuristic selection function, which will be presented in the next section
+
+-- Selecting attribute <B>income</B> partitions the example set as follows:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9_15.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>The ID3 tree induction algorithm</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9a.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+   -- ID3 applies <B>induce_tree</B> recursively to each partition, hence the term <B>recursive
+      partitioning algorithm (RPA)</B>
+
+   -- E.g. The partition <B>{1,4,7,11}</B> consists entirely of <B>high_risk</B> individuals, so
+      <B>ID3 creates a leaf node</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9_16.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+   -- For the example set <B>{2,3,12,14}</B>, however, ID3 selects the <B>credit_history</B> attribute 
+      or property and further divides the example set into disjoint partitions as shown above
+
+
+
+
+-- <B>ID3 is a greedy search algorithm</B>:
+   
+   -- Searches space of all possible trees
+
+   -- Adds a subtree to the current tree and continues with the search
+
+   -- Does not backtrack
+
+   -- Is highly efficient yet totally dependent upon the <B>criteria for selection attribute
+      (node) tests</B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>9.3.2 Information Theoretic Test Selection</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Each <B>attribute</B> of a training example <B>contributes a certain amount of information 
+   to its classification</B>
+
+-- ID3 measures the information gained by making an attribute the root of the current 
+   subtree, and then <B>selects the attribute that maximizes that information gain</B>
+
+-- <B>Information theory</B> provides a mathematical basis for <B>measuring the information
+   content of a message</B>
+
+
+
+-- What is a <B>message</B>?
+
+   -- The outcome of spinning the roulette wheel, or a toss of a coin
+
+   -- The <B>roulette wheel has more outcomes than a coin toss</B>, so winning at the roulette 
+      pays better than winning at a coin toss. We therefore say that <B>the message associated
+      with spinning the roulette wheel conveys more information.</B>
+
+   -- <B>Shannon</B> set the foundation of information theory and devised a mechanism for
+      measuring information associated with a message
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Shannon's Measure of Information Gain
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Shannon formalized that the <B>amount of information in a message</B> with the probability of
+   occurrence of <B>p</B> is <B>-log<SUB>2</SUB>(p)</B>
+
+
+
+-- Now, let us assume a universe of messages 
+
+        <B>M = {m<SUB>1</SUB>, m<SUB>2</SUB>, ..., m<SUB>n</SUB>}</B>
+
+   where each message <B>m<SUB>i</SUB></B> occurs with the probability of <B>p(m<SUB>i</SUB>)</B>.
+
+
+
+-- The <B>expected information</B> content of <B>message M</B> is given by:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>Examples</B>: 
+
+   (1) Information content of <B>flipping an honest coin</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq2.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   (2) Information content of <B>flipping a rigged coin that comes up heads 75% of 
+       the time</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq3.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+
+-- <B>Decision trees</B>:
+
+   -- Think of a DT as conveying information about the classification of a set of
+      examples
+
+   -- Assuming equal probability for all outcomes in examples of Table 9.1, we get:
+         <B>
+         p<SUB>1</SUB> = p(high risk) = 6/14
+         p<SUB>2</SUB> = p(moderate risk) = 3/14
+         p<SUB>3</SUB> = p(low risk) = 5/14
+         </B>
+         Note that <B>p<SUB>1</SUB> + p<SUB>2</SUB> + p<SUB>3</SUB> = 1.0</B>
+
+    -- The <B>information content <I>I</I> associated with the entire set of examples</B> is then:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq4.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+
+
+-- <B>Information gain</B>
+
+   -- Assume a set of training instances <B>C</B>
+
+   -- If we make <B>attribute P</B> with <B>n values</B> the root of the current tree, this will partition
+      <B>C</B> into subsets <B>{C<SUB>1</SUB>, C<SUB>2</SUB>, ..., C<SUB>n</SUB>}</B>
+
+   -- The <B>expected information <I>E</I></B> of the tree with <B>P as the root</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq5.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+   -- The amount of information <B>gain from attribute P</B> can then be computed as:
+
+         <B>gain(P) = I[C] - E[P]</B>
+
+
+
+
+
+
+-- <B>Back to our running example</B>
+
+   -- Let's split on <B>income</B> and then compute <B>gain(income)</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/fig9_15.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+      Where,
+
+          <B>C<SUB>1</SUB> = {1,4,7,11} = {hi,hi,hi,hi}</SUB></B>
+          <B>C<SUB>2</SUB> = {2,3,12,14} = {hi,mid,mid,hi}</SUB></B>
+          <B>C<SUB>3</SUB> = {5,6,8,9,10,13} = {lo,lo,mid,lo,lo,lo}</SUB></B>
+
+          <B>I[C<SUB>1</SUB>] = (-4/4) * log<SUB>2</SUB>(4/4) = 0.0 </B>
+          <B>I[C<SUB>2</SUB>] = (-2/4) * log<SUB>2</SUB>(2/4) - (2/4) * log<SUB>2</SUB>(2/4) = 1/2 + 1/2 = 1.0</B>
+          <B>I[C<SUB>3</SUB>] = (-5/6) * log<SUB>2</SUB>(5/6) - (1/6) * log<SUB>2</SUB>(1/6) = 0.220 + 0.430 = 0.650</B>
+
+
+    
+
+     Therefore,
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/eq6.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+   -- Information gain associated with attribute <B>income</B>:
+
+         <B>gain(income) = I[income] - E[income] = 1.531 - 0.564 = 0.967 bits </B>
+
+
+  
+   -- Similarly,
+
+         <B>gain(credit history ) = 0.266 bits </B>
+         <B>gain(debt) = 0.581 bits </B>
+         <B>gain(collateral) = 0.756 bits </B>
+
+
+   -- Since <B>income</B> provides <B>maximum information gain</B>, ID3 splits on income
+
+
+
+
+
+-- <B>When next?</B>
+
+   -- ID3 recursively applies above procedure to each newly generated leaf until a <B>stopping
+      criterion</B> is met
+
+      -- All examples in a leaf belong to the same class
+
+      -- Splitting will not work so we must take majority vote and assign it as the classification 
+         label to that leaf
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>9.3.3 Evaluating ID3</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>ID3's performance</B> on the problem of learning to classify boards in a chess endgame
+
+-- ID3's goal was to learn how to defeat the black opponent in 3 moves where there is only
+  a  white king and rook playing against a black king and knight
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 7_files/tab9_2.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Exercise 1</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Given the following set of training examples regarding learning of the concept <B>picnic</B>:
+
+   (1) Compute <B>information gains</B> of all four attributes
+
+   (2) Determine which <B>attribute is split at the root</B> by ID3. 
+
+
+   <DIV align=center>
+   <TABLE cellSpacing=2 cellPadding=2 width=600 border=0><TBODY><TR bgColor=silver><TH>Outlook</TH><TH>Temp</TH><TH>Humidity</TH><TH>Windy</TH><TH>Picnic</TH></TR><TR><TD align=middle>sunny</TD><TD align=middle>hot</TD><TD align=middle>high</TD><TD align=middle>false</TD><TH>N</TH></TR><TR bgColor=whitesmoke><TD align=middle>sunny</TD><TD align=middle>hot</TD><TD align=middle>high</TD><TD align=middle>true </TD><TH>N</TH></TR><TR><TD align=middle>overcast</TD><TD align=middle>hot</TD><TD align=middle>high </TD><TD align=middle>false </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>rain</TD><TD align=middle>mild</TD><TD align=middle>high </TD><TD align=middle>false </TD><TH>P</TH></TR><TR><TD align=middle>rain</TD><TD align=middle>cool </TD><TD align=middle>normal </TD><TD align=middle>false </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>rain</TD><TD align=middle>cool </TD><TD align=middle>normal </TD><TD align=middle>true </TD><TH>N</TH></TR><TR><TD align=middle>overcast</TD><TD align=middle>cool </TD><TD align=middle>normal </TD><TD align=middle>true </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>sunny</TD><TD align=middle>mild </TD><TD align=middle>high </TD><TD align=middle>false </TD><TH>N</TH></TR><TR><TD align=middle>sunny </TD><TD align=middle>cool </TD><TD align=middle>normal </TD><TD align=middle>false </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>rain</TD><TD align=middle>mild </TD><TD align=middle>normal </TD><TD align=middle>false </TD><TH>P</TH></TR><TR><TD align=middle>sunny </TD><TD align=middle>mild </TD><TD align=middle>normal </TD><TD align=middle>true </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>overcast </TD><TD align=middle>mild </TD><TD align=middle>high </TD><TD align=middle>true </TD><TH>P</TH></TR><TR><TD align=middle>overcast</TD><TD align=middle>hot </TD><TD align=middle>normal </TD><TD align=middle>false </TD><TH>P</TH></TR><TR bgColor=whitesmoke><TD align=middle>rain </TD><TD align=middle>mild </TD><TD align=middle>high </TD><TD align=middle>true </TD><TH>N</TH></TR></TBODY></TABLE> 
+   </DIV>
+</PRE></TD></TR></TBODY></TABLE>
+
+
+<!------------------------------------------------------>
+</LI></OL></PRE></B></TD></TR></TBODY></TABLE></TH></TR></TBODY></TABLE></DIV></BODY></HTML>

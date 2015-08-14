@@ -1,0 +1,126 @@
+\section{HW2 Class Reference}
+\label{class_h_w2}\index{HW2@{HW2}}
+{\bf HW2}{\rm (p.\,\pageref{class_h_w2})} class.  
+
+
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+static void {\bf main} (String[$\,$] args)  throws IOException 
+\begin{CompactList}\small\item\em Main application entry point. \item\end{CompactList}\item 
+static int[$\,$] {\bf sum\-Of\-Rows} (final int {\bf m}[$\,$][$\,$], final int rows, final int cols)
+\begin{CompactList}\small\item\em sum\-Of\-Rows \item\end{CompactList}\item 
+static int[$\,$] {\bf sum\-Of\-Cols} (final int {\bf m}[$\,$][$\,$], final int rows, final int cols)
+\begin{CompactList}\small\item\em sum\-Of\-Cols \item\end{CompactList}\item 
+static double {\bf mean} (final int {\bf m}[$\,$][$\,$], final int rows, final int cols)
+\begin{CompactList}\small\item\em mean \item\end{CompactList}\end{CompactItemize}
+\subsection*{Static Package Attributes}
+\begin{CompactItemize}
+\item 
+static int {\bf ROWS} = 5
+\begin{CompactList}\small\item\em ROWS. A constant veriable containint the number of Rows in a given array Num Rows. \item\end{CompactList}\item 
+static int {\bf COLS} = 15
+\begin{CompactList}\small\item\em COLS. A constant veriable containint the number of Columns in a given array Num Colums. \item\end{CompactList}\item 
+static int[$\,$][$\,$] {\bf m}
+\begin{CompactList}\small\item\em Array m. A constant array containint the number needed to be summed up. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+{\bf HW2}{\rm (p.\,\pageref{class_h_w2})} class. 
+
+Containing the main, sum\-Of\-Rows, sum\-Of\-Cols, and mean functions. This Class contian methods that taken in array m as an argument and implement the necessary addition necessary to execute it purpose a method. 
+
+
+
+\subsection{Member Function Documentation}
+\index{HW2@{HW2}!main@{main}}
+\index{main@{main}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static void HW2::main (String[$\,$] {\em args})  throws IOException \hspace{0.3cm}{\tt  [inline, static]}}\label{class_h_w2_d9f1abb7da028579edd67a80d577caa9}
+
+
+Main application entry point. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em args.}]The main program that utalises the sum\-Of\-Rows, sum\-Of\-Cols, and the mean methods to calculate the sum and the mean of the array\end{description}
+\end{Desc}
+$<$ array to hold Sum\-Rows
+
+$<$ array to hold Sum\-Col
+
+$<$ array to hold Sum\-Mean \index{HW2@{HW2}!mean@{mean}}
+\index{mean@{mean}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static double HW2::mean (final int {\em m}[$\,$][$\,$], final int {\em rows}, final int {\em cols})\hspace{0.3cm}{\tt  [inline, static]}}\label{class_h_w2_184f04025ff48c043fd2245efc15be41}
+
+
+mean 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em m\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]},rows,cols.}]This method implements the mean algorithm utalising the looping process in treversing through the entire array and summing up all the numbers in the array in the process.\end{description}
+\end{Desc}
+$<$ constant holder \index{HW2@{HW2}!sumOfCols@{sumOfCols}}
+\index{sumOfCols@{sumOfCols}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static int [$\,$] HW2::sum\-Of\-Cols (final int {\em m}[$\,$][$\,$], final int {\em rows}, final int {\em cols})\hspace{0.3cm}{\tt  [inline, static]}}\label{class_h_w2_645e1023a3e12ff6c88383db40f0f33e}
+
+
+sum\-Of\-Cols 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em m\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]},rows,cols.}]This method implements the sum\-Of\-Cols algorithm utalising the looping process in treversing through the ith Column and summing up j number of rows to sum up all the columns in the array.\end{description}
+\end{Desc}
+$<$ constant 1D array holder \index{HW2@{HW2}!sumOfRows@{sumOfRows}}
+\index{sumOfRows@{sumOfRows}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static int [$\,$] HW2::sum\-Of\-Rows (final int {\em m}[$\,$][$\,$], final int {\em rows}, final int {\em cols})\hspace{0.3cm}{\tt  [inline, static]}}\label{class_h_w2_c004095adb58da869da20a3db69accfa}
+
+
+sum\-Of\-Rows 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em m\mbox{[}$\,$\mbox{]}\mbox{[}$\,$\mbox{]},rows,cols.}]This method implements the sum\-Of\-Rows algorithm utalising the looping process in treversing through the ith row and summing up j number of columns to sum up all the rows in the array.\end{description}
+\end{Desc}
+$<$ constant 1D array holder 
+
+\subsection{Member Data Documentation}
+\index{HW2@{HW2}!COLS@{COLS}}
+\index{COLS@{COLS}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf HW2::COLS} = 15\hspace{0.3cm}{\tt  [static, package]}}\label{class_h_w2_2b1adc9059c79fd8ebc82bef3720237a}
+
+
+COLS. A constant veriable containint the number of Columns in a given array Num Colums. 
+
+\index{HW2@{HW2}!m@{m}}
+\index{m@{m}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int [$\,$][$\,$] {\bf HW2::m}\hspace{0.3cm}{\tt  [static, package]}}\label{class_h_w2_52e31bdd24f172cf7f9959a80c155ce1}
+
+
+{\bf Initial value:}
+
+\footnotesize\begin{verbatim} {
+      {4, 34, 5, 67, 3, 45, 7, 8, 10, 3, 12, 5, 7, 63, 5},
+      {3, 54, 5, 8, 7, 20, 30, 8, 2, 78, 37, 57, 45, 4, 6},
+      {6, 8, 4, 3, 15, 19, 45, 5, 4, 6, 54, 6, 1, 2, 3},
+      {9, 8, 7, 6, 5, 4, 3, 2, 1, 10, 5, 4, 68, 20, 5},
+      {1, 5, 7, 9, 4, 6, 8, 10, 6, 2, 4, 7, 6, 5, 5},
+  }
+\end{verbatim}\normalsize 
+Array m. A constant array containint the number needed to be summed up. 
+
+\index{HW2@{HW2}!ROWS@{ROWS}}
+\index{ROWS@{ROWS}!HW2@{HW2}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf HW2::ROWS} = 5\hspace{0.3cm}{\tt  [static, package]}}\label{class_h_w2_f5459446cfa93ffcf2a0b7b99b4531f0}
+
+
+ROWS. A constant veriable containint the number of Rows in a given array Num Rows. 
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf HW2.java}\end{CompactItemize}

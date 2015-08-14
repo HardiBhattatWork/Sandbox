@@ -1,0 +1,89 @@
+<font color="#13B7FD" size="15"><b>Organization & Architecture</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>EndianSwap.java</b></font>
+<br>
+/*<br>
+file  : EndianSwap<br>
+date  : 3/4/05<br>
+author: Hardik Bhatt<br>
+Description: This Program is designed to swap a binary bit using a bitwise operators <br>
+and checking 3 cases of swap 2 which are considered positive and 1 which is considered<br>
+negative. the purpose is to swap the first and last byte and the middle two bytes<br>
+so that if the structure is a Little Endian it will become a big Endian or vice versa,<br> 
+not worrying about weather the number is positive or negative.<br>
+*/<br>
+<br>
+public class EndianSwap<br>
+{<br>
+<br>
+    public static void main (String[] args)<br>
+    {<br>
+	final int HexNum1 = 0x01020304;//positive Hex number<br>
+	final int HexNum2 = 0x010203ff;//positive Hex number<br>
+	final int HexNum3 = 0xff020304;//negative Hex Number<br>
+<br>
+	//The Original number<br>
+	System.out.println ("The Original Number: " + Integer.toBinaryString(HexNum1));<br>
+	System.out.println ("The swaped Number: " + swap (HexNum1));//The swaped number<br>
+	System.out.println();<br>
+<br>
+	//The Original number<br>
+	System.out.println ("The Original Number: " + Integer.toBinaryString(HexNum2));<br>
+	System.out.println ("The swaped Number: " + swap (HexNum2));//The swaped number<br>
+	System.out.println();<br>
+<br>
+	//The Original number<br>
+	System.out.println ("The Original Number: " + Integer.toBinaryString(HexNum3));<br>
+	System.out.println ("The swaped Number: " + swap (HexNum3));//The swaped number<br>
+    }<br>
+<br>
+
+    public static String swap (final int i)<br>
+    {<br>
+	int swapnum = 0;//The integer that holds the swapped number<br>
+<br>
+	int numholder = i & 0x000000ff;//temperary numberholder isolating the last byte<br>
+	swapnum = numholder %3C%3C 24;//new number after number holder is shifted all <br>
+	//the way to the right<br>
+<br>
+	int numholder1 = i & 0x0000ff00;//temperary numberholder isolating the second to last byte<br>
+	swapnum = swapnum | (numholder1 %3C%3c 8);//new number after number holder is shifted to the right<br>
+<br>
+	int numholder2 = i & 0x00ff0000;//temperary numberholder isolating second byte<br>
+	swapnum = swapnum | (numholder2 >>> 8);//new number after number holder is shifted to the left<br>
+<br>
+	int numholder3 = i & 0xff000000;//temperary numberholder isolating the first byte<br>
+	swapnum = swapnum | (numholder3 >>> 24);//new number after number holder is shifted all<br> 
+	//the way to the right<br>
+<br>
+	return Integer.toBinaryString(swapnum);//return the number as a binary base 2 number<br>
+    }<br>
+<br>
+
+    /*<br>
+	public static void Convert10 (int num)<br>
+	{<br>
+	    String binary = ""; //string that holds the binary number in order<br>
+	    int rem; //holds the number (1 or 0) to be added into the binary string<br>
+<br>
+	    while (num != 0)<br>
+	    {<br>
+		rem = num % 2; //gets the remainder<br>
+		num = num / 2; //devides the given number by 2 continuesly untill the number is 0<br>
+		binary = rem + binary; //holds and then adds the number<br>
+	    }<br>
+	    System.out.println ("The Binary Number is " + binary);<br>
+	}<br>
+    */<br>
+}<br>
+<br>
+<br>Output:<br>
+The Original Number: 1000000100000001100000100<br>
+The swaped Number: 100000000110000001000000001<br>
+<br>
+The Original Number: 1000000100000001111111111<br>
+The swaped Number: 11111111000000110000001000000001<br>
+<br>
+The Original Number: 11111111000000100000001100000100<br>
+The swaped Number: 100000000110000001011111111<br>
+<br>

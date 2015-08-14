@@ -1,0 +1,117 @@
+\section{jimageviewer.Image Class Reference}
+\label{classjimageviewer_1_1_image}\index{jimageviewer::Image@{jimageviewer::Image}}
+{\bf Image}{\rm (p.\,\pageref{classjimageviewer_1_1_image})} class.  
+
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+{\bf Image} (final String file\-Name)
+\end{CompactItemize}
+\subsection*{Package Attributes}
+\begin{CompactItemize}
+\item 
+Buffered\-Image {\bf m\-Original\-Image} = null
+\begin{CompactList}\small\item\em original input image \item\end{CompactList}\item 
+Buffered\-Image {\bf m\-Screen\-Image} = null
+\begin{CompactList}\small\item\em (possibly modified input) image drawn on screen \item\end{CompactList}\item 
+boolean {\bf m\-Is\-Color}
+\begin{CompactList}\small\item\em true if color, false if grey \item\end{CompactList}\item 
+boolean {\bf m\-Image\-Modified}
+\begin{CompactList}\small\item\em true if image has been modified \item\end{CompactList}\item 
+int {\bf m\-W}
+\begin{CompactList}\small\item\em image width \item\end{CompactList}\item 
+int {\bf m\-H}
+\begin{CompactList}\small\item\em image height \item\end{CompactList}\item 
+int {\bf m\-Min}
+\begin{CompactList}\small\item\em min image value \item\end{CompactList}\item 
+int {\bf m\-Max}
+\begin{CompactList}\small\item\em max image value \item\end{CompactList}\item 
+int[$\,$] {\bf m\-Image}
+\begin{CompactList}\small\item\em actual image data. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+{\bf Image}{\rm (p.\,\pageref{classjimageviewer_1_1_image})} class. 
+
+This class contains the actual image data. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{jimageviewer::Image@{jimageviewer::Image}!Image@{Image}}
+\index{Image@{Image}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}jimageviewer.Image.Image (final String {\em file\-Name})}\label{classjimageviewer_1_1_image_e96c692c44a80f9618978a166ec4ad75}
+
+
+
+
+\subsection{Member Data Documentation}
+\index{jimageviewer::Image@{jimageviewer::Image}!mH@{mH}}
+\index{mH@{mH}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf jimageviewer.Image.m\-H}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_61251012b9e88e8cb1e53048b08b8fdb}
+
+
+image height 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mImage@{mImage}}
+\index{mImage@{mImage}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int [$\,$] {\bf jimageviewer.Image.m\-Image}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_b882e8545a17959da0f0abf562c2b4a4}
+
+
+actual image data. 
+
+Each array value contains either 16-bit gray data (displayed via m\-Screen\-Image above as a 24-bit rgb image which is, in effect, 8-bit gray data) or as 24-bit rgb data. \index{jimageviewer::Image@{jimageviewer::Image}!mImageModified@{mImageModified}}
+\index{mImageModified@{mImageModified}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean {\bf jimageviewer.Image.m\-Image\-Modified}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_bba95c637c3a78d16a9e193b5ccbd5f5}
+
+
+true if image has been modified 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mIsColor@{mIsColor}}
+\index{mIsColor@{mIsColor}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean {\bf jimageviewer.Image.m\-Is\-Color}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_c0fcba2785fce459542f2369ffb24840}
+
+
+true if color, false if grey 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mMax@{mMax}}
+\index{mMax@{mMax}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf jimageviewer.Image.m\-Max}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_9769606824b1df18979317b4810cf444}
+
+
+max image value 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mMin@{mMin}}
+\index{mMin@{mMin}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf jimageviewer.Image.m\-Min}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_ec1b8fbcdc6292c0ee533061d5f5d41e}
+
+
+min image value 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mOriginalImage@{mOriginalImage}}
+\index{mOriginalImage@{mOriginalImage}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Buffered\-Image {\bf jimageviewer.Image.m\-Original\-Image} = null\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_522d7c2339c07095939c1cb914708df7}
+
+
+original input image 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mScreenImage@{mScreenImage}}
+\index{mScreenImage@{mScreenImage}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}Buffered\-Image {\bf jimageviewer.Image.m\-Screen\-Image} = null\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_582da672377e31d7a78158883aa6ba74}
+
+
+(possibly modified input) image drawn on screen 
+
+\index{jimageviewer::Image@{jimageviewer::Image}!mW@{mW}}
+\index{mW@{mW}!jimageviewer::Image@{jimageviewer::Image}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int {\bf jimageviewer.Image.m\-W}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_image_55bd0e2cc47307caad7d2bf9104c96c6}
+
+
+image width 
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf Image.java}\end{CompactItemize}

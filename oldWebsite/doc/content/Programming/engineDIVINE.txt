@@ -1,0 +1,180 @@
+<font color="#13B7FD" size="15"><b>engineDIVINE</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>Boss AI Code Sample</b></font>
+<br>
+//This function handles all the owl phases<br>
+	function owlAI_phases()<br>
+	{<br>
+		c_setminmax( me ) ;<br>
+		owlBoss.shadow = on;<br>
+		ent_create("eye.mdl",owlBoss.x,attach);<br>
+		var laserBool = 0 ;<br>
+		var waitTime ;<br>
+		<br>
+		media_loop( "BossLoop.ogg", null, 50 );<br>
+		<br>
+		while(1)<br>
+		{	<br>
+			on_1 = p1;<br>
+			on_2 = phase2;<br>
+			on_3 = phase3;<br>
+			on_4 = phase4;<br>
+			on_5 = kill; //dead<br>
+			if (getBossHealth() >= 80 && getBossHealth() %3c= 100 && VULNERABLE == 0)<br>
+			{	<br>
+				PHASE = 1;	<br>
+				if( WALKING == 0 )<br>
+				{<br>
+					my.blendframe = walk;<br>
+					WALKING = 1;<br>
+				}<br>
+				handle_animation(.3);<br>
+				if( SHOTS_COUNTER %3c 2 ) //More than x number of shots means time for laser<br>
+				{<br>
+					laserBool = 1 ;	<br>
+					followDoc( 30, 1 );<br>
+					if( DOC_VISIBLE == 1 )<br>
+					{<br>
+						targetShootDoc();<br>
+					}<br>
+				}<br>
+				else<br>
+				{<br>
+					if( DOC_VISIBLE == 0 || laserBool == 0 )<br>
+					{<br>
+						followDoc( 30, 1 );<br>
+					}<br>
+					if( laserBool == 1 && DOC_VISIBLE == 1) //only want to enter this area once<br>
+					{<br>
+						shootLaser();<br>
+						laserBool = 0;<br>
+					}<br>
+				}<br>
+			}<br>
+			if( PHASE == 1 && VULNERABLE == 1)<br>
+			{<br>
+				if( my.blendframe != stand )<br>
+				{<br>
+					my.blendframe = stand;<br>
+				}<br>
+				waitTime = 0;<br>
+				while( waitTime %3c 300 && VULNERABLE == 1 )<br>
+				{<br>
+					if( waitTime % 5 == 0 )<br>
+					{<br>
+						handleEyeColors();<br>
+					}<br>
+					handle_animation(.4);<br>
+					waitTime += 1;<br>
+					wait(1);<br>
+				}<br>
+				WALKING = 0;<br>
+				ent_morphskin( owlBossEye, "black.tga");<br>
+				VULNERABLE = 0;<br>
+			}<br>
+			<br>
+			if (getBossHealth() >= 55 && getBossHealth() %3c= 79 && VULNERABLE == 0)<br>
+			{<br>
+				PHASE = 2;<br>
+				BEAMWIDTH = 8 ;<br>
+				zStrength = -75 ;<br>
+				width = 15;<br>
+				goToCenter();<br>
+				if( laserBool == 0 )<br>
+				{<br>
+					shootLaser();<br>
+					laserBool = 1;<br>
+				}<br>
+				if( SAT_ACTIVE == 0 )<br>
+				{<br>
+					spawnSatellites();<br>
+					SAT_ACTIVE = 1;<br>
+				}<br>
+				if(FLYING == 0)<br>
+				{<br>
+					ent_create("emitter.mdl", my.x, attachLWing );<br>
+					ent_create("emitter.mdl", my.x, attachRWing );<br>
+					my.blendframe = takeoff;<br>
+					FLYING = 1;<br>
+				}		<br>
+				handle_animation(.2);<br>
+			}<br>
+			<br>
+			if( (PHASE == 2 || PHASE == 3) & VULNERABLE == 1 )<br>
+			{<br>
+				waitTime = 0;<br>
+				while( waitTime %3c 500 && VULNERABLE == 1 )<br>
+				{<br>
+					if( waitTime % 5 == 0 )<br>
+					{<br>
+						handleEyeColors();<br>
+					}<br>
+					handle_animation(.4);<br>
+					waitTime += 1;<br>
+					wait(1);<br>
+				}<br>
+				ent_morphskin( owlBossEye, "black.tga");<br>
+				laserBool = 0;<br>
+				VULNERABLE = 0;<br>
+			}<br>
+			<br>
+			
+			if (getBossHealth() >= 35 && getBossHealth() %3c= 54 && VULNERABLE == 0)<br>
+			{<br>
+				PHASE = 3;<br>
+				goToCenter();<br>
+				pSizeHandler();<br>
+				if( WALLGO == 1 )<br>
+				{<br>
+					WALLGO = 0 ;<br>
+					wallActivate();<br>
+				}<br>
+				handle_animation(.2);<br>
+			}<br>
+			<br>
+			if (getBossHealth() > 0 && getBossHealth() %3c= 34)<br>
+			{<br>
+				VULNERABLE = 1;<br>
+				PHASE = 4;<br>
+				owlBoss.passable = on;<br>
+				if( OPENC == 0 )<br>
+				{<br>
+					my.blendframe = open;<br>
+					OPENC = 1;<br>
+				}<br>
+				createCore();<br>
+				if( owlBossEye != null  )<br>
+				{<br>
+					ent_remove(owlBossEye);<br>
+				}<br>
+				targetShootDoc();<br>
+				shootVertical();<br>
+				handle_animation(.3);<br>
+			}<br>
+			<br>
+			if (getBossHealth() %3c= 0)<br>
+			{<br>
+				PHASE = 5;<br>
+				if( FLYING == 1 )<br>
+				{<br>
+					my.blendframe = death;<br>
+					FLYING = 0;<br>
+				}<br>
+				if(sat1 != null)<br>
+				{<br>
+					sat1.blendframe = death;<br>
+					wait(-1);<br>
+					ent_remove(sat1);<br>
+				}<br>
+				if(sat2 != null)<br>
+				{<br>
+					sat2.blendframe = death;<br>
+					wait(-1);<br>
+					ent_remove(sat2);<br>
+				}<br>
+				handle_animation(.2);<br>
+			}<br>
+			wait(1);<br>
+		}<br>
+	}<br>
+	<br>

@@ -1,0 +1,710 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.sju.edu/~bforoura/courses/lectures/luger/lab6.html -->
+<HTML><HEAD><TITLE>CSC 2501: Lecture 6</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="CSC 2501 Lecture 6_files/style.css" type=text/css rel=stylesheet><!------------------------------------------------------>
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY>
+<DIV align=center>
+<TABLE height="100%" cellSpacing=3 cellPadding=3 width="85%" bgColor=silver 
+border=0>
+  <TBODY>
+  <TR>
+    <TH>
+      <TABLE height="100%" cellSpacing=5 cellPadding=5 width="100%" 
+      bgColor=white border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV><B class=a>Lecture 6<BR>Genetic Algorithms (GAs)</B> 
+            <BR><BR><BR><IMG height=160 alt=None 
+            src="CSC 2501 Lecture 6_files/cover.jpg" width=400 border=0> </DIV><PRE class=a><OL>
+
+<!------------------------------------------------------>
+<LI><B class=b>Note</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- I don't much care for our textbook's treatment of GAs. Therefore, this lecture is based on 
+   parts of the 1st chapter of the book:
+
+   <B>Genetic Algorithms &amp; Engineering Design</B>, 
+   Gen and Cheng, 
+   Wiley
+
+
+-- You can find a PDF copy (2.6 MB) of the 1st chapter <A href="http://www.sju.edu/~bforoura/courses/lectures/luger/supplement/gas.pdf">here</A>.
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Machine Learning</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Intellectual skills most essentially (deemed as) human and most difficult to program</B>:
+
+   -- Artistic creativity
+   -- Ethical decision making
+   -- Social responsibility
+   -- Language
+   -- <B>Learning</B>
+
+-- For over 30 years now, <I>learning</I> has functioned as a goal, challenge, and a touchstone
+   for the progress of AI
+
+-- Automating learning is considered difficult perhaps because it encompasses many different 
+   intelligent capabilities
+
+
+
+
+
+-- <B>A (Very Rough) Taxonomy of Learning</B>
+
+   -- <B>Symbolic</B>
+
+      -- A set of symbols represents entities and relationships of a problem domain
+
+      -- <I>Symbolic learning algorithms</I> attempt to infer novel, valid and useful
+         generalizations that can be expressed using these symbols
+
+
+
+   -- <B>Connectionist or Subsymbolic</B>
+
+      -- Knowledge is represented as patterns of activity in networks of small, individual
+         processing units
+
+      -- Inspired by the architecture of our brains, <I>connectionist (neural) networks</I> learn 
+         by modifying their structure and weights in response to training data
+
+      -- Rather than searching through symbol-based generalizations, these models recognize
+         invariant patterns in data and represent them within their own structure using
+         linear/nonlinear regression or stochastic mechanisms.
+
+
+
+   -- <B>Genetic or Evolutionary</B>
+     
+      -- Inspired by <I>Darwinian natural selection</I>
+
+      -- Genetic algorithms (GAs) start with a population of candidate problem solutions
+
+      -- Candidates are evaluated according to their ability to solve problem instances
+
+      -- Only the fittest solutions survive and are allowed to produce the next generation
+         of solutions
+
+      -- After several generations, powerful solutions emerge as in a Darwinian universe
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1 Introduction to GAs</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Many engineering-related problems are too complex for conventional optimization techniques
+   such as standard linear/nonlinear univariate/multivariate regression, ANOM/ANOVA/MANOVA, 
+   etc.
+
+
+-- Since the 1960s, there has been a growing interest in simulating the natural evolutionary
+   process of life in order to solve <I>hard</I> problems
+
+
+-- The result is a form of <I>stochastic optimization</I>, which can be divided into three research 
+   areas:
+
+      (1) <I>Genetic algorithms (GAs)</I> (<B>most widely used</B>)
+      (2) <I>Evolutionary programming (EP)</I>
+      (3) <I>Evolution strategies (ESs)</I>
+
+
+-- Industrial application of GAs:
+
+   -- Reliability design
+   -- Scheduling and sequencing
+   -- Vehicle routing
+   -- Facility layout
+   -- Transportation and logistics
+   -- Robust design and manufacturing
+   -- etc.
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.1 General Structure of GAs</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- GAs are <I>stochastic search techniques</I> based on the mechanism of natural selection and
+   natural genetics
+
+
+-- Unlike other search techniques, GAs:
+
+   -- Start with an initial set of random solutions called <B>population</B>
+
+   -- Each individual in the population is called a <B>chromosome</B>, representing a solution at hand
+
+   -- A chromosome is a string of symbols, say, binary
+
+   -- A chromosome contains one or more <B>genes</B>
+
+   -- Think of <B>chromosomes as solution vectors</B> and <B>genes as variables</B>
+
+   -- Chromosomes <B>evolve</B> through successive iterations called <B>generations</B>
+
+   -- During each generation, chromosomes are <B>evaluated</B> using some measure of <B>fitness</B>
+
+   -- To form the next generation, new chromosomes or <B>offspring</B> are formed by:
+
+         (1) Merging two chromosomes from the current population using a <B>crossover operator</B>
+         (2) Modifying a single chromosome using a <B>mutation operator</B>
+
+   -- A new generation is formed by:
+
+         (1) <B>Selecting</B> more <B>fit</B> parents and offspring
+         (2) <B>Rejecting</B> unfit chromosomes to keep population size constant
+
+   -- Fitter chromosomes have a higher probability of being selected
+
+   -- After several generations, the GA converges to the best chromosome, which may represent an
+      optimal, quasioptimal or suboptimal solution
+
+   -- Assuming 
+
+         <B>t</B> = the current generation
+         <B>P(t)</B> = the parents of the current generation
+         <B>C(t)</B> = the offspring (children) of the current generation
+
+      then:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figa.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>Operators in GAs</B>:
+
+   (1) <B>Genetic</B>: <I>crossover</I> and <I>mutation</I> mimic the process of heredity of genes
+       to create new offspring
+
+   (2) <B>Evolutionary</B>: <I>selection</I> mimics the process of Darwinian evolution to create
+       populations from generation to generation
+
+
+
+
+-- The <B>Crossover Operator</B>:
+
+   -- The primary genetic operator
+
+   -- Takes two input chromosomes and generates offspring by combining the two
+
+   -- <B>Single-point crossover</B>: Choose a random cut-point and generate the offspring by 
+      combining the segment of one parent to the left of the cut-point with the segment of 
+      the other parent to the right of the cut-point
+
+   -- The <B>crossover rate p<SUB>c</SUB></B> determines the number of offspring produced in each
+      generation, which is the expected number <B>pop_size X p<SUB>c</SUB></B>
+
+       -- The higher the <B>p<SUB>c</SUB></B>, the more chances to explore the solution space 
+          and the less chances of settling for false optima
+
+       -- Very high <B>p<SUB>c</SUB></B> can result in the wastage of computation time and 
+          exploring unpromising regions of the solution space
+
+
+
+
+-- The <B>Mutation Operator</B>:
+
+   -- The secondary genetic operator
+
+   -- Produces spontaneous random changes in various chromosomes
+
+   -- Has the effect of either replacing genes that were lost during the selection process, or
+      creating new genes that were not in the original population
+
+   -- The <B>mutation rate p<SUB>m</SUB></B> determines the percentage of the total number of 
+      genes to undergo change:
+
+      -- If set too high, there will be too much perturbation and offspring may lose their 
+         resemblance to their parents. 
+
+      -- If set too low, many interesting genes may go unexplored.
+
+
+
+
+
+-- <B>GAs vs. Conventional Optimization and Search Techniques</B>:
+
+      (1) <B>GAs work with a coding of a solution set</B>, not the solutions themselves
+      (2) <B>GAs search from a population of solutions</B>, not a single solution
+      (3) <B>GAs use fitness functions</B>, not derivatives
+      (4) <B>GAs are probabilistic</B>, not deterministic
+      (5) <B>GAs do not rely on assumptions of continuity, differentiability, or unimodality</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/fig1_1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.2 Exploitation and Exploration</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Search Strategies</B>:
+
+   (1) <B>Blind:</B> Do not use any information from problem domain (<B>exploration</B> of the search 
+       space)
+
+   (2) <B>Informed:</B> Use additional information to guide search (<B>exploitation</B> of the best 
+       solution)
+
+
+
+-- <B>Hill-climbing vs. random search vs. GAs</B>
+    
+    -- <I>Hill-climbing</I> exploits the best solution while ignoring exploration of the search 
+        space
+
+    -- <I>Random search</I> explores the search space while ignoring exploitation of the best
+        solution
+
+    -- <I>GAs</I> are <B>informed, random-walk search techniques</B> that combine exploration
+       and exploitation
+ 
+       -- Initially, there is a random, diverse population
+       
+       -- Crossover operator tends to explore all solution space
+
+       -- As higher fitness solutions emerge, the crossover operator explores each solution
+          more carefully
+
+       -- The random mutation operator attempts to help GAs escape local optima
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.3 Population-Based Search</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Classic optimization</B> methods:
+
+   -- Generate a <B>deterministic</B> sequence of computation based on <B>gradient or higher-order
+      derivatives</B> of some objective function that is to be optimized
+
+   -- Applied to a single point in the search space, which is gradually improved along the 
+      deepest descending/ascending direction
+
+
+
+-- <B>GA</B> Methodology:
+
+   -- <B>Population-based</B> in that they perform <B>multiple directional search</B> by maintaining a
+      population of potential solutions
+
+   -- Unlike gradient-based techniques, population-based approach of GAs helps them escape 
+      local optima 
+
+   -- At each generation, <B>relatively good solutions are reproduced</B> and <B>relatively poor 
+      solutions die</B> (probabilistically)
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/fig1_2.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.6 GA Vocabulary</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE><!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/tab1_1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.1 An Example Optimization Problem</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- An example of an <B>unconstrained optimization problem</B> along with its 3D plot:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figb.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/fig1_3.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Representation</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- We need to encode the <B>decision (independent variables) x<SUB>1</SUB> and x<SUB>2</SUB></B> into binary
+   strings
+
+- If
+      Domain of <B>x<SUB>j</SUB> = [a<SUB>j</SUB>,b<SUB>j</SUB>] </B>
+      Required precision = <B>5 digits after the decimal point</B>
+
+  Then
+      Range of domain for each variable <B>d = (b<SUB>j</SUB> - a<SUB>j</SUB>) X 10<SUP>5</SUP></B>
+      The required number of bits <B>m<SUB>j</SUB> for x<SUB>j</SUB> = CEIL(log<SUB>2</SUB>(d))</B>
+
+
+ 
+
+-- <B>Mapping from a binary string into a real number for variable x<SUB>j</SUB></B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figd.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>An Example</B>:
+  
+   -- Two decision variables <B>x<SUB>1</SUB></B> and <B>x<SUB>2</SUB></B> with 5 digits of accuracy are needed 
+         <B>
+         x<SUB>1</SUB> <IMG src="CSC 2501 Lecture 6_files/in.gif" border=0> [-3.0, 12.1]
+         d<SUB>1</SUB> = (12.1 + 3.0) * 10,000 = 151,000
+         m<SUB>1</SUB> = CEIL(log<SUB>2</SUB>(151,000)) = 18
+
+         x<SUB>2</SUB> <IMG src="CSC 2501 Lecture 6_files/in.gif" border=0> [4.1, 5.8]
+         d<SUB>2</SUB> = (5.8 - 4.1) * 10,000 = 17,000
+         m<SUB>2</SUB> = CEIL(log<SUB>2</SUB>(17,000)) = 15
+
+         m = m<SUB>1</SUB> + m<SUB>2</SUB> = 33 
+         </B>
+  
+
+   -- Each chromosome is therefore <B>33</B> bits long:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figf.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+-- The corresponding values for x<SUB>1</SUB> and x<SUB>2</SUB>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figg.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Initial Population</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The <B>randomly generated initial population</B> along with the chromosomes' corresponding
+   decimal values:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figh.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figi.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Evaluation</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The process of <B>evaluating the fitness of a chromosome</B> consists of 3 steps:
+
+      (1) Covert the chromosomes <B>genotype (binary string) into phenotype (real values)</B>
+
+      (2) Evaluate the objective function <B>f(x<SUB>k</SUB>)</B>
+
+      (3) Convert objective function's value into fitness:
+
+               For <B>maximization problems</B>: <B>eval(v<SUB>k</SUB>) = f(x<SUB>k</SUB>)</B>
+               For <B>minimization problems</B>: <B>eval(v<SUB>k</SUB>) = 1/f(x<SUB>k</SUB>)</B>
+      
+
+-- The <B>evaluation function</B> plays the role of the environment, and it <B>rates chromosomes in 
+   terms of their fitness</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figj.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+-- Clearly, for our <I>maximization</I> problem:
+
+      <B>v<SUB>4</SUB></B> is the <I>strongest</I> solution
+      <B>v<SUB>3</SUB></B> is the <I>weakest</I> solution
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Selection</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- In order to select relatively fit chromosomes, we need a <B>fitness-proportional</B> selection
+   mechanism called the <B>roulette wheel</B>
+
+-- This random wheel can select a new population with respect to the probability distribution 
+   based on fitness values
+
+
+-- The roulette wheel is constructed as follows:
+
+   (1) Evaluate the fitness value <B>eval(v<SUB>k</SUB>)</B> for each chromosome <B>v<SUB>k</SUB></B>:
+
+       <B>eval(v<SUB>k</SUB>) = f(x)</B>, for k=1, 2,..., pop_size
+
+
+   (2) Calculate the <B>total fitness</B> of the population:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figk.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+   (3) Calculate the <B>selection probability p<SUB>k</SUB></B> for each chromosome <B>v<SUB>k</SUB></B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figl.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+   (4) Calculate the <B>cumulative probability q<SUB>k</SUB></B> for each chromosome <B>v<SUB>k</SUB></B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figm.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>The Roulette Wheel</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The selection process then begins by <B>spinning the roulette wheel</B> <I>pop_size</I> times,
+   each time selecting a single chromosome for the new population in the following way:
+
+   <B>Step 1.</B> 
+         Generate a random number <I>r</I> <IMG src="CSC 2501 Lecture 6_files/in.gif" border=0> [0,1]
+
+   <B>Step 2.</B> 
+         If  (r <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0> q<SUB>1</SUB>) then
+             Select chromosome v<SUB>1</SUB>
+
+         else
+             Select chromosome v<SUB>k</SUB> (2 <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0> k <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0> pop_size) s.t. q<SUB>k-1</SUB> &lt; r <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0> q<SUB>k</SUB>
+
+
+-- The <B>total fitness F of the population</B> in our running example is:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/fign.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+<DIV align=center>
+<TABLE cellSpacing=5 cellPadding=5 width="85%"><TBODY><TR bgColor=whitesmoke><TH>Chromosome</TH><TH>Selection Probability p<SUB>k</SUB></TH><TH>Cumulative Probability q<SUB>k</SUB></TH><TH>Random r</TH></TR><TR bgColor=aliceblue><TH>1</TH><TH>0.1111</TH><TH>0.1111</TH><TH>0.3014</TH></TR><TR bgColor=white><TH>2</TH><TH>0.0975</TH><TH>0.2086</TH><TH>0.3220</TH></TR><TR bgColor=aliceblue><TH>3</TH><TH>0.0538</TH><TH>0.2653</TH><TH>0.7665</TH></TR><TR bgColor=white><TH>4</TH><TH>0.1650</TH><TH>0.4276</TH><TH>0.8818</TH></TR><TR bgColor=aliceblue><TH>5</TH><TH>0.0880</TH><TH>0.5156</TH><TH>0.3508</TH></TR><TR bgColor=white><TH>6</TH><TH>0.0668</TH><TH>0.5824</TH><TH>0.5883</TH></TR><TR bgColor=aliceblue><TH>7</TH><TH>0.1008</TH><TH>0.6832</TH><TH>0.1776</TH></TR><TR bgColor=white><TH>8</TH><TH>0.1109</TH><TH>0.7942</TH><TH>0.3432</TH></TR><TR bgColor=aliceblue><TH>9</TH><TH>0.1482</TH><TH>0.9424</TH><TH>0.0326</TH></TR><TR bgColor=white><TH>10</TH><TH>0.0575</TH><TH>1.0000</TH><TH>0.1975</TH></TR></TBODY></TABLE>
+</DIV>
+
+
+
+-- The <B>selected chromosomes</B>:
+
+      <B>r<SUB>1</SUB><IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>q<SUB>1</SUB></B>? No. Thus, select <B>v<SUB>4</SUB></B> because <B>q<SUB>3</SUB> &lt; r<SUB>1</SUB> <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>  q<SUB>4</SUB></B>
+
+      <B>r<SUB>2</SUB><IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>q<SUB>1</SUB></B>? No. Thus, select <B>v<SUB>4</SUB></B> because <B>q<SUB>3</SUB> &lt; r<SUB>2</SUB> <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>  q<SUB>4</SUB></B>
+
+      <B>r<SUB>3</SUB><IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>q<SUB>1</SUB></B>? No. Thus, select <B>v<SUB>8</SUB></B> because <B>q<SUB>7</SUB> &lt; r<SUB>3</SUB> <IMG src="CSC 2501 Lecture 6_files/le.gif" border=0>  q<SUB>8</SUB></B>
+
+      <B>So on so forth</B>
+
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figo.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Crossover</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Let's use <B>single-point</B> crossover.
+
+-- We first select a random crossover point and then do the cutting and swapping:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figp.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figq.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+-- Assume that the <B>probability of crossover p<SUB>c</SUB> = 0.25</SUB></B>, so we expect that
+   on the average 25% of chromosomes undergo crossover in the following way:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figr.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Selecting parents for crossover</B>
+
+   (1) Assume the sequence of random numbers <B>r<SUB>k</SUB></B>:
+
+           <B>r<SUB>1</SUB></B>: 0.625
+           <B>r<SUB>2</SUB></B>: 0.266
+           <B>r<SUB>3</SUB></B>: 0.288
+           <B>r<SUB>4</SUB></B>: 0.295
+           <B>r<SUB>5</SUB></B>: <B><U>0.163</U> <IMG src="CSC 2501 Lecture 6_files/imply.gif" border=0> Select v<SUB>5</SUB> for crossover</B>
+           <B>r<SUB>6</SUB></B>: 0.567
+           <B>r<SUB>7</SUB></B>: <B><U>0.080</U> <IMG src="CSC 2501 Lecture 6_files/imply.gif" border=0>Select v<SUB>7</SUB> for crossover</B>
+           <B>r<SUB>8</SUB></B>: 0.392
+           <B>r<SUB>9</SUB></B>: 0.990
+           <B>r<SUB>10</SUB></B>: 0.548
+
+
+
+   (2) Select a <B>random cut-point in the range [1, 32]</B> since the chromosomal length=33
+       and then mate the two parents. Here, <B>cut-point=1</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figs.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Mutation</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Alter <B>one or more bits</B> with a probability equal to the <B>mutation rate = p<SUB>m</SUB></B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figt.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- In our example, <B>p<SUB>m</SUB>=0.01</B>, so we expect that on the average 1% of the total number
+   of bits in the population to undergo mutation
+
+      <B>
+      pop_size = 10 chromosomes = 10 * 33 = 330 bits
+      Expected number bits to be flipped = 330 * 0.01 = 3.3 bits
+      </B>
+
+
+-- We need to <B>generate a sequence of 330 random numbers</B> and pick the genes that should 
+   undergo mutation
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figu.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- The final population <B>after mutation</B> along with the corresponding phenotypes:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figv.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figw.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Final Results</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>After 1000 iterations</B>, we choose the fittest chromosome in the 419<SUP>th</SUP> generation as the best 
+   solution as shown below:
+
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/figx.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!-- 
+<li><b class=b>Exercise 1</li>
+
+<table border bgcolor=white width=90%><tr><td>
+<pre>
+-- Hand-trace <b>one complete iteration of the GA</b> for the following problem (<i>you may work 
+   in pairs</i>):
+<div align=center>
+<img src=figs/supp/figb2.jpg border=0>
+</div>
+</pre>
+</td></tr></table>
+
+ -->
+
+<!----------------------------------------------->
+<LI><B class=b>Exercise 1
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- I wrote <A href="http://www.sju.edu/~bforoura/courses/lectures/luger/supplement/apin632_98.pdf">a paper</A> a few years back on <B>multiobjective design optimization of an I-beam</B>
+
+-- We don't have time to study multiobjective optimization, but I think optimal design of an 
+   I-beam, at least in theory, will be a nice exercise for you
+
+-- Read the paper if interested, but the simplified single-objective description of the design
+   is as follows:
+
+
+
+-- Given the <B>I-beam</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/ex1_1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+   With the following <B>geometric constraints</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/ex1_3.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+  
+   <B>Minimize</B> the cross section area (and hence volume) of the I-beam, which is defined
+   as:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 6_files/ex1_2.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+-- Pair up with a friend and together <B>handtrace one complete iteration of the GA</B> for the 
+   above problem using the following parameters:
+   <B>
+      pop_size = 10
+      p<SUB>c</SUB> = 0.75
+      p<SUB>m</SUB> = 0.02
+      Five (5) digits of precision
+   </B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+</LI></OL></PRE></B></TD></TR></TBODY></TABLE></TH></TR></TBODY></TABLE></DIV></BODY></HTML>

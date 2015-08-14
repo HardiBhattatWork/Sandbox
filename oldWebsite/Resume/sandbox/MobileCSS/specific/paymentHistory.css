@@ -1,0 +1,18 @@
+/* paymentHistory.jsp */
+
+table { table-layout: fixed; width: 100%; }
+table thead tr th { font-size: 8pt !important; text-transform: uppercase; font-weight: normal; color: #54558E; }
+table thead tr, table tbody tr { border-bottom: 1px solid #D5D5D5; }
+table thead tr { border-top: 1px solid #D5D5D5; }
+table thead tr th, table tbody tr td { text-align: left; vertical-align: bottom; padding: 10px 0; }
+table thead tr th { padding: 5px 0 10px 0; }
+
+.payment-sprite { background: url('../../../../img/base/mobile/mobile-payments-sprite@2x.png') 0 0 no-repeat; background-size: 45px 270px; }
+.yui-dt0-col-repeat, .yui-dt0-col-modify { width: 11%; }
+.yui-dt0-col-payDate, .yui-dt0-col-status { width: 25%; }
+.yui-dt0-col-amount { width: 28%; }
+.yui-dt0-col-modify {background-position: center -129px; }
+.recurring { background-position: center -174px; }
+.recurringBox { display: block; width: 20px; height: 25px; background-position: center -100px; }
+.channelMobile { display: block; text-indent: 25px; background-position: -15px -11px; }
+.channelWeb { display: block; text-indent: 25px; background-position: -15px -58px; }

@@ -1,0 +1,30 @@
+/* addAccount.jsp */
+
+/*=============================
+THEME
+=============================*/
+table { table-layout: fixed; width: 100%; }
+tr { border-bottom: 1px solid #D5D5D5; }
+th { font-size: 8pt !important; text-transform: uppercase; font-weight: normal; color: #54558E; text-align: center; vertical-align: bottom; padding: 10px 0; }
+td { text-align: center; vertical-align: bottom; padding: 10px 0; }
+
+/*=============================
+OBJECTS
+=============================*/
+#bankName { display: none; height: 30px; line-height: 30px; width: 97%; margin-top: -15px; margin-bottom: 15px; background-color: #D0D0D0; border-radius: 5px; padding: 0 0 0 3%; }
+#modifyAccount { text-shadow: 0 -1px #568F34; background-image: linear-gradient(bottom, rgb(76, 129, 46) 0, rgb(113, 191, 68) 55%); background-image: -webkit-linear-gradient(bottom, rgb(76, 129, 46) 0, rgb(113, 191, 68) 55%); background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(76, 129, 46)), color-stop(0.55, rgb(113, 191, 68))); }
+
+/*=============================
+EXTENSIONS
+=============================*/
+/* COLUMN HEADERS */
+.yui-dt-first { border-top: 1px solid #D5D5D5; }
+.yui-dt0-col-repeat { width: 7%; }
+.yui-dt0-col-payDate { width: 31%; }
+.yui-dt0-col-status { width: 31%; }
+.yui-dt0-col-amount { width: 31%; text-align: center; padding-right: 0px; }
+
+/* COLUMN HEADER TEXT CONTAINER */
+.yui-dt-liner { width: 100%; text-align: center; }
+
+.repeatIcon { background-position: center -174px; }

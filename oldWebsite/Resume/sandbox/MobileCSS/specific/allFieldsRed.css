@@ -1,0 +1,9 @@
+/* 
+    Document   : allFieldsRed
+    Created on : Jun 4, 2013, 2:50:52 PM
+    Author     : sluttrell
+    Description:
+        All fields should have red borders if global error msg 1039 is triggered.
+*/
+
+div.yui-g div#alert ~ div.yui-u dl.registerForm dd input[type="tel"]  {border: 1px solid #F66 !important;}
