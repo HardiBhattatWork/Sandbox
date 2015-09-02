@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en" ng-app="myApp" ng-controller="myCtrl">
+<head>
+  <meta charset="utf-8">
+  <title>CrowdTwist Assessment</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <script src="lib/angular/angular.js"></script>
+  <script src="js/app.js"></script>
+
+</head>
+<body>
+<div>
+      <h2>You've got <span class="emphasis">{{getSurvays()}}</span> survay(s) listed</h2>
+      <form>
+		<ul>
+			<li ng-repeat="survay in survays">
+				<p>Survay {{$index+1}}</p>
+				<label>Title: {{survay.title}}</label>
+				<p>Point Value: {{survay.pointValue}}</p>
+				<p>Description: {{survay.description}}</p>
+				Question: {{survay.questions}}
+				
+			</li>
+		</ul>
+		
+		 <div >
+		  
+		</div>
+		<br/>
+		<p><span>Survay Title: </span><input class="add-input" max="100" type="text" ng-model="formSurvayText" ng-model-instant /></p>
+		<p><span>Survay Point Value: </span><input type="number" min="0" ng-model="formPointText" ng-model-instant ></p>
+		<p><span>Survay Description: </span><input class="add-input" max="500" type="text" ng-model="formDescText" ng-model-instant /></p>
+		<p><span>Survay Question: </span><input class="add-input" type="text" ng-model="formQuestionText" ng-model-instant /> <button class="add-btn" ng-click="addQuestions()"><h4>Add Question</h4></button></p>
+        <button class="add-btn" ng-click="addSurvay()"><h2>Add</h2></button>
+		<br/>
+		<button ng-click="save()">Save Survay</button>
+		<p>{{msg}}</p>
+      </form>
+    </div>
+  <!-- <form>
+
+
+   
+</form> -->
+</body>
+</html>
