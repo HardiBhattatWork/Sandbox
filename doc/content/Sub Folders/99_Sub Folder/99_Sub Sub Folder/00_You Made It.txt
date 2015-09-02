@@ -1,0 +1,2 @@
+<font color="#13B7FD" size="15"><b>You Made It!</b></font><br>
+<br><font color="#cccccc" size="11"><b>As you can see, Flash Media gallery allows for sub-categories</b></font>

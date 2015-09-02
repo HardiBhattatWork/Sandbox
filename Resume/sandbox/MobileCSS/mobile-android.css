@@ -1,0 +1,5 @@
+/* android specific global styles */
+.mActivateArrow { background-position: 63px -98px; padding: 0 24px 3px 0; }
+
+a.helpIcon, .helpIcon { display: block; float: right; width: 34px; height: 30px; background: url('../../../img/base/mobile/mobile-menu-icons-sprite@2x.png') center 0 no-repeat; background-size: 75px 630px; background-position: -22px -499px; border-radius: 0 !important; }
+.helpIcon:before, a.helpIcon:before { content: '' !important; }

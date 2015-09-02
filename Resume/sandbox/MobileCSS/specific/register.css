@@ -1,0 +1,6 @@
+/* register.jsp */
+
+.registerVerify { display: block; width: 100%; }
+.registerVerify .bluebar { display: block; width: 5%; float: left; border-radius: 5px; background: #DBE7ED; }
+.registerVerify .inset { display: block; width: 91%; float: left; margin: 0 0 0 4%; }
+#accountNumber { width: 90% !important; }

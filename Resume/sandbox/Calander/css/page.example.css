@@ -1,0 +1,117 @@
+/*** headings ***/
+	tr .heading, tr.headings td, .exampleSectionHeading {
+		color: #fff;
+		background: #000 url(../images/heading-bg.gif) left top repeat-x;
+		text-align: center;
+		border: 1px solid #444;
+	}
+	.exampleSectionHeading {
+		font-size: 11px;
+		padding: 2px 0;
+		letter-spacing: 3px;
+		margin: 10px 0;
+		text-transform: uppercase;
+	}
+	.fancyHeading {
+		color: #000;
+		background: #adbebf url(../images/brushed-metal.jpg) repeat-x left top;
+		font-size: 12px;
+		text-align: center;
+		letter-spacing: 3px;
+		text-transform: uppercase;
+		padding: 8px 12px;
+		text-shadow: 1px 1px 1px #fff, 1px 0 1px #fff;
+		border: 1px solid #666;
+		border-bottom: none;
+		border-top-left-radius: 3px;
+		-moz-border-radius-topleft: 3px;
+		-webkit-border-top-left-radius: 3px;
+		border-top-right-radius: 3px;
+		-moz-border-radius-topright: 3px;
+		-webkit-border-top-right-radius: 3px;
+	}
+
+/*** miscellaneous ***/
+	.insetBackgroundColor {
+		background: #bbb;
+	}
+	.insetBorderColor {
+		border-color: #ccc;
+	}
+	.darkInsetBackgroundColor {
+		background: #818b8f;
+	}
+	.darkInsetBorderColor {
+		border-color: #818b8f;
+	}
+
+/*** explanation ***/
+	.explanation {
+		position: relative;
+		background: #fff;
+		padding: 3px 3px 3px 10px;
+		margin: 0 10px 25px 10px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+	}
+	.explanation p {
+		margin: 5px 4px;
+		color: #444;
+	}
+
+/*** programmatic interface block ***/
+	.programmaticInterface {
+		background: #fff;
+		padding: 10px;
+		margin: 25px 10px 0px 10px;
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+	}
+	.programmaticInterface p {
+		margin: 5px;
+	}
+	.programmaticInterface > ul {
+		padding-left:0;
+		margin:0;
+	}
+	.programmaticInterface ul li {
+		font-size: 10px;
+		line-height: 14px;
+		margin:0;
+	}
+	.programmaticInterface > ul li {
+		list-style-type: none;
+	}
+
+	/*** JavaScript links ***/
+		.programmaticInterface a,
+		.programmaticInterface a:link,
+		.programmaticInterface a:visited,
+		.programmaticInterface a:hover,
+		.programmaticInterface a:active {
+			white-space: nowrap;
+		}
+
+/*** examples tour styling ***/
+	.inTour {
+		margin-top: 76px;
+	}
+
+	.inTour #page-siteAssistantShell {
+		top: 76px;
+	}
+
+	#page-tourBarShell {
+		position: fixed;
+		top: 48px;
+		left: 0;
+		right: 0;
+		height: 28px;
+		z-index: 2;
+		box-shadow: 0 6px 12px rgba(0,0,0,.3);
+	}
+

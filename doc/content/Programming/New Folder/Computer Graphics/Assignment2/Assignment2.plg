@@ -1,0 +1,41 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Assignment2 - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\HARDIK~1\LOCALS~1\Temp\RSP2E.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/Assignment2.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\HARDIK~1\LOCALS~1\Temp\RSP2E.tmp" 
+Creating temporary file "C:\DOCUME~1\HARDIK~1\LOCALS~1\Temp\RSP2F.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/Assignment2.pdb" /debug /machine:I386 /out:"Debug/Assignment2.exe" /pdbtype:sept 
+".\Debug\Assignment2.obj"
+]
+Creating command line "link.exe @C:\DOCUME~1\HARDIK~1\LOCALS~1\Temp\RSP2F.tmp"
+<h3>Output Window</h3>
+Compiling...
+Assignment2.cpp
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(17) : error C2057: expected constant expression
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(17) : error C2466: cannot allocate an array of constant size 0
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(17) : error C2057: expected constant expression
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(17) : error C2466: cannot allocate an array of constant size 0
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(17) : error C2087: '<Unknown>' : missing subscript
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(19) : error C2078: too many initializers
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(311) : warning C4805: '==' : unsafe mix of type 'unsigned char' and type 'const bool' in operation
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(321) : warning C4805: '==' : unsafe mix of type 'unsigned char' and type 'const bool' in operation
+C:\Documents and Settings\Hardik Bhatt\Desktop\Computer Science\Computer Graphics\Assignment2\Assignment2.cpp(370) : warning C4805: '==' : unsafe mix of type 'unsigned char' and type 'const bool' in operation
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+Assignment2.exe - 6 error(s), 3 warning(s)
+</pre>
+</body>
+</html>

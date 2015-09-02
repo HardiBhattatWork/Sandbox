@@ -1,0 +1,266 @@
+\section{jimageviewer.JImage\-Viewer Class Reference}
+\label{classjimageviewer_1_1_j_image_viewer}\index{jimageviewer::JImageViewer@{jimageviewer::JImageViewer}}
+{\bf JImage\-Viewer}{\rm (p.\,\pageref{classjimageviewer_1_1_j_image_viewer})} class.  
+
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+{\bf JImage\-Viewer} ()
+\begin{CompactList}\small\item\em Ctor that simply creates an empty window. \item\end{CompactList}\item 
+{\bf JImage\-Viewer} (String fname)
+\begin{CompactList}\small\item\em Ctor that given the name of an image file, displays that image in a window. \item\end{CompactList}\item 
+void {\bf action\-Performed} (Action\-Event e)
+\begin{CompactList}\small\item\em Respond to menu actions. \item\end{CompactList}\item 
+boolean {\bf is\-Binary} ()
+\begin{CompactList}\small\item\em Set up Is binary method. \item\end{CompactList}\item 
+boolean {\bf has\-Border} ()
+\begin{CompactList}\small\item\em Set up has Border method. \item\end{CompactList}\item 
+boolean {\bf is4Connected} ()
+\begin{CompactList}\small\item\em Set up Is 4 Connected method. \item\end{CompactList}\item 
+float {\bf num\-Objects} ()
+\begin{CompactList}\small\item\em Counting the number of objects external\_\-match 0 0 0 1 1 0 0 0 0 1 0 0 0 0 1 0. \item\end{CompactList}\item 
+boolean {\bf internal\_\-match} (int row, int col)
+\begin{CompactList}\small\item\em Counting the external corners of the object. \item\end{CompactList}\item 
+boolean {\bf external\_\-match} (int row, int col)
+\begin{CompactList}\small\item\em Counting the internal corners of the object. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{CompactItemize}
+\item 
+static void {\bf main} (String[$\,$] args)
+\begin{CompactList}\small\item\em Main application entry point. \item\end{CompactList}\end{CompactItemize}
+\subsection*{Package Attributes}
+\begin{CompactItemize}
+\item 
+String {\bf my\-Message} = \char`\"{} \char`\"{}
+\item 
+JMenu\-Bar {\bf m\-Menu\-Bar} = new JMenu\-Bar()
+\item 
+JMenu {\bf m\-File} = new JMenu(\char`\"{}File\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Open} = new JMenu\-Item(\char`\"{}Open\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Close} = new JMenu\-Item(\char`\"{}Close\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Save} = new JMenu\-Item(\char`\"{}Save\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Save\-As} = new JMenu\-Item(\char`\"{}Save As\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Exit} = new JMenu\-Item(\char`\"{}Exit\char`\"{})
+\item 
+JMenu {\bf m\-Binary} = new JMenu(\char`\"{}Binary\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Is\-Binary} = new JMenu\-Item(\char`\"{}Is binary?\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Has\-Border} = new JMenu\-Item(\char`\"{}Border pixels are 0's?\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Is4Connected} = new JMenu\-Item(\char`\"{}Is 4-connected?\char`\"{})
+\item 
+JMenu\-Item {\bf m\-Num\-Objects} = new JMenu\-Item(\char`\"{}Number of objects\char`\"{})
+\item 
+{\bf Image\-Panel} {\bf m\-Image\-Panel} = new {\bf Image\-Panel}(this)
+\begin{CompactList}\small\item\em panel in which an image may be displayed \item\end{CompactList}\item 
+{\bf Image} {\bf m\-Image}
+\end{CompactItemize}
+\subsection*{Private Member Functions}
+\begin{CompactItemize}
+\item 
+void {\bf jb\-Init} (String fn)
+\begin{CompactList}\small\item\em Load and display an image. \item\end{CompactList}\item 
+void {\bf setup\-Menu} ()
+\begin{CompactList}\small\item\em Set up the menu bar. \item\end{CompactList}\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+{\bf JImage\-Viewer}{\rm (p.\,\pageref{classjimageviewer_1_1_j_image_viewer})} class. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!JImageViewer@{JImageViewer}}
+\index{JImageViewer@{JImageViewer}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}jimageviewer.JImage\-Viewer.JImage\-Viewer ()}\label{classjimageviewer_1_1_j_image_viewer_dd172c41d3dd80c763605c33efebe477}
+
+
+Ctor that simply creates an empty window. 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!JImageViewer@{JImageViewer}}
+\index{JImageViewer@{JImageViewer}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}jimageviewer.JImage\-Viewer.JImage\-Viewer (String {\em fname})}\label{classjimageviewer_1_1_j_image_viewer_2ba6f7c19c708614a59b891671c91205}
+
+
+Ctor that given the name of an image file, displays that image in a window. 
+
+
+
+\subsection{Member Function Documentation}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!actionPerformed@{actionPerformed}}
+\index{actionPerformed@{actionPerformed}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void jimageviewer.JImage\-Viewer.action\-Performed (Action\-Event {\em e})}\label{classjimageviewer_1_1_j_image_viewer_bb42305de071680672095253dc72d4ef}
+
+
+Respond to menu actions. 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!external_match@{external\_\-match}}
+\index{external_match@{external\_\-match}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean jimageviewer.JImage\-Viewer.external\_\-match (int {\em row}, int {\em col})}\label{classjimageviewer_1_1_j_image_viewer_c0340c8f12b227bc9b378df6c1155227}
+
+
+Counting the internal corners of the object. 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!hasBorder@{hasBorder}}
+\index{hasBorder@{hasBorder}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean jimageviewer.JImage\-Viewer.has\-Border ()}\label{classjimageviewer_1_1_j_image_viewer_32d55d0056eb79c0528dc9ecd829669d}
+
+
+Set up has Border method. 
+
+\begin{Desc}
+\item[Returns:]boolean \end{Desc}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!internal_match@{internal\_\-match}}
+\index{internal_match@{internal\_\-match}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean jimageviewer.JImage\-Viewer.internal\_\-match (int {\em row}, int {\em col})}\label{classjimageviewer_1_1_j_image_viewer_d5e5642b811fbeac73f36b3a31e9a614}
+
+
+Counting the external corners of the object. 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!is4Connected@{is4Connected}}
+\index{is4Connected@{is4Connected}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean jimageviewer.JImage\-Viewer.is4Connected ()}\label{classjimageviewer_1_1_j_image_viewer_4893a4cb5c33439d393f744d511c336a}
+
+
+Set up Is 4 Connected method. 
+
+1 0 0 1 0 1 1 0 \begin{Desc}
+\item[Returns:]boolean \end{Desc}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!isBinary@{isBinary}}
+\index{isBinary@{isBinary}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}boolean jimageviewer.JImage\-Viewer.is\-Binary ()}\label{classjimageviewer_1_1_j_image_viewer_7a8fa049abbefcf40fe2aaf49c668d6a}
+
+
+Set up Is binary method. 
+
+\begin{Desc}
+\item[Returns:]boolean \end{Desc}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!jbInit@{jbInit}}
+\index{jbInit@{jbInit}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void jimageviewer.JImage\-Viewer.jb\-Init (String {\em fn})\hspace{0.3cm}{\tt  [private]}}\label{classjimageviewer_1_1_j_image_viewer_79aff348a8d302f5b09ca943bdc639e5}
+
+
+Load and display an image. 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!main@{main}}
+\index{main@{main}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}static void jimageviewer.JImage\-Viewer.main (String[$\,$] {\em args})\hspace{0.3cm}{\tt  [static]}}\label{classjimageviewer_1_1_j_image_viewer_d906f358c6ec32aac7b9530c80f216e9}
+
+
+Main application entry point. 
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em args}]Each image file name in args will cause that image to be displayed in a window. \end{description}
+\end{Desc}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!numObjects@{numObjects}}
+\index{numObjects@{numObjects}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}float jimageviewer.JImage\-Viewer.num\-Objects ()}\label{classjimageviewer_1_1_j_image_viewer_1152427dcde91007796999389e901c2e}
+
+
+Counting the number of objects external\_\-match 0 0 0 1 1 0 0 0 0 1 0 0 0 0 1 0. 
+
+internal\_\-match 1 1 1 0 1 1 0 1 1 0 1 1 0 1 1 1
+
+\begin{Desc}
+\item[Returns:]int \end{Desc}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!setupMenu@{setupMenu}}
+\index{setupMenu@{setupMenu}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void jimageviewer.JImage\-Viewer.setup\-Menu ()\hspace{0.3cm}{\tt  [private]}}\label{classjimageviewer_1_1_j_image_viewer_783a7e1a729c2d39d0e3548acfdcfe7c}
+
+
+Set up the menu bar. 
+
+
+
+\subsection{Member Data Documentation}
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mBinary@{mBinary}}
+\index{mBinary@{mBinary}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu {\bf jimageviewer.JImage\-Viewer.m\-Binary} = new JMenu(\char`\"{}Binary\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_3dc6b2cac15ab3cfd7540eea1c19e279}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mClose@{mClose}}
+\index{mClose@{mClose}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Close} = new JMenu\-Item(\char`\"{}Close\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_b06fd64172b6bcda6da0017ae52e746a}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mExit@{mExit}}
+\index{mExit@{mExit}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Exit} = new JMenu\-Item(\char`\"{}Exit\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_abf114d41547d773810d805ebc162a10}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mFile@{mFile}}
+\index{mFile@{mFile}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu {\bf jimageviewer.JImage\-Viewer.m\-File} = new JMenu(\char`\"{}File\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_4f211a93aaf9e6a6b0cb77fbde96afee}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mHasBorder@{mHasBorder}}
+\index{mHasBorder@{mHasBorder}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Has\-Border} = new JMenu\-Item(\char`\"{}Border pixels are 0's?\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_d08ec807652b4c6f124cfff66d38aba4}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mImage@{mImage}}
+\index{mImage@{mImage}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Image} {\bf jimageviewer.JImage\-Viewer.m\-Image}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_8faf250c9f0cc92e9c4b767b8ce41f97}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mImagePanel@{mImagePanel}}
+\index{mImagePanel@{mImagePanel}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}{\bf Image\-Panel} {\bf jimageviewer.JImage\-Viewer.m\-Image\-Panel} = new {\bf Image\-Panel}(this)\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_07b172a5870e14483b12a0be136beea1}
+
+
+panel in which an image may be displayed 
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mIs4Connected@{mIs4Connected}}
+\index{mIs4Connected@{mIs4Connected}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Is4Connected} = new JMenu\-Item(\char`\"{}Is 4-connected?\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_0d0fd56a96d4baeafbfbb5af8c639fe3}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mIsBinary@{mIsBinary}}
+\index{mIsBinary@{mIsBinary}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Is\-Binary} = new JMenu\-Item(\char`\"{}Is binary?\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_c92d548339d01646def0a0e71186cdd2}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mMenuBar@{mMenuBar}}
+\index{mMenuBar@{mMenuBar}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Bar {\bf jimageviewer.JImage\-Viewer.m\-Menu\-Bar} = new JMenu\-Bar()\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_0867678cccfd1dbd6fdf81a173dcf772}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mNumObjects@{mNumObjects}}
+\index{mNumObjects@{mNumObjects}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Num\-Objects} = new JMenu\-Item(\char`\"{}Number of objects\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_e0bb90088fe480f8d8a5ee4336a18005}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mOpen@{mOpen}}
+\index{mOpen@{mOpen}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Open} = new JMenu\-Item(\char`\"{}Open\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_bf5f620ec03f052936c6bde2b5ff5049}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mSave@{mSave}}
+\index{mSave@{mSave}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Save} = new JMenu\-Item(\char`\"{}Save\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_77f506e21c12eb0f2cfefa45eab7d690}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!mSaveAs@{mSaveAs}}
+\index{mSaveAs@{mSaveAs}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}JMenu\-Item {\bf jimageviewer.JImage\-Viewer.m\-Save\-As} = new JMenu\-Item(\char`\"{}Save As\char`\"{})\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_ccf74724958a4073e1f258c355ee7b22}
+
+
+\index{jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}!myMessage@{myMessage}}
+\index{myMessage@{myMessage}!jimageviewer::JImageViewer@{jimageviewer::JImage\-Viewer}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}String {\bf jimageviewer.JImage\-Viewer.my\-Message} = \char`\"{} \char`\"{}\hspace{0.3cm}{\tt  [package]}}\label{classjimageviewer_1_1_j_image_viewer_657657965258bd28f1ade33d36906e7f}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+{\bf JImage\-Viewer.java}\end{CompactItemize}

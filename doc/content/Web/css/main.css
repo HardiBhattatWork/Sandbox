@@ -1,0 +1,290 @@
+@charset "utf-8";
+
+/* MoCCA - Museum of Comic and Cartoon Art */
+
+
+
+body {
+
+	background: #F6F6F6 url(img/img01.jpg) repeat-x;
+
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+
+	font-size: 16px;
+
+	color: #6B6B6B;
+
+}
+
+
+
+h2 {
+
+	font-size: 28px;
+
+}
+
+
+
+h3 {
+
+	font-size: 16px;
+
+	font-weight: bold;
+
+}
+
+
+
+h4 {
+
+	font-size: 14px;
+
+	font-weight: bold;
+
+}
+
+
+
+
+
+/* Wrapper */
+
+#wrapper {
+
+	width: 960px;
+
+	margin: 0 auto;
+
+	background: url(img/img02.jpg) repeat-y;
+
+}
+
+
+
+#wrapper2 {
+
+	background: url(img/img10.jpg) no-repeat left bottom;
+
+}
+
+
+
+/* Header */
+
+
+
+#header {
+
+	height: 140px;
+
+	background: #087FE7 url(img/img03.jpg) no-repeat;
+
+}
+
+
+
+/* Logo */
+
+
+
+#logo {
+
+	float: left;
+
+}
+
+
+
+#logo h1 {
+
+	margin: 0;
+
+	padding: 90px 0 0 78px;
+
+	text-transform: lowercase;
+
+	letter-spacing: -3px;
+
+	font-size: 40px;
+
+	color: #FFFFFF;
+
+}
+
+
+
+#logo h1 a {
+
+	text-decoration: none;
+
+	color: #FFFFFF;
+
+}
+
+
+
+/* Menu */
+
+
+
+#menu {
+
+	float: right;
+
+}
+
+
+
+#menu ul {
+
+	margin: 0;
+
+	padding: 112px 10px 0 0;
+
+	list-style: none;
+
+	line-height: normal;
+
+}
+
+
+
+#menu li {
+
+	display: inline;
+
+}
+
+
+
+#menu a {
+
+	padding-left: 40px;
+
+	text-decoration: none;
+
+	font-size: 13px;
+
+	font-weight: bold;
+
+	color: #FFFFFF;
+
+}
+
+
+
+#menu a:hover {
+
+	text-decoration: underline;
+
+}
+
+
+
+#page {
+
+	background: url(img/img04.jpg) no-repeat;
+
+}
+
+
+
+/* Content */
+
+
+
+#content {
+
+	margin: 0;
+
+	text-align:justify;
+
+	color:#000000;
+
+	padding: 5px 76px 25px 76px;
+
+}
+
+
+
+.post .entry {
+
+	padding: 4px 0 0 0;
+
+}
+
+
+
+
+
+/* Footer */
+
+
+
+#footer {
+
+	height: 108px;
+
+	background: url(img/img05.jpg) no-repeat;
+
+	margin:10px auto;
+
+	padding:0;
+
+	border-top:1px solid black;
+
+	text-align:center;
+
+	clear:both;
+
+}
+
+
+
+#footer p {
+
+	margin: 0;
+
+	padding-top: 45px;
+
+	text-align: center;
+
+	color: #8E8E8E;
+
+}
+
+
+
+#footer a {
+
+	color: #666666;
+
+}
+
+#sub_nav li {
+
+	display:inline;
+	
+	margin: 0 6px 0 6px;
+
+}
+
+
+
+#sub_nav a {
+
+	text-decoration:none;
+
+}
+
+
+
+#sub_nav a:hover {
+
+	text-decoration:underline;
+
+}
+
+
+

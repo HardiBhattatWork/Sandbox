@@ -1,0 +1,7 @@
+/* reviewPayment.jsp */
+footer.disclaimer, div#reviewIntroText  { height: auto !important; width: 96%; padding: 0 2% 20px 2%; }
+footer.disclaimer { margin-top: -10px; }
+div#reviewIntroText  { margin-top: 0;  }
+footer.disclaimer p, div#reviewIntroText p { font-size: 10pt; color: #999; }
+
+h2.modifyReviewOneRepeatPayment, h2.modifyReviewAllRepeatPayment {display: none;}

@@ -1,0 +1,555 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.sju.edu/~bforoura/courses/lectures/luger/lab1.html -->
+<HTML><HEAD><TITLE>CSC 2501: Lecture 1</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="CSC 2501 Lecture 1_files/style.css" type=text/css rel=stylesheet><!------------------------------------------------------>
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY>
+<DIV align=center>
+<TABLE height="100%" cellSpacing=3 cellPadding=3 width="85%" bgColor=silver 
+border=0>
+  <TBODY>
+  <TR>
+    <TH>
+      <TABLE height="100%" cellSpacing=5 cellPadding=5 width="100%" 
+      bgColor=white border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV><B class=a>Lecture 1 (Chapter 1)<BR>AI History and 
+            Applications</B> <BR><BR><BR><IMG height=160 alt=None 
+            src="CSC 2501 Lecture 1_files/cover.jpg" width=400 border=0> </DIV><PRE class=a><OL>
+<!------------------------------------------------------>
+<LI><B class=b>An Attempted Definition</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Artificial Intelligence (AI)</B>:
+   -- automation of intelligent behavior
+
+   -- a branch of computer science based on sound theoretical and applied principles which 
+      include:
+
+      -- data structures used in knowledge representation
+      -- algorithms needed to apply that knowledge
+      -- languages needed for their implementation
+
+-- Any problems with the above definition?
+   -- YES!
+   -- Intelligence is not well defined or understood
+   -- It is difficult to capture and represent the complexity of human mind
+
+-- Open questions:
+   -- Is intelligence a single faculty or a collection of distinct and unrelated abilities?
+
+   -- To what extent is intelligence learned as opposed to having an a priori existence?
+
+   -- Can intelligence be inferred from observable behavior or does it require evidence
+      of a specific internal mechanism?
+
+   -- What are common sense, self-awareness, creativity and intuition?
+
+   -- How is knowledge represented in the nerve tissue of a living being?
+
+   -- Is it even possible to achieve <B>artificial</B> intelligence or is it the case that
+      an intelligent entity requires the richness of sensation and experience that might
+      be found only in a biological existence?
+
+-- The problems mentioned above have all helped to shape methodologies that constitute the
+   code of modern AI
+
+-- AI, therefore, offers a test-bed for exploring theories of intelligence, which may be 
+   stated in the language of a computer program and consequently tested and verified
+
+-- Epilogue:
+   -- Any single, working definition of AI has proven to be an impossibility
+
+   -- AI's major goal is to define its own definition!
+
+   -- AI is still a young discipline whose concerns, structures, and methods are less
+      clearly defined than those of more mature sciences such as physics
+   
+   -- Book's silly and unimaginative definition of AI:
+      -- <I>A collection of problems and methodologies studied by AI researchers!?</I>
+
+   -- A more pragmatic definition:
+      -- <I>Any computer program that mimics human decision making process.</I>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.1 Historical Foundations</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- AI's roots are based on philosophy (ethics, logic, ontology, epistemology, metaphysics), 
+   neuro/cognitive psychology, mathematics, physics, etc.
+
+-- <B>Aristotle</B>:
+   -- Created syllogism (<I>modus ponens</I>), which became the Greek tradition for careful 
+      analysis and disciplined thought
+
+   -- Made the distinction between <I>form</I> and <I>matter</I>, which provided the modern basis for
+      notions such as symbolic computing and data abstraction
+
+-- <B>Renaissance</B>:
+   -- Empiricism replaced mysticism (clocks vs. rhythms of nature)
+
+   -- Scientists (natural philosophers) realized that thought itself was a difficult but essential
+      subject for scientific inquiry
+
+-- <B>Modern world views</B>:
+   -- The Copernican heliocentric world vs. the old geocentric one
+
+   -- Ideas about the world were for the first time seen as not being necessarily the same as its
+      appearance
+
+-- Separation of mind and reality soon ensued:
+   -- Some observations (Brahe, Galileo, etc.) contradicted obvious truths about the natural
+      world
+
+   -- The development of mathematics as a tool for describing the world; the systematic 
+      application of scientific method as opposed to beliefs based on pure sense perceptions 
+
+-- <B>Cartesian fabric of reality</B>:
+   -- Descartes tried to find a basis for reality through cognitive introspection, systematically
+      rejecting inputs of his senses as untrustworthy
+   
+   -- Even his own existence had to be justified in terms of thought: <I>I think, therefore I am.</I>
+
+   -- <I>Mind-body duality</I>:
+      -- The structure of ideas about the world is not the same as the structure of their subject
+         matter (Platonic archetypes?)
+
+      -- Mental processes have an existence of their own, obey their own laws, and can be 
+         studied in and of themselves
+
+      -- Interaction between mental states and physical action through a pineal gland?!
+
+-- <B>AI's world view</B>: 
+   -- Mental processes are achieved by physical systems such as brains or computers
+
+   -- These, like physical processes, can be characterized through formal mathematics
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.2 The Development of Logic</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Thinking was regarded as a form of computation (Leibnitz)
+
+-- A system of formal logic was then developed for automating the calculation of thought
+
+-- Graphs were used a tool for abstract representation of structures (Euler's 7 bridges)
+   and made possible the idea of <I>state space search</I>:
+
+   -- A major conceptual AI tool
+
+   -- Graphs model the structure of a problem
+
+   -- The nodes of a graph represent possible stages of a problem solution; arcs represent
+      transformations such as moves in a game of chess
+
+   -- Solving a problem reduces to finding a solution path in the graph
+
+   -- Must measure the structure and complexity of problems while analyzing the efficiency,
+     correctness and generality of solution strategies
+
+-- <B>Charles Babbage and Ada Lovelace</B>:
+   -- Difference engine for computing polynomial functions
+
+   -- Analytic engine a forerunner for general-purpose programmable computers
+ 
+   -- Separation of memory and processor
+
+   -- Programs saved as a operations on punched cards not unlike those used in Jacquard 
+      looms at the time
+
+-- <B>Boole</B>:
+   -- Realized the need for a formal language for thought
+
+   -- Created boolean algebra as a tool for investigating the fundamental laws of those 
+      operations of the mind by which reasoning is performed
+
+   -- A powerful basis for propositional calculus
+
+-- <B>Frege</B>:
+   -- Used Bool's work as a foundation for his new formal language called the first-order
+      predicate calculus (FOPC)
+
+   -- FOPC made improvements over propositional calculus by allowing quantified variables 
+      to represent propositions
+
+   -- FOPC is a powerful tool for representing knowledge in AI, which also allows automated
+      reasoning (a language for representation and manipulation of logical expressions)
+
+-- <B>Russell &amp; Whitehead</B>:
+   -- Wanted to derive the whole of mathematics through formal operations using a set of
+      axioms
+
+   -- Viewed mathematics as a purely formal system
+      -- Axioms and theorems were treated as strings of characters
+      -- Proofs were viewed solely as rules that manipulated these strings
+      -- Every step of the proof was basically a strict application of a (syntactic) rule
+      -- There was no reliance on intuition or meaning (semantics)
+
+   -- Developed a logical syntax and formal rules of inference, which are still the basis 
+      for automatic theorem-proving systems
+
+-- And finally, the 1940s:
+   -- It was not until the development of the digital computers that AI became a viable
+      scientific discipline
+
+   -- Digital computers demonstrated their potential to provide memory and processing power
+      required by intelligent programs
+
+   -- Formal reasoning systems (mostly easier games such as checkers, tic-tac-toe, etc.) were 
+      implemented and used to develop testing theories for intelligence
+
+   -- New points of view:
+      -- Intelligence as a form of information processing
+
+      -- The notion of search as a problem-solving methodology
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.1.3 The Turing Test</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Alan Turing, the British mathematician, was the first to address the issue of machine
+   intelligence
+
+-- Turing, a forerunner of computability theory, wondered if machines could be made to
+   think
+
+-- Since <I>"what is thinking?"</I> is a vague question, he proposed the question be replaced
+   by an empirical test
+
+-- <B>The Turing test</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 1_files/fig1_1.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- Is supposed to measure the performance of an intelligent machine against that of a
+      human being
+
+   -- The test places the machine and a human in rooms separate from another human called
+      the <I>interrogator</I>
+
+   -- The interrogator cannot directly communicate with the other two entities and does 
+      not know which is human and which is machine
+
+   -- The interrogator can communicate with the two entities only through a terminal
+
+   -- The interrogator is asked to distinguish the computer form the human solely on
+      the basis of their answers to questions asked over the terminal
+
+   -- If the interrogator cannot tell apart human from machine, Turing argues that the
+      machine may be assumed intelligent
+
+   -- The interrogator may ask anything ranging from a complex mathematical calculation
+      to an emotional issue
+
+-- <B>Important features of the test</B>:
+   -- Provides an objective notion of intelligence
+
+   -- Ignores concerns regarding consciousness and self-awareness
+
+   -- Removes bias toward biological units
+
+-- <B>Shortcomings of the test</B>:
+   -- Bias toward purely symbolic problem-solving tasks with no regard for perceptual
+      skills or manual dexterity, which are vital components of human intelligence
+
+   -- But what if human intelligence is different than machine intelligence? Perhaps
+      machines should capitalize on their fast, reliable memory and processing speeds
+      instead of trying to emulate human cognition!
+
+   -- It is known that computers do as they are told. Can they then perform original
+      (intelligent) actions? In the areas of expert systems and diagnostics, computer
+      programs have surprised their designers a few times.
+
+   -- Humans can respond to almost an infinite range of stimuli while a computer's
+      expertise is very limited. Common-sense reasoning has been attempted but
+      proved a very difficult task to accomplish.
+
+-- <B>Herbert Simon's views on intelligence:</B>
+   -- A computer scientist (IPL and GPS), psychologist, mathematician, economist; a 
+      Nobel laureate for his work on organizational behavior
+
+   -- Argued that much of the variability and flexibility of our behavior stems from
+      the richness of the environment within which we live rather than the complexity
+      of our own internal cognitive processes (programs?)
+
+   -- A prime example is the behavior of an ant in an ant colony. The ant is a rather 
+      simple entity but its complex behavior is largely a reflection of the environment 
+      in which it finds itself
+
+   -- Perhaps intelligence emerges from the interaction of individual elements of a 
+      society through richness and coherence of our cultures
+</PRE></TD></TR></TBODY></TABLE>
+
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2 Overview of AI Application Areas</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The two most fundamental concerns of AI:
+   -- knowledge representation
+      -- E.g. formal languages, graphs, semantic networks, etc.
+
+   -- Search:
+      -- States of alternative stages in a problem-solving process
+      -- E.g. board configurations in a game of chess
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.1 Game Playing</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Mostly based on games such as checkers, chess, tic-tac-toe and 15-puzzle
+
+-- Why board games?
+   -- Inherent intellectual appeal
+
+   -- A well-defined set of rules which made state-space search easier to generate
+
+   -- States easy to represent in a computer program
+
+-- Games, such as chess, however, can generate very large search spaces
+
+-- What are <B>heuristics?</B>
+   -- A major area of research in AI
+
+   -- An alternative to exhaustive enumeration of the entire search space
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 1_files/fig11_5.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- Basically, a <B>hint</B> or a <B>hunch</B> which are useful but potentially a fallible 
+      strategy
+
+   -- It seems much of our intelligence relies on these rules of thumb called the
+      heuristics (Computer unresponsive: Check and see if it's plugged in first before 
+      opening it up)
+
+-- Games are not esoteric areas of studies. Programmers could easily implement and test
+   game-playing systems
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.2 Automated Reasoning and Theorem Proving</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- The oldest branch of AI
+
+-- Simon and Newell's Logic Theorist (LT) and General Problem Solver (GPS) systems
+
+-- A formal system based on rigor and generality of logic
+
+-- Early efforts were discouraging because solving complicated problems would require
+   generating an infinite number of theorems
+
+-- Without heuristics, one had to stumble upon provable, correct theorems
+
+-- Application areas:
+   -- Design and verification of logic circuits
+
+   -- Correctness of computer programs (software engineering)
+
+   -- Diagnostics (medical, industrial, etc.)
+
+-- These systems do not have to solve extremely complex tasks; rather, they assist
+   humans performs their tasks better (problem decomposition)
+
+-- A theorem prover can prove, say, lemmas, and verify smaller conjectures while the
+   formal proof of the overall task is outlined by its human counterpart
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.3 Expert Systems</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Some tasks require domain-specific knowledge (medical diagnosis)
+
+-- Expert knowledge is a combination of theoretical understanding of the problem and
+   a collection of heuristic problem-solving rules learned through experience
+
+-- Expert systems are constructed by obtaining this knowledge from humans and coding it
+   in a form usable by computers
+
+-- <I>Knowledge engineering</I> (expert knowledge extraction and representation) is a major
+   feature of expert systems
+
+-- Typically, during a <I>knowledge interview</I>, an AI programmer records an expert's
+   knowledge in the form of efficient and effective rules, graphs, etc.
+
+-- Once a program is implemented, it must go through the evaluation process through which
+   the system performance is evaluated and fine tuned
+
+-- <B>DENDRALL</B>
+   -- Developed at Standford in 1960s to infer structure of organic molecules from their
+      chemical formulas
+
+   -- It used heuristics to cut down on the search space size, which is quite a problem
+      in chemistry
+
+   -- Hard-wired If-Then rules 
+
+-- <B>MYCIN</B>
+   -- Developed at Standford in 1970s for diagnosis of infectious blood diseases
+
+   -- Addressed the problem of uncertain (probabilistic) reasoning. For example, imprecise
+      and/or incomplete data about symptoms, explanations, etc.
+
+-- <B>PROSPECTOR</B> for geological deposit identification; <B>XCON</B> for configuring 
+   computers at customers' site; etc.
+
+-- Expert systems, generally, handle specialized expert level domains and have well defined
+   problem-solving strategies
+
+-- Common-sense reasoning is very difficult to achieve, though
+
+-- <B>Shortcomings</B> of expert systems:
+   -- Difficulty in capturing <I>deep</I> knowledge
+      -- MYCIN does not know what blood is or what is a spinal chord.
+      -- MYCIN once asked if a male patient was pregnant
+      -- Cannot answer "why" questions
+
+   -- Lack of flexibility
+      -- If humans are faced with a difficult problem, they go back to square one and try
+         to come up with a different strategy. That is not the case with expert systems.
+
+   -- Little or no learning experience
+      -- Rules are hard-wired and a system's performance does not improve over time unless
+         that too is programmed into the system
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.4 Natural Language Understanding &amp; Semantic Modeling</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- One of the major concerns of AI has been with creation of programs that understand
+   and generate human speech
+
+-- Natural language processing (NLP) is a fundamental aspect of human intelligence
+
+-- There are currently programs with limited success; a full-blown NLP program is beyond
+   our present technologies
+
+-- NLP&amp;U:
+   -- Parsing sentences into their individual parts of speech
+   -- Looking up words
+   -- Extensive knowledge about the domain of discourse
+   -- Ability to resolve omissions and ambiguities
+   -- E.g. Sign on the street says: <B>Slow Children Playing</B>
+
+-- Because of tremendous difficulties, NLP systems focus on well-understood problem 
+   areas (<I>microworlds</I>):
+   -- Winograd's SHRDLU which could talk about simple block configurations 
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 1_files/fig11_3.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- <I>Blocksworlds</I> problems are very popular in AI
+   -- SHRDLU did not scale up at all; it could not capture rich semantics of more complex 
+      domains
+
+-- Current research focuses on finding representation schemes (semantic networks) that 
+   can capture wide range of applications
+
+-- Full computational NLP&amp;U is beyond current technical abilities
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.7 AI Languages</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- AI languages were developed to deal with:
+   -- Large search space generated by search algorithms
+   -- Difficulty of predicting the behavior of heuristically driven programs
+
+-- 1950s:
+   -- Information Processing Language (<B>IPL</B>)
+   -- Logic Theorist and theorem proving
+   -- Programming via general-purpose problem solver (GPS)
+
+-- 1960s:
+   -- Symbolic processing through List Processing (<B>LISP</B>)
+   -- Many dialects of LISP such as Common Lisp, XLisp, Scheme, etc.
+   -- functional paradigm
+   -- Rules in U.S.
+
+-- 1970s:
+   -- Programming in Logic (<B>PROLOG</B>)
+   -- Logical paradigm
+   -- Rules in Europe
+
+-- To date:
+   -- Many AI tools and programs are also written in C++ and Java
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.8 Machine Learning</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Learning has remained a challenging area of AI
+
+-- Different types of learning:
+   -- Rote
+   -- Symbolic (if-then rules)
+   -- Subsymbolic (neural, linear/nonlinear regression, stochastic)
+   -- Exemplar-based, case-based
+   -- Inductive
+   -- Deductive
+   -- Evolutionary
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.2.9 Neural Nets and Genetic Algorithms</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- A different approach to AI: Build intelligent programs using models that parallel:
+   -- the structure of neurons in brain, or
+   -- the evolving patterns found in Darwinian natural selection
+
+-- <B>A simple neuron</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 1_files/fig1_2.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+  -- A cell body has a number of protrusions called <B>dendrites</B> and a single branch called
+     the <B>axon</B>
+
+  -- Dendrites receive electro-chemical signals from other neurons
+
+  -- When a dendrite's combined received signals exceed a certain threshold, the neuron <B>fires</B>
+
+  -- Synaptic firing in one neuron may cause excitatory or inhibitory reaction in adjoining
+     neurons
+
+  -- A neuron's firing pattern over time is viewed as a model of computation
+
+  -- Neural architectures capture knowledge in a large number of fine-grained units which
+     are potentially more robust and suitable for matching partial or noisy data
+
+-- <B>Genetic algorithms (GAs)</B>:
+   -- Each solution to the problem at hand is modeled as a string (<B>chromosome</B>)
+
+   -- Strings are mated (stochastically) and a new generation of solutions is created
+
+   -- Strings with higher fitness measures are more likely to mate and contribute to the
+      next generation
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>1.3 AI: A Summary</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Computers must perform reasoning, pattern matching, learning, or some form of
+   inference
+
+-- Focusing on problems that do not respond to algorithmic solutions
+
+-- Concern with inexact or uncertain reasoning
+
+-- Qualitative features of a situation
+
+-- Dealing with semantics as well as syntax
+
+-- Finding <B>optimal</B>, <B>satisfying</B> or <B>suitable</B> as opposed to <B>exact</B> answers
+
+-- Using large amounts of domain-specific knowledge
+
+-- Using of <B>meta-level</B> knowledge to create sophisticated problem solving strategies
+</PRE></TD></TR></TBODY></TABLE>
+<!------------------------------------------------------>
+</LI></OL></PRE></TD></TR></TBODY></TABLE></TH></TR></TBODY></TABLE></DIV></BODY></HTML>

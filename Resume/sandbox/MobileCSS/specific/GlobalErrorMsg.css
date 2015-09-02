@@ -1,0 +1,23 @@
+/* 
+    Document   : GlobalErrorMsg
+    Created on : May 14, 2013, 9:00:23 AM
+    Author     : sluttrell
+    Description:
+        Contains styles for the global error messages.
+*/
+
+/* hides error text not wrapped in tags, ensures correct height of div#alertBody */
+div.error div#alertBox div#alertBody {color: transparent; font-size: 1px;} 
+
+/* ensures tagged items within div#alertBody display properly */
+div.error div#alertBox div#alertBody p, 
+div.error div#alertBox div#alertBody h1, 
+div.error div#alertBox div#alertBody span,
+div.error div#alertBox div#alertBody table
+{font-size: 15px !important; color: #333;}
+
+div.error div#alertBox div#alertBody table
+{margin-bottom: 12px; }
+
+div.error div#alertBox div#alertBody p:nth-last-of-type(2) 
+{position: relative; top: -1em;}

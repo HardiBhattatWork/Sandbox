@@ -1,0 +1,534 @@
+<font color="#13B7FD" size="15"><b>Intermediate Computer Science</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>CircularDoublyLinkedListDriver.java</b></font>
+<br>
+/***********************************************************************/<br>
+/*                                                                     */<br>
+/* CircularDoublyLinkedListDriver.java                                 */<br>
+/*                                                                     */<br>
+/* Author: Hardik Bhatt                                                */<br>
+/* Date: April 8, 2004                                                 */<br>
+/*                                                                     */<br>
+/* This program testing the content of the CircularDoublyLinkedList    */<br>
+/*                                                                     */<br>
+/***********************************************************************/<br>
+<br>
+class CircularDoublyLinkedListDriver<br>
+{<br>
+    public static void main (String[] args)<br>
+    {<br>
+<br>
+	CircularDoublyLinkedList myList = new CircularDoublyLinkedList ();<br>
+<br>
+	System.out.println ("Printing an empty list using toString method:");<br>
+	System.out.println (myList);<br>
+	System.out.println ("Is the List empty? " + myList.isEmpty ());<br>
+	System.out.println ("The length of the data is: " + myList.length ());<br>
+	System.out.println ("Printing the contents of the empty list using printList:");<br>
+	myList.printList ();<br>
+	System.out.println ();<br>
+	System.out.println ("Printing the contents of the empty list using printReverse:");<br>
+	myList.printReverse ();<br>
+	System.out.println ();<br>
+<br>
+	System.out.println ("Beginning inserts: ");<br>
+	String str1 = new String ("Hello");<br>
+	Integer int2 = new Integer (56);<br>
+	Character car3 = new Character ('a');<br>
+	Double dob4 = new Double (123.456);<br>
+	myList.insertFront (int2);<br>
+	System.out.println ("The original Head is: " + myList.getHead ().getData ());<br>
+	myList.insertBack (dob4);<br>
+	myList.insertFront (car3);<br>
+	myList.insertBack (str1);<br>
+	System.out.println ();<br>
+<br>
+	System.out.println ("Printing the final list using toString method:");<br>
+	System.out.println ("The new Head is: " + myList.getHead ().getData ());<br>
+	System.out.println (myList);<br>
+	System.out.println ("Is the List empty? " + myList.isEmpty ());<br>
+	System.out.println ("The length of the data: " + myList.length ());<br>
+	System.out.println ("Is " + car3 + " in the list? " + myList.member (car3));<br>
+	System.out.println ("Printing the contents of the list using printList:");<br>
+	myList.printList ();<br>
+	System.out.println ();<br>
+	System.out.println ("Printing the contents of the list using printReverse");<br>
+	myList.printReverse ();<br>
+	System.out.println ();<br>
+<br>
+	System.out.println ("The list is being cleard");<br>
+	myList.clear ();<br>
+	System.out.println ();<br>
+<br>
+	System.out.println ("Printing the content of the list");<br>
+	System.out.println (myList);<br>
+	System.out.println ("Is the List empty? " + myList.isEmpty ());<br>
+	System.out.println ("The length of the data is: " + myList.length ());<br>
+	System.out.println ("Printing the contents of the empty list using printList:");<br>
+	myList.printList ();<br>
+	System.out.println ();<br>
+	System.out.println ("Printing the contents of the empty list using printReverse:");<br>
+	myList.printReverse ();<br>
+<br>
+	System.out.println ("Beginning inserts: ");<br>
+	String str2 = new String ("Hello");<br>
+	Integer int3 = new Integer (56);<br>
+	Character car4 = new Character ('a');<br>
+	Double dob5 = new Double (123.456);<br>
+	myList.insertFront (int2);<br>
+	System.out.println ("The original Head is: " + myList.getHead ().getData ());<br>
+	myList.insertBack (dob4);<br>
+	myList.insertFront (car3);<br>
+	myList.insertBack (str1);<br>
+	System.out.println ();<br>
+	System.out.println ("Printing the final list using toString method:");<br>
+	System.out.println ("The new Head is: " + myList.getHead ().getData ());<br>
+	System.out.println (myList);<br>
+	System.out.println ();<br>
+	System.out.println ("Beganing the removal process: ");<br>
+	myList.removeBack ();<br>
+	myList.removeFront ();<br>
+<br>
+	System.out.println ("Printing the final list using toString method:");<br>
+	System.out.println ("The new Head is: " + myList.getHead ().getData ());<br>
+	System.out.println (myList);<br>
+	System.out.println ("Is the List empty? " + myList.isEmpty ());<br>
+	System.out.println ("The length of the data: " + myList.length ());<br>
+	System.out.println ("Is " + car3 + " in the list? " + myList.member (car3));<br>
+	System.out.println ("Printing the contents of the list using printList:");<br>
+	myList.printList ();<br>
+	System.out.println ();<br>
+	System.out.println ("Printing the contents of the list using printReverse");<br>
+	myList.printReverse ();<br>
+	System.out.println ();<br>
+<br>
+    }<br>
+}
+<br>
+<br><font color="#cccccc" size="11"><b>DoubleNode.java</b></font>
+<br>
+/*****************************************************************************/<br>
+/*                                                                           */<br>
+/* DoubleNode.java                                                           */<br>
+/*                                                                           */<br>
+/* Author: Hardik Bhatt                                                      */<br>
+/* Date: April 8, 2004                                                       */<br>
+/*                                                                           */<br>
+/* A class that a doublenode to be used in a circular doubly linked list     */<br>
+/* data structure                                                            */<br>
+/*                                                                           */<br>
+/* Instance Variables:                                                       */<br>
+/*      data - of type Object, is the data to be held by the node            */<br>
+/*      next - a reference to another node                                   */<br>
+/*      prev - a reference to the previous node                              */<br>
+/*                                                                           */<br>
+/* Constructors:                                                             */<br>
+/*   Node( Object, DoubleNode, DoubleNode )                                  */<br>
+/*                                                                           */<br>
+/* Methods:                                                                  */<br>
+/*   getData - returns the data portion of the node                          */<br>
+/*   getNext - returns the link portion of the node                          */<br>
+/*   getPrev - returns the link pertion of the node                          */<br>
+/*   setNext - sets the link to the given reference                          */<br>
+/*   setPrev - sets the link to the given reference                          */<br>
+/*                                                                           */<br>
+/*****************************************************************************/<br>
+<br>
+//simply creating a node that is use in the linklist program<br>
+//the only difference is that there is a previous pointer which<br>
+//points to the previous node and the next pointer which points<br>
+//to the nedt node in the the CircularDoublyLinkedList<br>
+public class DoubleNode<br>
+{<br>
+    private Object data;<br>
+    private DoubleNode next;<br>
+    private DoubleNode prev;<br>
+<br>
+    public DoubleNode (Object newData, DoubleNode newNext, DoubleNode newPrev)<br>
+    {<br>
+	this.data = newData;<br>
+	this.next = newNext;<br>
+	this.prev = newPrev;<br>
+    }<br>
+<br>
+//returns the data in the node<br>
+    public Object getData ()<br>
+    {<br>
+	return data;<br>
+    }<br>
+<br>
+//pointer that points to the next node<br>
+    public DoubleNode getNext ()<br>
+    {<br>
+	return next;<br>
+    }<br>
+
+//pointer that points to the previous node<br>
+    public DoubleNode getPrev ()<br>
+    {<br>
+	return prev;<br>
+    }<br>
+<br>
+//method that sets the next pointer to the given argument<br>
+    public void setNext (DoubleNode newNext)<br>
+    {<br>
+	next = newNext;<br>
+    }<br>
+<br>
+//method that sets the previous pointer to the given argument<br>
+    public void setPrev (DoubleNode newPrev)<br>
+    {<br>
+	prev = newPrev;<br>
+    }<br>
+} // end class DoubleNode<br>
+<br>
+<br><font color="#cccccc" size="11"><b>CircularDoublyLinkedList.java</b></font>
+<br>
+/*****************************************************************************/<br>
+/*                                                                           */<br>
+/* CircularDoublyLinkedList.java                                             */<br>
+/*                                                                           */<br>
+/* Author: Hardik Bhatt                                                      */<br>
+/* Date: April 8, 2004                                                       */<br>
+/*                                                                           */<br>
+/* A class that represents a circular doubly linked list data structure      */<br>
+/*                                                                           */<br>
+/* Instance Variables:                                                       */<br>
+/*      head - a reference to the front of the list                          */<br>
+/*                                                                           */<br>
+/* Constructors:                                                             */<br>
+/*   CircularDoublyLinkedList (  )                                           */<br>
+/*   CircularDoublyLinkedList ( CircularDoublyLinkedList )                   */<br>
+/*                                                                           */<br>
+/* Methods:                                                                  */<br>
+/*   isEmpty - returns true if the list is empty, false otherwise            */<br>
+/*   getHead - returns the head reference                                    */<br>
+/*   insertFront - inserts a new node at the front of the list               */<br>
+/*   insertBack - inserts a new node at the back of the list                 */<br>
+/*   clear - empties the list                                                */<br>
+/*   removeFront - removes the node from the front of the list and returns   */<br>
+/*                 the data portion                                          */<br>
+/*   removeBack - removes the node from the back of the list and returns the */<br>
+/*                 data portion                                              */<br>
+/*   length - a recursive method that prints out the length of the list      */<br>
+/*   lengthAux - a private method that is used with length                   */<br>
+/*   member - a recursive method that returns true if data is in the list    */<br>
+/*   memberAux - a private method that is used with member                   */<br>
+/*   printList - a recursive method that prints just the data in the list    */<br>
+/*   printListAux - a private method that is used with printList             */<br>
+/*   printReverse - a recursive method that prints the list in reverse order,*/<br>
+/*   one piece of data per line                                              */<br>
+/*   printReverseAux -a private method that is used with printReverse        */<br>
+/*   toString - returns a string representation of the list                  */<br>
+/*                                                                           */<br>
+/*****************************************************************************/<br>
+<br>
+public class CircularDoublyLinkedList<br>
+{<br>
+    private DoubleNode head; // Reference to first node in list<br>
+    // No-arg constructor<br>
+    public CircularDoublyLinkedList ()<br>
+    {<br>
+	head = null;<br>
+    }<br>
+<br>
+
+    // Copy constructor<br>
+    public CircularDoublyLinkedList (CircularDoublyLinkedList copy)<br>
+    {<br>
+	DoubleNode copyptr = copy.head;<br>
+<br>
+	if (copyptr != null)<br>
+	{<br>
+	    head = new DoubleNode (copyptr.getData (), null, null);<br>
+	    copyptr = copyptr.getNext ();<br>
+	    while (copyptr != null)<br>
+	    {<br>
+		copyptr = copyptr.getNext ();<br>
+	    }<br>
+	}<br>
+	else<br>
+	    head = null;<br>
+    }<br>
+<br>
+//method that checks if the node is empty<br>
+    public boolean isEmpty ()<br>
+    {<br>
+	return (head == null);<br>
+    }<br>
+<br>
+//method that returns the head<br>
+    public DoubleNode getHead ()<br>
+    {<br>
+	return head;<br>
+    }<br>
+<br>
+//method to insurt a node in the front<br>
+    public void insertFront (Object newData)<br>
+    {<br>
+	if (isEmpty ())<br>
+	{<br>
+	    head = new DoubleNode (newData, null, null);<br>
+	    head.setPrev (head);<br>
+	    head.setNext (head);<br>
+	}<br>
+	else<br>
+	{<br>
+	    DoubleNode newNode = new DoubleNode (newData, null, null);<br>
+	    newNode.setNext (head);<br>
+	    newNode.setPrev (head.getPrev ());<br>
+	    head.getPrev ().setNext (newNode);<br>
+	    head.setPrev (newNode);<br>
+	    head = newNode;<br>
+	}<br>
+    }<br>
+<br>
+//method to insurt a node in the back<br>
+    public void insertBack (Object newData)<br>
+    {<br>
+	if (isEmpty ())<br>
+	{<br>
+	    head = new DoubleNode (newData, null, null);<br>
+	    head.setPrev (head);<br>
+	    head.setNext (head);<br>
+	}<br>
+	else<br>
+	{<br>
+	    DoubleNode newNode = new DoubleNode (newData, null, null);<br>
+	    newNode.setNext (head);<br>
+	    newNode.setPrev (head.getPrev ());<br>
+	    head.getPrev ().setNext (newNode);<br>
+	    head.setPrev (newNode);<br>
+	}<br>
+    }<br>
+<br>
+//method to clear the entire list<br>
+    public void clear ()<br>
+    {<br>
+	head = null;<br>
+    }<br>
+<br>
+
+//method to remove the node from the front<br>
+    public Object removeFront ()<br>
+    {<br>
+	Object returnData;<br>
+<br>
+	if (isEmpty ())<br>
+	    return null;<br>
+<br>
+	returnData = head.getData ();<br>
+<br>
+	if (head == null)<br>
+	    head = null;<br>
+	else<br>
+	{<br>
+	    head.getPrev ().setNext (head.getNext ());<br>
+	    head.getNext ().setPrev (head.getPrev ());<br>
+	    head = head.getNext ();<br>
+	}<br>
+	return returnData;<br>
+    }<br>
+<br>
+//method to remove a node from the back<br>
+    public Object removeBack ()<br>
+    {<br>
+	Object returnData;<br>
+<br>
+	if (isEmpty ())<br>
+	    return null;<br>
+<br>
+	returnData = head.getPrev ();<br>
+
+	if (head == null)<br>
+	    head = null;<br>
+	else<br>
+	{<br>
+	    head.getPrev ().getPrev ().setNext (head);<br>
+	    head.setPrev (head.getPrev ().getPrev ());<br>
+	    DoubleNode previous = head;<br>
+<br>
+	    while (previous.getNext () != head.getPrev ())<br>
+		previous = previous.getNext ();<br>
+<br>
+	}<br>
+
+	return returnData;<br>
+    }<br>
+
+//method that returns the length of the circular list<br>
+    public int length ()<br>
+    {<br>
+	return lengthAux (head);<br>
+    }<br>
+<br>
+//recursive method used by length to return that length of the list<br>
+    private int lengthAux (DoubleNode ptr)<br>
+    {<br>
+	int num = 0;<br>
+	if (ptr == null)<br>
+	    num = 0;<br>
+	else if (ptr.getNext ().equals (head))<br>
+	    num = 1;<br>
+	else<br>
+	{<br>
+	    num = 1 + lengthAux (ptr.getNext ());<br>
+	}<br>
+	return num;<br>
+    }<br>
+
+//method that returns true if there is data in the list<br>
+    public boolean member (Object data)<br>
+    {<br>
+	return memberAux (head, data);<br>
+    }<br>
+<br>
+//recursive method used by member that returns true if there is data in the list<br>
+    private boolean memberAux (DoubleNode ptr, Object data)<br>
+    {<br>
+	boolean StopRec = false;<br>
+	if (ptr == null)<br>
+	    StopRec = false;<br>
+	if (ptr.getNext ().equals (head) && !ptr.getData ().equals (data))<br>
+	    StopRec = false;<br>
+	else if (ptr.getData ().equals (data))<br>
+	    StopRec = true;<br>
+	else<br>
+	{<br>
+	    StopRec = memberAux (ptr.getNext (), data);<br>
+	}<br>
+	return StopRec;<br>
+    }<br>
+<br>
+//methos to print out the data in the list<br>
+    public void printList ()<br>
+    {<br>
+	printListAux (head);<br>
+<br>
+    }<br>
+
+//recursive method used by printList to print the data in the list<br>
+    private void printListAux (DoubleNode ptr)<br>
+    {<br>
+	boolean StopPrint = false;<br>
+	if (ptr == null)<br>
+	    return;<br>
+	if (ptr.getNext ().equals (head))<br>
+	    System.out.println (ptr.getData ());<br>
+	else<br>
+	{<br>
+	    System.out.println (ptr.getData ());<br>
+	    printListAux (ptr.getNext ());<br>
+	}<br>
+<br>
+    }<br>
+<br>
+//method use to print the data in the list in reverse order<br>
+    public void printReverse ()<br>
+    {<br>
+	printReverseAux (head);<br>
+    }<br>
+<br>
+//recursive method used by printReverse to print out the data <br>
+//in the list in reverse<br>
+    private void printReverseAux (DoubleNode ptr)<br>
+    {<br>
+	boolean StopPrint = false;<br>
+	if (ptr == null)<br>
+	    return;<br>
+	if (ptr.getNext ().equals (head))<br>
+	    System.out.println (ptr.getData ());<br>
+	else<br>
+	{<br>
+	    printReverseAux (ptr.getNext ());<br>
+	    System.out.println (ptr.getData ());<br>
+	}<br>
+    }<br>
+<br>
+//the toString method used to printout the linklist<br>
+    public String toString ()<br>
+    {<br>
+	String str = "";<br>
+	DoubleNode current;<br>
+	boolean StopPrint = false;<br>
+<br>
+	current = head;<br>
+	str += "head --> ";<br>
+<br>
+	while (current != null && StopPrint == false)<br>
+	{<br>
+	    str += (current.getData ()).toString () + " <--> ";<br>
+	    current = current.getNext ();<br>
+	    if (current.getData ().equals (head.getData ()))<br>
+	    {<br>
+		StopPrint = true;<br>
+	    }<br>
+	}<br>
+	str += "null";<br>
+	return str;<br>
+    }<br>
+} // End class CircularDoublyLinkedList<br>
+<br>
+<br>Output:<br>
+Printing an empty list using toString method:<br>
+head --> null<br>
+Is the List empty? true<br>
+The length of the data is: 0<br>
+Printing the contents of the empty list using printList:<br>
+<br>
+Printing the contents of the empty list using printReverse:<br>
+<br>
+Beginning inserts: <br>
+The original Head is: 56<br>
+<br>
+Printing the final list using toString method:<br>
+The new Head is: a<br>
+head --> a <--> 56 <--> 123.456 <--> Hello <--> null<br>
+Is the List empty? false<br>
+The length of the data: 4<br>
+Is a in the list? true<br>
+Printing the contents of the list using printList:<br>
+a<br>
+56<br>
+123.456<br>
+Hello<br>
+<br>
+Printing the contents of the list using printReverse<br>
+Hello<br>
+123.456<br>
+56<br>
+a<br>
+<br>
+The list is being cleard<br>
+<br>
+Printing the content of the list<br>
+head --> null<br>
+Is the List empty? true<br>
+The length of the data is: 0<br>
+Printing the contents of the empty list using printList:<br>
+<br>
+Printing the contents of the empty list using printReverse:<br>
+Beginning inserts: <br>
+The original Head is: 56<br>
+<br>
+Printing the final list using toString method:<br>
+The new Head is: a<br>
+head --> a <--> 56 <--> 123.456 <--> Hello <--> null<br>
+<br>
+Beganing the removal process: <br>
+Printing the final list using toString method:<br>
+The new Head is: 56<br>
+head --> 56 <--> 123.456 <--> null<br>
+Is the List empty? false<br>
+The length of the data: 2<br>
+Is a in the list? false<br>
+Printing the contents of the list using printList:<br>
+56<br>
+123.456<br>
+<br>
+Printing the contents of the list using printReverse<br>
+123.456<br>
+56<br>
+<br>
+
+

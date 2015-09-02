@@ -1,0 +1,12 @@
+#imageHolder {
+	BACKGROUND-IMAGE: url(../../img/usa/homepageSplash.jpg); MARGIN: 0px 10px 20px 0px; WIDTH: 748px; BACKGROUND-REPEAT: no-repeat; FLOAT: left; HEIGHT: 615px; -moz-border-radius: 5px; border-radius: 5px
+}
+#applyButton {
+	POSITION: relative; WIDTH: 149px; HEIGHT: 29px; TOP: 440px; CURSOR: pointer; LEFT: 42px
+}
+#learnMoreButton {
+	DISPLAY: none
+}
+#newsButton {
+	DISPLAY: none
+}

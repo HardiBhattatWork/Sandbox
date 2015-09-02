@@ -1,0 +1,30 @@
+<iframe id="rightnow.resizeIframe" class="changeHeight" src="" height="1px" allowtransparency="true" />
+<script src="/euf/assets/js/iframeResize.js"></script>
+<script>
+	function getDocHeight() {
+		var dialogueRegion = YAHOO.util.Dom.getRegion('rnDialog1_c');
+		var dialogueHeight = 0;
+		var docRegion = YAHOO.util.Dom.getRegion('rn_body');
+		var bodyHeight = docRegion.bottom - docRegion.top;
+
+		if (dialogueRegion) {
+			dialogueHeight = dialogueRegion.bottom - dialogueRegion.top + 20;
+			if (dialogueHeight < bodyHeight) {
+				if(bodyHeight < dialogueRegion.bottom ) {
+					dialogueHeight = bodyHeight + 1;
+				}
+			}
+		}
+
+
+		if (bodyHeight < dialogueHeight) {
+			return dialogueHeight;
+		} else {
+			return bodyHeight;
+		}		
+	}
+	var docHeight = getDocHeight();
+	var url = "https://qa01-www.barclaycardus.com/servicing/messageCenter?goToADJHPage#";
+	var iframeObj = YAHOO.util.Dom.get("IFrameResize");
+	iframeObj.src = url+docHeight;
+</script>

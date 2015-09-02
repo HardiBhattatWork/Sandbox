@@ -1,0 +1,31 @@
+/* 
+    Document   : deleteAccountConfirmation
+    Created on : Jul 1, 2013, 4:28:51 PM
+    Author     : aashenfelter
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*=============================
+THEME
+=============================*/
+table { table-layout: fixed; width: 100%; }
+tr { border-bottom: 1px solid #D5D5D5; }
+th { font-size: 8pt !important; text-transform: uppercase; font-weight: normal; color: #54558E; text-align: center; vertical-align: bottom; padding: 10px 0; }
+td { text-align: center; vertical-align: bottom; padding: 10px 0; }
+
+/*=============================
+EXTENSIONS
+=============================*/
+/* COLUMN HEADERS */
+.yui-dt-first { border-top: 1px solid #D5D5D5; }
+.yui-dt0-col-repeat { width: 7%; }
+.yui-dt0-col-payDate { width: 31%; }
+.yui-dt0-col-status { width: 31%; }
+.yui-dt0-col-amount { width: 31%; text-align: center; padding-right: 0px; }
+
+/* COLUMN HEADER TEXT CONTAINER */
+.yui-dt-liner { width: 100%; text-align: center; }
+
+.repeatIcon { background-position: center -174px; }
+

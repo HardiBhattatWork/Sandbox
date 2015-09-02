@@ -1,0 +1,33 @@
+BODY {
+	BACKGROUND: white
+}
+B.a {
+	FONT-WEIGHT: bold; FONT-SIZE: 14pt; COLOR: black; FONT-FAMILY: verdana
+}
+B.b {
+	FONT-SIZE: 10pt; COLOR: black; FONT-FAMILY: verdana; BACKGROUND-COLOR: white
+}
+B.c {
+	COLOR: red
+}
+PRE {
+	FONT-SIZE: 10pt; MARGIN-LEFT: 10px; FONT-FAMILY: arial
+}
+PRE.a {
+	FONT-SIZE: 10pt; MARGIN-LEFT: 10px; FONT-FAMILY: arial
+}
+PRE.b {
+	FONT-SIZE: 8pt; FONT-FAMILY: monospace
+}
+P.a {
+	FONT-SIZE: 10pt; MARGIN-LEFT: 10px; FONT-FAMILY: arial; TEXT-ALIGN: justify
+}
+XMP {
+	FONT-SIZE: 10pt; FONT-FAMILY: arial
+}
+DIV {
+	TEXT-ALIGN: center
+}
+OL {
+	FONT-WEIGHT: bold; LIST-STYLE-POSITION: inside; FONT-SIZE: 10pt; COLOR: black; LIST-STYLE-TYPE: decimal
+}

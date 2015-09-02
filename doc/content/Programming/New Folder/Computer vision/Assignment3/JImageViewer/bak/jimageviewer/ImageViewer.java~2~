@@ -1,0 +1,66 @@
+
+
+import java.awt.Image;
+import jimageviewer.JImageViewer;
+import javax.swing.JPanel;
+import java.awt.event.MouseMotionListener;
+import jimageviewer.ImagePanel;
+import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.Graphics;/** \brief ImagePanel class.
+ *
+ */
+class ImagePanel extends JPanel implements MouseMotionListener {
+    JImageViewer     mParent;
+    private boolean  mMouseMoveValid = false;
+    private int      mMouseX, mMouseY;
+    //to avoid flicker (when rapidly redrawing), we will draw into a single
+    // image and then draw than image to the panel.
+    private Image    mDoubleBuffer = null;
+    //----------------------------------------------------------------------
+    ImagePanel ( JImageViewer p ) {
+        mParent = p;
+        this.addMouseMotionListener( this );
+    }
+    //----------------------------------------------------------------------
+    public void update ( Graphics g ) {
+        paint( g );
+    }
+    //----------------------------------------------------------------------
+    public void paint ( Graphics g ) {
+        //if the size of the panel has changed, we need a new doublebuffer of
+        // the correct size.
+        Dimension  d = getSize();
+        if ( mDoubleBuffer==null || mDoubleBuffer.getWidth(null)!=d.width
+          || mDoubleBuffer.getHeight(null)!=d.height ) {
+            mDoubleBuffer = createImage( d.width, d.height );
+        }
+        //draw into the doublebuffer
+        Graphics  dbg = mDoubleBuffer.getGraphics();
+        dbg.setColor( Color.BLACK );
+        dbg.fillRect( 0, 0, d.width, d.height );
+        dbg.setColor( Color.WHITE );
+        if (mParent.mScreenImage!=null) {
+            dbg.drawImage( mParent.mScreenImage, 0, 0, null );
+            if (mMouseMoveValid)
+                dbg.drawString( "(" + mMouseX + "," + mMouseY + ")",
+                                mParent.mScreenImage.getWidth()+20, 100 );
+        } else if (mMouseMoveValid) {
+            dbg.drawString( "(" + mMouseX + "," + mMouseY + ")", 100, 100 );
+        }
+        //draw the doublebuffer on the panel
+        g.drawImage( mDoubleBuffer, 0, 0, null );
+    }
+    //----------------------------------------------------------------------
+    public void mouseMoved ( MouseEvent e ) {
+        mMouseMoveValid = true;
+        mMouseX = e.getX();
+        mMouseY = e.getY();
+        this.repaint();
+    }
+    //----------------------------------------------------------------------
+    public void mouseDragged ( MouseEvent e ) {
+    }
+}
+//----------------------------------------------------------------------

@@ -1,0 +1,12 @@
+/* 
+    Document   : reviewRepeatPaymentGlobalMsg
+    Created on : May 13, 2013, 12:12:50 PM
+    Author     : sluttrell
+    Description:
+        Styles for the global error message as it appears on the review repeat payment page. 
+*/
+
+
+/* supplies correct content */
+div.error div#alertBox div#alertBody p:nth-last-of-type(2):before 
+{ color: #333; content:"To continue scheduling the additional payment below\002c select \2018Schedule\002e\2019 To modify or cancel pending payments\002c visit the payment activity page\002e"; }

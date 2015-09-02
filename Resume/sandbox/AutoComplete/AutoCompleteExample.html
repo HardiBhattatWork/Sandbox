@@ -1,0 +1,73 @@
+<!DOCTYPE HTML> 
+	<HTML> 
+	<script> 
+	var counter = 0;
+	function showList() 
+	{ 		
+		document.getElementById("dropdown").style.display = "none"; // Div tag containing the dropdown list is hidden 
+		document.getElementById('listbox1').options.length = 0; // If already shown list box, the options are made to 0, which makes it hidden 
+		if(!((/^\s*$/).test(document.getElementById("edit1").value)))	 // Checks if white space is entered in edit box 
+		{ 
+			document.getElementById("dropdown").style.display="block";	 // Makes drop down visible 
+			var textBoxString = document.getElementById("edit1").value; 
+			var streetArray = new Array("Philadelphia","Maryland","MD","Washington DC","DC","Miami","Mississippi");	 // Source list values to be populated in drop down 
+			for(var i = 0; i< streetArray.length; i += 1) 
+			{ 
+				var j = j + 1; 
+				if(streetArray[i].indexOf(textBoxString) != -1)	 // Checks if search text is like in source string 
+				{ 
+					addItem(streetArray[i],streetArray[i]);	 // Function to populate drop down 
+				} 
+			}
+			
+			switch (window.event.keyCode) { //check key up (38) and down(40) to select options.
+				case 13: //ENTER
+					// Value shown in list box to shown in edit box 
+					document.getElementById("edit1").value = document.getElementById('listbox1').getElementsByTagName('option')[counter].value; 
+					document.getElementById('dropdown').style.display = "none"; // Hide Div tag containing the dropdown list
+					break;
+				case 9: //TAB
+					console.log("TAB");
+					break;
+				case 38: //UP
+					if(counter == 0){counter = document.getElementById("listbox1").length-1;}
+					else{counter = counter - 1;}
+					document.getElementById('listbox1').getElementsByTagName('option')[counter].selected = 'selected';
+					break;
+				case 40: //DOWN					
+					document.getElementById('listbox1').getElementsByTagName('option')[counter].selected = 'selected';
+					if(counter == (document.getElementById("listbox1").length-1)){counter = 0;}
+					else{counter = counter + 1;}
+					break;				
+			}
+		}		
+	} 
+
+	function addItem(Text,Value) 
+	{ 
+		// Create an Option object 
+		var opt = document.createElement("option"); // Add an Option object to Drop Down/List Box 
+		document.getElementById("listbox1").options.add(opt); // Assign text and value to Option object 
+		opt.text = Text; 
+		opt.value = Value; 
+	} 
+
+
+	function selVal(listval) 
+	{ 
+		document.getElementById("edit1").value = listval.value; // Value shown in list box to shown in edit box 
+		document.getElementById('dropdown').style.display = "none"; // Hide Div tag containing the dropdown list
+	} 
+
+	</script> 
+	<HEAD> 
+		<div > 
+			<input type="text" id="edit1" width="100" height="30" name="edit1" onkeyup=showList(this)> 
+		</div> 
+		<div id="dropdown" style="display:none"> 
+			<SELECT id=listbox1 size=3 name="listbox1" onclick=selVal(this)></SELECT> 
+		</div> 
+	</HEAD> 
+	<BODY> 
+	</BODY> 
+</HTML>

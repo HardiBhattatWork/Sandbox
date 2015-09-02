@@ -1,0 +1,1140 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0061)http://www.sju.edu/~bforoura/courses/lectures/luger/lab4.html -->
+<HTML><HEAD><TITLE>CSC 2501: Lecture 4</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1"><LINK 
+href="CSC 2501 Lecture 4_files/style.css" type=text/css rel=stylesheet><!------------------------------------------------------>
+<META content="MSHTML 6.00.2900.2802" name=GENERATOR></HEAD>
+<BODY>
+<DIV align=center>
+<TABLE height="100%" cellSpacing=3 cellPadding=3 width="85%" bgColor=silver 
+border=0>
+  <TBODY>
+  <TR>
+    <TH>
+      <TABLE height="100%" cellSpacing=5 cellPadding=5 width="100%" 
+      bgColor=white border=0>
+        <TBODY>
+        <TR>
+          <TD>
+            <DIV><B class=a>Lecture 4 (Chapter 3)<BR>State Space Search</B> 
+            <BR><BR><BR><IMG height=160 alt=None 
+            src="CSC 2501 Lecture 4_files/cover.jpg" width=400 border=0> </DIV><PRE class=a><OL>
+<!------------------------------------------------------>
+<LI><B class=b>3.0 Introduction</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- We have already seen:
+
+   -- <B>WFFs</B>: 
+      -- A means of describing objects and relationship between them
+
+   -- <B>Inference rules</B>: 
+      -- A mechanism for inferring new knowledge from WFFs
+      -- Define a space that is to be searched to find a problem solution
+
+
+-- <B>Questions</B>:
+
+   -- Is the problem solver guaranteed to find a solution?
+   -- Will the problem solver ever halt?
+   -- Is the found solution optimal?
+   -- What is the time&amp;space complexity of the search process?
+   -- Is the representation language adequate or adequately utilized?
+
+
+-- <B>Answer</B>:
+
+   -- The theory of <B>state space search</B> will answer above questions
+ 
+   -- By representing a problem as a <B>state space graph</B>, we can use <B>graph theory</B>
+      to analyze structure and complexity of both the problem and our devised search 
+      procedures
+
+   -- Let's omit the next section as we have seen the fundamentals of graph theory in
+      Data Structures course.
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>An Informal Example of State Space Search</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>	
+-- <B>Problem</B>: We have a full 5-gal jug and an empty 2-gal jug. How can we end up with 
+                   exactly 1 gal of water in the smaller jug?
+
+-- <B>Allowed actions, rules or productions</B>:
+       <B>Rule 1:</B> Use the larger jug to fill up the smaller jug, if possible
+       <B>Rule 2:</B> Empty out the smaller jug
+       <B>Rule 3:</B> Pour whatever is left in the larger jug into the smaller jug
+
+-- <B>States</B>:
+   -- Let's use tuples <B>(X,Y)</B> to denote current state of the problem where X is 
+      the contents of the 5-gal jug and Y the contents of the 2-gal jug.
+   -- <B>Initial state: (5 0)</B>
+   -- <B>Goal state: (d 1)</B> where d means <I>don't care</I>
+      
+-- <B>Solution (Production System)</B>:
+   -- (5 0) --R<SUB>1</SUB>--&gt; (3 2) --R<SUB>2</SUB>--&gt; (3 0) --R<SUB>1</SUB>--&gt; (1 2) --R<SUB>2</SUB>--&gt; (1 0) --R<SUB>3</SUB>--&gt; (0 1)
+
+
+
+-- <B>Of Lisp</B>
+
+   <B>;;*** Get contents of jugs</B>
+   (defun <B>jug1</B> (state) (first  state))
+   (defun <B>jug2</B> (state) (second state))
+
+   <B>;;*** See if jug2 is empty</B>
+   (defun <B>jug2empty</B> (state) (= (jug2 state) 0))
+
+   <B>;;*** See if jug2 is full</B>
+   (defun <B>jug2full</B> (state) (= (jug2 state) 2))
+
+   <B>;;*** Termination condition</B>
+   (defun <B>done</B> (state) (= (second state) 1))
+
+   <B>;;*** Rules</B>
+   (defun <B>applyrules</B> (state)
+      (cond
+         ( (and (jug2empty state) (&gt;= (jug1 state) 2)) 
+                 (list (- (first state) 2) 2))
+         ( (jug2full state)  
+                 (list (first state) 0))
+         ( (jug2empty state) 
+                 (list 0 (first state)))
+         (  t   nil )
+      )
+   )
+
+   <B>;;*** Recursively apply rules</B>
+   (defun <B>emptyjug</B> (state goal)
+      (cond
+        ( (done state)  t)
+        (      t        (<B>emptyjug</B> (applyrules state) goal))
+      )
+   )    
+
+
+
+
+   &gt;(<B>trace</B> emptyjug)
+   &gt;(<B>emptyjug</B> '(5 0) '(0 1))
+
+   Entering: EMPTYJUG, Argument list: ((5 0) (0 1))
+    Entering: EMPTYJUG, Argument list: ((3 2) (0 1))
+     Entering: EMPTYJUG, Argument list: ((3 0) (0 1))
+      Entering: EMPTYJUG, Argument list: ((1 2) (0 1))
+       Entering: EMPTYJUG, Argument list: ((1 0) (0 1))
+        Entering: EMPTYJUG, Argument list: ((0 1) (0 1))
+        Exiting: EMPTYJUG, Value: T
+        ...
+   T
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Exercise 1</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE><I>
+Three missionaries and three cannibals come to a river. There is a boat on their side 
+of the river that can be used by either one or two persons. How should they use this 
+boat to cross the river in such a way that <U>cannibals never outnumber missionaries</U> on 
+either side of the river?
+</I>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.1.2 State Space Representation of Problems</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- In a <B>state space representation</B> of a problem:
+
+   -- <B>Nodes</B> of a graph correspond to partial problem solution <B>states</B>
+   -- <B>Arcs</B> correspond to <B>actions</B> or steps in a problem-solving process
+   -- <B>Initial or start state</B> represents the root of the graph
+   -- <B>Goal state</B> represents a desired leaf node
+   -- <B>Solution path</B> is the (optimal) path from the initial state to the goal state
+
+
+
+-- <B>State space Search</B>
+
+   -- A <I>state space</I> is represented by <B>[N,A,S,G]</B>, where:
+
+      <B>N</B> is the set of nodes (states) corresponding to the problem-solving process
+      <B>A</B> is the set of arcs or <I>actions</I>
+      <B>S</B> is the set of start state(s)
+      <B>G</B> is the set of goal state(s)
+
+   -- A <I>solution path</I> is a path through the graph from a node in <B>S</B> to a node in <B>G</B>
+
+
+-- <B>Issues</B>:
+
+   -- Paths are searched starting from the start state and continuing through the graph until
+      either the goal description is satisfied or they are abandoned
+
+   -- Arcs correspond to <B>legal moves</B> in a game or inference rules in a logic problem
+      or expert system
+
+   -- Search algorithms must be able to handle <B>visited</B> states which may potentially
+      lead to <B>cycles</B>. For example,
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_3.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+     In above graph, a path can be made <B>state a</B> to <B>state d</B> either through <B>b and c</B>
+     or directly from <B>a to d</B>. A <I>blind</I> search for the <B> goal state e</B> might search the 
+     states <B>abcdabcdabcd...</B> forever!
+
+   -- Note that the problem of cycles typically does not occur in situations where the 
+      underlying graph is a <B>tree</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_4.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+   -- In general, <B>any efficient graph search algorithm must detect and eliminate loops
+      </B> from potential solution paths
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.1.1: TIC-TAC-TOE</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- State space representation:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig11_5.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+-- <B>States:</B>
+   -- <B>Start</B>: An empty board
+   -- <B>Goal</B>: Three Xs in any row, column or diagonal
+   
+-- <B>Board configurations:</B>
+   -- 3<SUP>9</SUP> ways to arrange <B>{blank,X,O}</B> in 9 spaces
+   -- Arcs represent moves <B>Place an X</B> or <B>Place an O</B> in an unused
+      location
+
+-- <B>Tree or graph?</B>
+   -- Graph since some board configurations can be reached at different levels through
+      different paths
+
+   -- A <B>directed acyclic graph (DAG)</B> since there are no cycles: It's impossible
+      to go back up the structure once a state has been reached
+
+
+
+-- <B>Algorithmic complexity of search</B>
+
+   -- 9 first moves, 8 second moves, 7 third moves, etc. 
+
+   -- A total of 9! moves (compare to 10<SUP>120</SUP> moves for chess and 10<SUP>40</SUP> game
+      paths for checkers)
+
+   -- These spaces are difficult to explore exhaustively, so we must rely on <B>heuristics</B>
+      to reduce search complexity
+
+
+
+-- <B>Lisp again</B>
+
+&gt; (setq board '( (X O O) (O X O) (O O X) ))
+((X O O) (O X O) (O O X))
+
+&gt; (<B>nth</B> 0 board)
+(X O O)
+
+&gt; (<B>nth</B> 1 board)
+(O X O)
+
+&gt; (<B>nth</B> 2 board)
+(O O X)
+
+
+&gt; (<B>dotimes</B> (i 3) 
+      (format t "~s ~%" (<B>nth</B> i board))
+  )
+
+(X O O)
+(O X O)
+(O O X)
+
+
+<B>;;*** Access tiles (0,0), ..., (2,2)</B>
+&gt; (defun <B>get-tile</B> (board i j)
+     (nth j (nth i board)))
+
+
+<B>;;*** Print board tile by tile</B>
+(defun <B>print</B> (board)
+  (dotimes (i 3) 
+    (dotimes (j 3) 
+        (format t "~s   " (get-tile board i j))
+    )
+    (terpri)
+  )
+)
+
+&gt; (<B>print board</B>)
+X   O   O
+O   X   O
+O   O   X
+
+
+
+<B>;;*** Change a tile</B>
+(defun <B>change-tile</B> (board item i j)
+    (<B>setf</B>  (nth j (nth i board)) item)) 
+
+
+
+<B>;;*** Let user change a tile value</B>
+(defun <B>play</B> (board)
+   (let ( (i 0) (j 0) (item 'blank))
+       (print board)
+       (terpri)
+       (princ "Enter i j and tile value (X/O): ")
+       (setq i (read)     j (read)     item (read))
+       (change-tile board item i j)
+   )
+)
+
+
+<B>;;*** Play the game 1000 times or what should there be a termination condition be?</B>
+(defun <B>tic-tac-toe</B> ()
+    (dotimes (i 1000)
+        (play board)
+    )
+)
+
+
+<B>;;*** Start out with a blank board</B>
+(setq board '( (- - -) (- - -) (- - -)))
+
+
+<B>;;*** Go!</B>
+&gt; (<B>tic-tac-toe</B>)
+-   -   -
+-   -   -
+-   -   -
+
+Enter i j and tile value (X/O): 0 0 X
+X   -   -
+-   -   -
+-   -   -
+
+Enter i j and tile value (X/O): 1 1 O
+X   -   -
+-   O   -
+-   -   -
+
+Enter i j and tile value (X/O): 0 2 X
+X   -   X
+-   O   -
+-   -   -
+
+Enter i j and tile value (X/O): 0 1 O
+X   O   X
+-   O   -
+-   -   -
+
+Enter i j and tile value (X/O): 2 1 X
+X   O   X
+-   O   -
+-   X   -
+
+so and so forth...
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.1.2: THE 8-PUZZLE</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>The 15-puzzle</B>:
+   
+   -- 15 differently numbered tiles are fitted into 16 spaces on a grid
+
+   -- A blank space is left so  that tiles can be moved around to form different
+      patterns
+
+   -- The goal is to find a series of moves of tiles that places the board in a some
+      goal configuration
+
+   -- The state space is large enough to be interesting for us but <B>not intractable</B> 
+      with 16! possibilities
+
+   -- The 8-puzzle is a 3x3 version of the 15-puzzle with only 9 tiles
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_5.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Moving Tiles</B>:
+
+   -- In the actual puzzle moves are made by physically sliding tiles around
+
+   -- From a programmer's perspective, it's much easier to think of <B>the blank space
+      moving up, down, left, right</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_6.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>State Space Search</B>:
+
+   -- A graph but cycles are possible; Must ensure <B>visited states</B> are not revisited
+
+   -- The path from the start state to the goal state is the desired series of moves
+
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.1.3: THE TRAVELING SALESPERSON</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Problem description</B>:
+
+   -- A salesperson has 5 cities to visit and must return home
+
+   -- The goal is to find the shortest path for the salesperson, visiting each city, and then 
+      returning to the starting city
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_7.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- The nodes in above represent cities and arcs costs (e.g. miles, airfare, etc.) of traveling
+
+   -- Assuming <B>start city A</B>, the path <B>[A,D,C,B,E,A]</B> with cost of 450 miles is a possible 
+      circuit
+
+
+
+-- <B>One way to generate solution paths</B>:
+
+    -- Begin with <B>node A</B>
+
+    -- Add all possible next states until all cities are included and the path returns home
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_8.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- <B>Complexity = (N-1)!</B> where <B>N</B> is the total number of cities in graph
+
+   -- N! may be tractable for 9 cities but not 50 cities 
+
+
+
+
+-- <B>Reducing search complexity</B>:
+  
+   -- <B>Branch-and-bound</B> technique:
+      -- Generate paths one at a time
+      -- Keep track of best path found so far and use its cost as a <I>bound</I> on future candidates
+      -- Examine all partially generated paths
+      -- If possible extension to a path <B>(branch)</B> has a greater cost than the bound, eliminate 
+         that partial path and all its extensions
+      -- <B>Complexity = 1.26<SUP>N</SUP> rather than N!</B>
+
+
+   -- <B>Nearest-Neighbor</B> technique:
+      -- Go to the closest unvisited city
+      -- The cost of the path <B>[A,E,D,B,C,A] is 550 miles</B> in the figure below
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_9.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+      -- The <B>nearest-neighbor heuristic</B> has linear complexity but it is also fallible as we
+         may not be able to find the shortest path in a given graph as seen above
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.2.1 Data-Driven and Goal-Driven Search Strategies</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Directions of search</B> in a state space search:
+
+   (1) <B>Data-Driven</B>: From the given data  of a problem instance toward a goal
+
+   (2) <B>Goal-Driven</B>: From a goal back to data
+
+
+
+
+-- <B>Data-Driven or Forward-Chaining Search:</B>
+
+   -- Problem solver begins with some facts about the problem and a set of legal moves
+      for changing states
+
+   -- Solver applies rules to given facts to generate new ones
+
+   -- Repeat above step until a path to the goal state is (<B>hopefully</B>) reached
+
+
+
+-- <B>Goal-Driven or Backward-Chaining Search:</B>
+
+   -- Problem solver starts with the gaol state and see which states or conditions can
+      lead it into that goal state
+
+   -- These new conditions are <B>subgoals</B> for the search
+
+   -- Search proceeds backwards working through newly generated subgoals until facts
+      of the problem are (<B>hopefully</B>) deduced
+
+
+
+-- <B>Analysis of the Two Search Techniques</B>:
+
+   -- Both search the same state space graph but in different order and can potentially
+      produce different number of search states
+
+   -- Can result in different search complexity due to variations in <B>branching factors</B>
+
+   -- Example: Proving the claim <B>"I am a descendant of Thomas Jefferson"</B> requires:
+
+      (1) Starting with <B>I</B> and working along ancestor lines toward <B>Thomas Jefferson</B>
+
+          -- TJ was born 250 years ago
+          -- Assuming 25 yrs per generation, solution path length = 10
+          -- Assuming 2 parents/person, we'd need to examine <B>2<SUP>10</SUP></B> ancestors
+
+      (2) Starting with <B>Thomas Jefferson</B> and working through his descendants
+
+          -- TJ was born 250 years ago
+          -- Assuming 25 yrs per generation, solution path length = 10
+          -- Assuming 3 children/couple, we'd need to examine <B>3<SUP>10</SUP></B> descendants
+
+
+
+
+
+-- <B>Data-Driven Search Is Better When:</B>
+
+   -- All/most of the data are given in the initial problem statement
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_11.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- An expert system (e.g. Prospector) examines volumes of geological data and attempts to 
+      determine what minerals are likely to be found at a site
+
+   -- There are a <B>large number of potential goals</B> but only a few ways to use the given
+      facts (e.g. the expert system Dendral)
+
+   -- It's <B>hard to form a goal</B> as little may be known about it. For example, when using
+      Dendral, an expert system that finds the molecular structure of organic compounds 
+      based on specific data, it's hard to hypothesize what the structure of a compound is
+
+
+
+
+-- <B>Goal-Driven Search Is Better When:</B>
+      
+   -- A goal or hypothesis is given or easy to formulate; E.g., a theorem to be proved
+
+   -- There are <B>large number of rules that match the facts</B> and thus produce too
+      many goals or conclusions. Early goal selection eliminates many branches
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_10.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- Data are not given and must be acquired by the solver. E.g. in medical diagnosis
+      many tests such as blood pressure and blood count must be performed first before
+      any opinions are formed. Many of the tests may be irrelevant using the data-driven 
+      approach.
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.2.2 Implementing Graph Search: Backtracking</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- A technique for systematically trying all paths through a state space
+
+-- It has a natural implementation in a stack-oriented recursive environments
+
+-- Search starts at the start state and pursues a path until it reaches the
+   <B>goal</B> or <B>dead end</B>
+
+-- IF the goal is reached THEN
+      Quit and report the solution path
+   Else
+      <B>Backtracks</B> to the most recent node on the path having unexamined siblings
+       and continues down one of those branches
+
+-- Algorithm continues until either the goal is found or the search space is exhausted
+  
+-- An example:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_12.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>The backtrack algorithm</B>:
+
+   -- It uses four lists:
+
+      <B>(1) SL (state list)</B>: List of states being tried on the current path
+
+      <B>(1) CS (current state)</B>: State being tried; Always the most recently state added to <B>SL</B>
+
+      <B>(3) NSL (new state list)</B>: List of states awaiting evaluation (whose descendants have
+         not been generated and searched)
+
+      <B>(4) DE (dead ends)</B>: List of states whose descendants have failed to produce a goal
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3a.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- <B>CS</B> is the most recently state added to <B>SL</B> and represents the <B>frontier</B> of the
+      solution path
+
+   -- Rules of the game or inferences are applied to <B>CS</B> producing new child states
+
+   -- The <B>first child state of CS</B> becomes the <B>new CS</B> and the rest are placed on 
+      <B>NSL</B> for future expansion
+
+   -- If <B>CS</B> has no children, it is removed from <B>SL</B> and the algorithm <B>backtracks</B> 
+      through any remaining children of its predecessor on <B>SL</B>
+
+
+
+
+
+-- <B>A trace of the backtrack algorithm</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3b.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.2.3 Introduction to Depth-First and Breadth-First Search</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Not only need to determine the direction of search (data vs. goal driven), we also 
+   need to decide in which order states are examined in a tree or graph
+
+
+-- Two approaches for the order in which nodes of a graph are expanded:
+
+   (1) <B>Depth-First</B>
+   (2) <B>Breadth-First</B>
+
+
+-- <B>Depth-First</B>
+      -- When a state is examined, all of its children and descendants are examined
+         before any of its siblings
+
+      -- Goes deeper into the search space whenever possible
+
+      -- Siblings are considered only when no descendants can be found
+
+      -- Exploits the backtrack algorithm
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_13.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+     -- Order in above: <B>[A, B, E, K, S, L, T, F, M, C, G, N, H, O, P, U, D, I, Q, J, R]</B>
+
+
+
+-- <B>Breadth-First</B>
+      -- Explores siblings at a given depth left to right before expanding children
+
+      -- Moves on to a deeper level when running out of siblings
+
+      -- Utilizes backtracking
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_13.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+     -- Order in above: <B>[A, B, C, D, E, F, G, H, I, J, K, L M, N, O, P, Q, R, S, T, U]</B>
+
+
+
+
+
+-- <B>Logistics</B>:
+
+   -- <B>open</B>: Like <B>NSL</B> in <B>backtrack</B>, lists states that have been generated but whose
+       children are not examined. <B>The order in which states are removed from open 
+       determines the order of search</B>.
+
+   -- <B>closed</B>: Records states that have been examined (Union of <B>DE</B> and <B>SL</B> in <B>backtrack</B>).
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>The Breadth-First Search (BFS) Algorithm</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>The BFS Algorithm</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3c.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Notes</B>:
+
+   -- <B>open</B> is maintained as (FIFO) queue data structure where states are added
+      to the right of the queue and removed from the left
+
+   -- Already visited states should be discarded
+
+   -- All states are first searched along the shortest path from th start state
+
+   -- <B>Breadth-first search is guaranteed to find the shortest path</B>
+
+
+
+
+
+-- <B>A trace of BFS:</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3d.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>After 6 iterations of BFS</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_14.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>BFS and the 8-puzzle</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_15.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>A Minor Variation of BFS in Lisp</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>Get the <A href="http://www.sju.edu/~bforoura/courses/lectures/luger/utilities/prog1.lsp">source code</A>.
+
+
+<B>;;*** The Search Space</B>
+(setq <B>tree</B> '(((() E ()) B (() F ()) ) A ((() G ()) C (()H()))))
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_13a.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+<B>;;*** Get the left subtree</B>
+(defun <B>ltree</B> (tree) (first tree))
+
+
+<B>;;*** Get the node data</B>
+(defun <B>data</B> (tree) (second tree))
+
+
+<B>;;*** Get the right subtree</B>
+(defun <B>rtree</B> (tree) (car (last tree)))
+
+
+<B>;;*** Find the children of a given node</B>
+(defun <B>child</B> (tree item)
+   (cond
+     ((null tree) nil)
+     ((and (equal item (data tree)) 	;; ignore a leaf's nil children
+           (not (equal (second (ltree tree)) nil)))
+         (list (second (ltree tree)) (second (rtree tree))))
+     ( t 
+         (or (<B>child</B> (ltree tree) item) (<B>child</B> (rtree tree) item) )   
+     )
+   )
+)
+
+
+<B>;;*** Do the Breadth-First Search</B>
+(defun <B>bfs</B> (open goal)
+   (format t "Open Nodes: ~s ~%" open)
+   (cond
+	((null open) nil)
+	((equal (first open) goal) (first open))
+	( t   (<B>bfs</B> (append (rest open) (child tree (first open))) goal))
+   )
+)
+
+
+<B>A Sample Run</B>
+<B>============</B>
+&gt; (<B>bfs</B> '(A) 'H)             ;; <B>Start state is A and goal state is H</B>
+
+Open Nodes: (A) 
+Open Nodes: (B C) 
+Open Nodes: (C E F) 
+Open Nodes: (E F G H) 
+Open Nodes: (F G H) 
+Open Nodes: (G H) 
+Open Nodes: (H) 
+H
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>The Depth-First Search (DFS) Algorithm</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- A simplification of the backtrack algorithm
+
+-- <B>Adds and removes descendant states from the left</B> end of <B>open</B>, which is maintained
+   as a LIFO stack
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3e.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>A trace of DFS</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3f.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>The 6th iterations of DFS for Fig 3.13:</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_16.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Notes</B>:
+
+   -- DFS is <B>not guaranteed to find the shortest path</B> to a state the first time that
+      state is encountered
+
+   -- If path length matters, problem-solver can be made to handle triples 
+      <B>(state, parent, path_length)</B> such that if a child is produced along multiple 
+      paths, the solver can pick the best one
+
+
+
+-- <B>DFS and the 8-puzzle with a depth bound of 5</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_17.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>BFS vs. DFS</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>When to choose what</B>?
+
+   -- The choice of BFS and DFS is very much problem dependent
+
+   -- Issues to consider:
+      -- Importance of finding the shortest path
+      -- The branching factor
+      -- Available space/time resources
+      -- The average, acceptable length of solution path
+      -- First optimal solution vs. all solutions
+
+
+
+-- <B>Summary of BFS Features</B>:
+ 
+   -- Always finds the shortest path
+
+   -- Appropriate for cases where we know a <B>solution does exist</B>
+
+   -- Appropriate for <B>shallow</B> solutions
+
+   -- <B>Poor performance</B> with large branching factors
+
+   -- Space requirement is <U>exponentially</U> proportional to path length. For example, if each 
+      state has <B>B</B> children, at the <B>n<SUP>th</SUP></B> level we have <B>B<SUP>n</SUP></B> states on <B>open</B>
+
+
+
+-- <B>Summary of DFS Features</B>:
+
+   -- Gets into a deep search space very quickly
+
+   -- <B>Efficient</B> when we have <I>a hunch</I> the solution is along a long branch
+
+   -- <B>Efficient</B> when problem has many branches
+
+   -- Space requirement is <U>linearly</U> proportional to path length. For example, if each state
+      has <B>B</B> children, at the <B>n<SUP>th</SUP></B> level we have <B>nB</B> states on <B>open</B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Exercise 2</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE><I>
+Implement the depth-first search (DFS) algorithm in Lisp and demonstrate it using various 
+test cases.
+</I>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.3.1 State Space Description of a Logical System</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Main idea: PredC + graphs + search</B>
+
+-- Inference rules can be used to create and describe relationships between states
+
+-- We can view theorem proving as a search problem
+
+-- Soundness and completeness of inference rules guarantee correctness of graph-based
+   reasoning
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.3.1: THE PROPOSITIONAL CALCULUS</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- We treat a set of logical relationships as graph
+
+-- If <B>p, q, r,...</B> are propositions, assume the assertions:
+   <B>
+      q <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> p
+      r <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> p
+      v <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> q
+      s <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> r
+      t <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> r
+      s <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> u
+      s
+      t
+   </B>
+
+
+
+
+-- <B>Graph-Based Reasoning</B>
+
+   -- Arcs correspond to logical implications 
+
+   -- True propositions (data) are <B>boxed</B>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_18.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+   -- Paths correspond to applications of modus ponens (MP). E.g. Path <B>[s,r,p]</B>
+      corresponds to inferences:
+      <DIV align=center>
+      <TABLE width=500 border=0><TBODY><TR><TD><B>s<IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0>r<BR>s<BR><IMG src="CSC 2501 Lecture 4_files/hence.gif" border=0> r </B></TD><TD><B>r<IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0>p<BR>r<BR><IMG src="CSC 2501 Lecture 4_files/hence.gif" border=0> p </B></TD></TR></TBODY></TABLE>
+      </DIV>
+    -- Thus, to determine whether a given proposition is a logical consequence of a set of 
+       propositions, we <B>must find a path from a boxed node (the start node) to the 
+       proposition (the goal node)</B>
+
+    -- Above is essentially <B>data-driven</B> search but can easily be turned into a goal-
+       driven one. <B>How?</B>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>3.3.2 And/Or Graphs</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- An important AI tool used by logical theorem provers and expert systems
+
+-- A specialization of <B>hypergraphs</B> where nodes are connected by sets of arcs rather than 
+   single arcs
+
+-- The <B>and operator</B> indicates a <B>problem decomposition</B> in which the problem
+   is broken into subproblems all of which must be solved before solving the original 
+   problem
+
+-- The <B>or operator</B> indicates a <B>selection point</B> in which several alternative solutions
+   to the problem exist
+   
+
+
+-- <B>An "and" node</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_19.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>An "or" node</B>:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_20.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+-- A <B>Hypergraph</B> consists of:
+
+   -- A set of <B>N</B> nodes
+
+   -- A set of <I>hyperarcs or k-connectors</I> <B>H</B>, where <B>k</B> is the number of descendant nodes:
+
+      If <B>k=1</B> Then, descendant may be an <B>or</B> node
+      If <B>k&gt;1</B> Then, descendants may be <B>and</B> nodes
+
+   -- A simple graph where all descendant node sets have a cardinality of 1
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.3.2: AND/OR GRAPH SEARCH</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- Let's assume the propositions:
+   <B>
+      a
+      b
+      c
+      a<IMG src="CSC 2501 Lecture 4_files/and.gif" border=0>b <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> d
+      a<IMG src="CSC 2501 Lecture 4_files/and.gif" border=0>c <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> e
+      b<IMG src="CSC 2501 Lecture 4_files/and.gif" border=0>d <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> f
+      f <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> g
+      a<IMG src="CSC 2501 Lecture 4_files/and.gif" border=0>e <IMG src="CSC 2501 Lecture 4_files/imply.gif" border=0> h
+   </B>
+
+
+-- Above assertions generate a hypergraph that contains both <B>and</B> and <B>or</B> nodes:
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_21.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+-- <B>Questions</B>:
+
+     (1) Is <B>h</B> true?
+         <B>Goal-directed</B> solution: Attempt to prove both <B>a</B> and <B>b</B>.
+         <B>Data-directed</B> solution: Start with the known facts <B>a,b,c</B>.
+
+     (2) Is <B>h</B> true if <B>b</B> is no longer true?
+     (3) What is the shortest path to prove some proposition <B>X</B> is true?
+     (4) Can you show the <B>unsupported proposition p</B> is false?
+
+
+
+-- <B>And/Or Graph Search Strategy</B>:
+  
+   -- Similar to the <B>backtrack</B> algorithm
+
+   -- Once a path is found connecting the goal to a start node along <B>or nodes</B>,
+      the problem is solved
+
+   -- If a path leads to failure, the algorithm <B>backtracks</B> and tries another path
+
+   -- In searching <B>and nodes</B>, all of the <B>and descendants</B> of a node must be
+      solved before solving a parent node
+
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Example 3.3.6: AN ENGLISH LANGUAGE PARSER</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE>-- <B>Rewrite rules</B>:
+  
+   -- Are of the form of <B>LHS<IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0>RHS</B> 
+
+   -- Take an expression and transform it another by replacing the pattern in LHS by 
+      the one in RHS
+
+   -- Can be used to translate, say, from English to French, or, to create regular 
+      expressions that are <B>noun phrases (np), verb phrases (vp)</B> or <B>sentences (s)</B>
+
+
+
+-- <B>The Parsing Rules</B>:
+
+   <B>
+      (1) s  <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> np vp
+
+      (2) np <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> n
+      (3) np <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> art n
+
+      (4) vp <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> v
+      (5) vp <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> v np
+
+      (6) art <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> a
+      (7) art <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> the
+
+      (8) n <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> man
+      (9) n <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> dog
+
+      (10) v <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> likes
+      (11) v <IMG src="CSC 2501 Lecture 4_files/dimply.gif" border=0> bites
+   </B>
+
+
+
+-- Above rewrite rules define the following and/or graph with  <B>sentence</B> as the root. Note
+   that the leaf nodes are the usual <I>terminals</I>
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_25.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>Parsing the sentence <U>the dog bites the man</U></B>:
+
+   (1) Match RHSs of the rules with patterns in the sentence
+   (2) Once a match is found, replace it with the rule's LHS pattern
+   (3) Repeat Steps 1-2 until no more rules can be applied
+<!-- ########################### -->
+<DIV align=center>
+<IMG src="CSC 2501 Lecture 4_files/fig3_26.jpg" border=0>
+</DIV>
+<!-- ########################### -->
+
+
+
+
+-- <B>A Trace of <U>the dog bites the man</U></B>:
+   <DIV align=center>
+   <TABLE cellSpacing=2 cellPadding=2 width=500 border=0><TBODY><TR bgColor=whitesmoke><TH>Step</TH><TH>Rewrite Rule</TH><TH>Result</TH></TR><TR bgColor=white><TH></TH><TH></TH><TH>the dog bites the man</TH></TR><TR bgColor=white><TH>1</TH><TH>Rule 7</TH><TH>art dog bites the man</TH></TR><TR bgColor=white><TH>2</TH><TH>Rule 7</TH><TH>art dog bites art man</TH></TR><TR bgColor=white><TH>3</TH><TH>Rule 8</TH><TH>art dog bites art n</TH></TR><TR bgColor=white><TH>4</TH><TH>Rule 3</TH><TH>art dog bites np</TH></TR><TR bgColor=white><TH>5</TH><TH>Rule 9</TH><TH>art n bites np</TH></TR><TR bgColor=white><TH>6</TH><TH>Rule 3</TH><TH>np bites np</TH></TR><TR bgColor=white><TH>7</TH><TH>Rule 11</TH><TH>np v np</TH></TR><TR bgColor=white><TH>8</TH><TH>Rule 5</TH><TH>np vp</TH></TR><TR bgColor=white><TH>9</TH><TH>Rule 1</TH><TH>sentence</TH></TR></TBODY></TABLE>
+   </DIV>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+<LI><B class=b>Exercise 3</B>
+
+<TABLE width="90%" bgColor=white border=1><TBODY><TR><TD><PRE><I>
+Do the following sentences parse? Show their trace as shown above.
+<B>
+   (1) man bites the dog
+   (2) dog dog bites
+   (3) the dog likes bites
+   (4) the man bites
+</B>
+</I>
+</PRE></TD></TR></TBODY></TABLE>
+
+<!------------------------------------------------------>
+</LI></OL></PRE></TD></TR></TBODY></TABLE></TH></TR></TBODY></TABLE></DIV></BODY></HTML>

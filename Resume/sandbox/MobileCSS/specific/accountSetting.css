@@ -1,0 +1,66 @@
+.component
+{
+    background-image: url("/servicing/img/base/mobile/mobile-account-settings@2x.png");
+    background-repeat: no-repeat;
+    background-size: 248px 787px;
+    border-bottom: 1px solid #D4D4E4;
+    margin: 10px 0 10px 0;
+    padding: 5px 0 10px 0;
+    width: 100%;
+}
+
+.component_link
+{
+    background-image: url("/servicing/img/base/mobile/mobile-global-sprite@2x.png");
+    background-position: 90% -170px;
+    background-repeat: no-repeat;
+    background-size: 50px;
+    color: black !important;
+    display: block;
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 43px;
+    width: 100%;
+}
+
+#accountSettingsSummarySection, #accountSettingsSum {
+    display: none;
+}
+
+.activatecard{ background-position: -5px -17px; }
+.paperless{ background-position: -5px -173px; }
+.privacy{ background-position: -5px -93px; }
+.balancetransfer{ background-position: -5px -284px; }
+.replacementcard{ background-position: -5px -369px; }
+.cashadvance{ background-position: -5px -248px; }
+.nickname{ background-position: -5px -55px; }
+.authusers{ background-position: -5px -325px; }
+.alerts{ background-position: -5px -134px; }
+.managepin{ background-position: -5px -214px; }
+.creditline{ background-position: -5px -408px; }
+.cma_request{ background-position: -5px -590px; }
+
+
+h1.cardName {
+font-size: 18pt;
+line-height: 22pt;
+text-overflow: ellipsis;
+width: 100%;
+white-space: nowrap;
+overflow: hidden;
+}
+.subrow .cardNum {
+font-size: 9pt;
+color: #7B7B7B;
+}
+header{
+    width: 100%;
+}
+
+#alertBox p, #alertBody p, #alertBody p span, #alertBox h1, #alertBody h1, #alertBody h1 span {
+margin: 0 0 14px 0;
+}
+
+#alertBody p {
+width: 106%;
+}

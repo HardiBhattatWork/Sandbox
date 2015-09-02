@@ -1,0 +1,58 @@
+<font color="#13B7FD" size="15"><b>Artificial Intelligence</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>Breathfirst Search Method</b></font>
+<br>
+  //**************************************<br>
+  //A method that performs a Breath first search algorithm<br>
+  //using recursion to implement the best possible way to<br>
+  //reach the ghost. given the search conditions<br>
+  public static void BFS(int GBx, int GBy) throws EmptyQueueException<br>
+  {<br>
+     //***Containing the Coordinate that needs to be visited as an object.<br>
+     Coordinate myMove;<br>
+	  wait(500);<br>
+	  //***Setting the coordinates altredy visited to true<br>
+	  visited[GBx][GBy] = true;<br>
+	  //***Removing the ghost buster form that coordinate<br>
+	  removeGhostbuster(GBx, GBy);<br>
+	  //***If the Ghost buster is able to move left, up, right or down<br>
+	  //***store it in the queue.<br>
+      if ((openSpace(GBx, GBy - 1)) &&  (!visited[GBx][GBy - 1]))<br>
+		{<br>
+			BFSqueue.enqueue(new Coordinate(GBx, GBy - 1));<br>
+			visited[GBx][GBy - 1] = true;<br>
+      }<br>
+      if ((openSpace(GBx - 1, GBy))  &&  (!visited[GBx - 1][GBy])) <br>
+		{<br>
+			BFSqueue.enqueue(new Coordinate(GBx - 1, GBy));<br>
+			visited[GBx - 1][GBy] = true;<br>
+      }<br>
+      if ((openSpace(GBx, GBy + 1))  &&  (!visited[GBx][GBy + 1])) <br>
+		{<br>
+			BFSqueue.enqueue(new Coordinate(GBx, GBy + 1));<br>
+			visited[GBx][GBy + 1] = true;<br>
+      }<br>
+      if ((openSpace(GBx + 1, GBy))  &&  (!visited[GBx + 1][GBy])) <br>
+		{<br>
+			BFSqueue.enqueue(new Coordinate(GBx + 1, GBy));<br>
+			visited[GBx + 1][GBy] = true;<br>
+      }<br>
+		//***if you have reached your goal you are done<br>
+		if (GBx == ghostX && GBy == ghostY) <br>
+	   {<br>
+	     System.out.println("you have reached the ghost");<br>
+		}<br>
+		//***else pop off the first coordinate of the queue and move<br>
+		//***the ghost buster to that position.<br>
+		else if (!BFSqueue.isEmpty())<br>
+		{<br>
+			myMove = (Coordinate) (BFSqueue.dequeue());<br>
+			moveGhostbuster(myMove.getX(), myMove.getY());<br>
+			BFS(myMove.getX(), myMove.getY());<br>
+		}<br>
+		else<br>
+		{<br>
+			System.out.println("You were unable to find the ghost");<br>
+		}<br>
+    }<br>
+<br>

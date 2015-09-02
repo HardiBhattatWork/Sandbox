@@ -1,0 +1,542 @@
+<font color="#13B7FD" size="15"><b>Computer Graphics</b></font><br>
+<br>
+<br><font color="#cccccc" size="11"><b>3D Bunny</b></font>
+<br>
+#include <stdlib.h>			// standard definitions<br>
+#include <iostream.h>			// C++ I/O<br>
+#include <stdio.h>			// C I/O (for sprintf)<br> 
+#include <math.h>			// standard definitions<br>
+<br>
+#include <GL/glut.h>			// GLUT<br>
+#include <GL/glu.h>			// GLU<br>
+#include <GL/gl.h>			// OpenGL<br>
+<br>
+#define FOVY 60<br>
+#define NEAR 1               /*clipping plane near and far */<br>
+#define FAR 10000<br>
+#define NO_LIGHTS 2<br>
+<br>
+FILE *BunnyFile;<br>
+GLboolean MYPAUSE = false; //boolean that keep track of pause of game<br>
+GLboolean MYTRACE = false;<br>
+<br>
+long NumVer = 0;<br>
+long NumTri = 0;<br>
+float SCALE = 1;<br>
+float TRANSLATEX = 0;<br>
+float TRANSLATEY = 0;<br>
+float TRANSLATEZ = 0;<br>
+float ANGLE = 0;<br>
+float ROTATEX = 0;<br>
+float ROTATEY = 0;<br>
+float ROTATEZ = 0;<br>
+float METHOD = 1;<br>
+float VIEWERX = 0;<br>
+float VIEWERY = 0;<br>
+float VIEWERZ = 0;<br>
+<br>
+/* spcular color component for an object */<br>
+GLfloat spec_color[4]={1.0, 1.0, 1.0, 1.0};<br>
+<br>
+GLfloat global_ambient_intensity[4] = {0.2, 0.2, 0.2, 1.0};<br>
+<br>
+/* light coordinates */<br>
+GLfloat light_coords[NO_LIGHTS][4]={{100,-1.0,1.5,0.0},<br>
+                           {-0.5,100,0.5,0.0}};<br>
+<br>
+/* light components */<br>
+GLfloat light_ambient[NO_LIGHTS][4]={{0.2, 0.2, 0.2, 1.0},<br>
+                            {0.2, 0.2, 0.2, 1.0}};<br>
+<br>
+
+GLfloat light_diffuse[NO_LIGHTS][4]={{1.0, 1.0, 1.0, 1.0},<br>
+                            {1.0, 1.0, 1.0, 1.0}};<br>
+<br>
+
+GLfloat light_specular[NO_LIGHTS][4]={{2.0, 2.0, 2.0, 1.0},<br>
+                             {2.0, 2.0, 2.0, 1.0}}; <br>
+<br>
+GLfloat fog_color[]={ 0.5, 0.5, 0.5, 1.0}; /* fog color */<br>
+<br>
+GLfloat bunny_color[4]={1.0, 1.0, 1.0, 1.0};<br>
+<br>
+GLfloat shininess = 100.0;<br>
+<br>
+/* initial viewer location and At location*/<br>
+static GLdouble viewer[]= {0.0, 0.0, 0.0}; <br>
+static GLdouble at[]= {0.0, 0.0, 0.0};<br>
+<br>
+/* window dimensi0ns */<br>
+int wh=500;<br>
+int ww=500;<br>
+<br>
+struct vector<br>
+{<br>
+	float x;<br>
+	float y;<br>
+	float z;<br>
+};<br>
+<br>
+struct vertex<br>
+{<br>
+	struct vector ver;<br>
+	struct vector normal_ver;<br>
+};<br>
+<br>
+struct tvertex<br>
+{<br>
+	long vertex0;<br>
+	long vertex1;<br>
+	long vertex2;<br>
+	struct vector normal_tri;<br>
+};<br>
+<br>
+struct vector p1;<br>
+struct vector p2;<br>
+struct vector ave_vector;<br>
+struct vertex *VectorArray;<br>
+struct tvertex *TriangleArray;<br>
+<br>
+void myInit();<br>
+void myReshape(int ww, int wh);<br>
+void calcTriNormal (long j, long index1, long index2, long index3);<br>
+void calcVerNormal(long j, long index1, long index2, long index3);<br>
+void myDisplay();<br>
+void drawBunny1();<br>
+void drawBunny2();<br>
+void drawVector(long index1, long index2, long index3);<br>
+void drawTriangle(long i, long index1, long index2, long index3);<br>
+void myKeyboard(unsigned char c, int x, int y);<br>
+void myMenu();<br>
+void myMenuEvents(int option);<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// main program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+int main(int argc, char **argv)<br>
+{<br>
+    				
+    glutInit(&argc, argv);   //initialize glut and gl<br>
+    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);<br>
+    glutInitWindowSize(ww, wh);   // window<br>
+    //glutInitWindowPosition(0,0);    // upper left<br>
+    glutCreateWindow("My OpenGL Program: Assignment 5 - Bunny"); 	// create the window<br>
+<br>
+	//register callbacks<br>
+	glutReshapeFunc(myReshape);     // call myReshape if window is resized<br>
+    glutDisplayFunc(myDisplay);		//  call myDisplay to redraw window<br>
+    //keyboard entries<br>
+    glutKeyboardFunc(myKeyboard);   // call myKeyboard when key is hit	<br>
+<br>
+	glEnable(GL_DEPTH_TEST);<br>
+    <br>
+    myInit();				// our own initializations<br>
+	myMenu();				//our menu event<br>
+    glutMainLoop();			// pass control to GLUT, start it running<br>
+    return 0;               // ANSI C expects this<br>
+}<br>
+<br>
+void myInit()<br>
+{<br>
+    glClearColor(0, 0, 0, 0);		// background color<br>
+    glShadeModel(GL_SMOOTH);		// smooth shading<br>
+	glEnable(GL_NORMALIZE);<br>
+	long i, j;<br>
+	char Ver, Tri;<br>
+<br>
+
+
+	glEnable(GL_LIGHTING);<br>
+	glEnable(GL_LIGHT0);<br>
+	glEnable(GL_LIGHT1);<br>
+<br>
+	glLightfv(GL_LIGHT0, GL_POSITION, light_coords[0]);<br>
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient[0]);<br>
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse[0]);<br>
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_specular[0]);<br>
+<br>
+	glLightfv(GL_LIGHT1, GL_POSITION, light_coords[1]);<br>
+	glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient[1]);<br>
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_diffuse[1]);<br>
+	glLightfv(GL_LIGHT1, GL_SPECULAR, light_specular[1]);<br>
+<br>
+	viewer[0] = 0;<br>
+	viewer[1] = 0;<br>
+	viewer[2] = -25;<br>
+<br>
+
+	if ((BunnyFile = fopen("bunny.txt", "r")) == NULL)<br>
+      exit(0);<br>
+
+	if(fscanf(BunnyFile, "%d\n", &NumVer) == EOF)<br>
+	{<br>
+		printf("P: There is not data in input file\n");<br>
+		exit(0);<br>
+	}<br>
+	printf("The Number of vectors %d\n", NumVer);<br>
+	<br>
+	if(fscanf(BunnyFile, "%d\n", &NumTri) == EOF)<br>
+	{<br>
+		printf("P: There is not data in input file\n");<br>
+		exit(0);<br>
+	}<br>
+	printf("The Number of triangles %d \n", NumTri);<br>
+<br>
+	VectorArray = (struct vertex *)malloc(NumVer * sizeof(struct vertex));<br>
+	for (i = 0; i %3c NumVer; i++)<br>
+	{<br>
+		if(fscanf(BunnyFile, "%c %f %f %f\n", &Ver, &VectorArray[i].ver.x, &VectorArray[i].ver.y, &VectorArray[i].ver.z) != EOF)<br>
+		{<br>
+			VectorArray[i].normal_ver.x = 0;<br>
+			VectorArray[i].normal_ver.y = 0;<br>
+			VectorArray[i].normal_ver.z = 0;<br>
+			ave_vector.x += VectorArray[i].ver.x;<br>
+			ave_vector.y += VectorArray[i].ver.y;<br>
+			ave_vector.z += VectorArray[i].ver.z;<br>
+			//printf("The vector array %c %f %f %f\n",Ver, VectorArray[i].ver.x, VectorArray[i].ver.y, VectorArray[i].ver.z);<br>
+		}<br>
+		else<br>
+		{<br>
+			printf("P: There is not data in input file\n");<br>
+			exit(0);<br>
+		}<br>
+	}<br>
+	<br>
+	ave_vector.x = ave_vector.x / NumVer;<br>
+	ave_vector.y = ave_vector.y / NumVer;<br>
+	ave_vector.z = ave_vector.z / NumVer;<br>
+	at[0] = (double) ave_vector.x;<br>
+	at[1] = (double) ave_vector.y;<br>
+	at[2] = (double) ave_vector.z;<br>
+<br>
+	TriangleArray = (struct tvertex *)malloc(NumTri * sizeof(struct tvertex));<br>
+<br>
+	for (j = 0; j %3c NumTri; j++)<br>
+	{<br>
+		<br>
+		if(fscanf(BunnyFile, "%c %ld %ld %ld\n", &Tri, &TriangleArray[j].vertex0, &TriangleArray[j].vertex1, &TriangleArray[j].vertex2) != EOF)<br>
+		{<br>
+			//printf("The triangle array %ld %ld %ld\n", TriangleArray[j].vertex0, TriangleArray[j].vertex1, TriangleArray[j].vertex2);<br>
+			//printf("i am in front of triangle norlal\n");<br>
+			calcTriNormal(j, TriangleArray[j].vertex0, TriangleArray[j].vertex1, TriangleArray[j].vertex2);<br>
+			calcVerNormal(j, TriangleArray[j].vertex0, TriangleArray[j].vertex1, TriangleArray[j].vertex2);<br>
+		}<br>
+		else<br>
+		{<br>
+			printf("P: There is not data in input file\n");<br>
+			exit(0);<br>
+		}<br>
+	}		<br>
+}<br>
+<br>
+void myReshape(int ww, int wh) <br>
+{<br>
+	
+   // update projection<br>
+  glViewport (0, 0, ww,  wh);  // update the viewport<br>
+/* Use a perspective view */<br>
+  glMatrixMode(GL_PROJECTION);              // update the projection<br>
+  glLoadIdentity();               <br>
+  gluPerspective(FOVY,(GLdouble) ww/wh, NEAR, FAR);<br>
+  glMatrixMode(GL_MODELVIEW);<br>
+<br>
+  glutPostRedisplay();                      // request redisplay<br>
+}<br>
+<br>
+//-----------------------------------------------------------------------<br>
+// Normalise program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+void calcTriNormal (long j, long index1, long index2, long index3)<br>
+{<br>
+	struct vector v1;<br>
+	struct vector v2;<br>
+	struct vector v3;<br>
+<br>
+	// Finds The Vector Between 2 Points By Subtracting<br>
+	// The x,y,z Coordinates From One Point To Another.<br>
+	v1.x = VectorArray[index1].ver.x;<br>
+	v1.y = VectorArray[index1].ver.y;<br>
+	v1.z = VectorArray[index1].ver.z;<br>
+	<br>
+	v2.x = VectorArray[index2].ver.x;<br>
+	v2.y = VectorArray[index2].ver.y;<br>
+	v2.z = VectorArray[index2].ver.z;<br>
+<br>
+	v3.x = VectorArray[index3].ver.x;<br>
+	v3.y = VectorArray[index3].ver.y;<br>
+	v3.z = VectorArray[index3].ver.z;<br>
+<br>
+	// Calculate The Vector From Point 1 To Point 0<br>
+	p1.x = v1.x - v2.x;					// Vector 1.x=Vertex[0].x-Vertex[1].x<br>
+	p1.y = v1.y - v2.y;					// Vector 1.y=Vertex[0].y-Vertex[1].y<br>
+	p1.z = v1.z - v2.z;					// Vector 1.z=Vertex[0].y-Vertex[1].z<br>
+	// Calculate The Vector From Point 2 To Point 1<br>
+	p2.x = v2.x - v3.x;					// Vector 2.x=Vertex[0].x-Vertex[1].x<br>
+	p2.y = v2.y - v3.y;					// Vector 2.y=Vertex[0].y-Vertex[1].y<br>
+	p2.z = v2.z - v3.z;					// Vector 2.z=Vertex[0].z-Vertex[1].z<br>
+	// Compute The Cross Product To Give Us A Surface Normal<br>
+	TriangleArray[j].normal_tri.x = (p1.y*p2.z) - (p1.z*p2.y);				// Cross Product For Y - Z<br>
+	TriangleArray[j].normal_tri.y = (p1.z*p2.x) - (p1.x*p2.z);				// Cross Product For X - Z<br>
+	TriangleArray[j].normal_tri.z = (p1.x*p2.y) - (p1.y*p2.x);				// Cross Product For X - Y<br>
+}<br>
+<br>
+void calcVerNormal(long j, long index1, long index2, long index3)<br>
+{<br>
+	//compute vertex normals  by adding traignle normals to vertex normals<br>
+	VectorArray[index1].normal_ver.x = VectorArray[index1].normal_ver.x + TriangleArray[j].normal_tri.x;<br>
+	VectorArray[index2].normal_ver.y = VectorArray[index2].normal_ver.y + TriangleArray[j].normal_tri.y;<br>
+	VectorArray[index3].normal_ver.z = VectorArray[index3].normal_ver.z + TriangleArray[j].normal_tri.z;<br>
+}<br>
+<br>
+
+//-----------------------------------------------------------------------<br>
+// Display program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+void myDisplay()<br>
+{<br>
+	//glClearColor(1.0,1.0,1.0,0.0);<br>
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);       // clear the window<br>
+	glMatrixMode(GL_MODELVIEW);<br>
+<br>
+	/* Update viewer position in modelview matrix */<br>
+	glLoadIdentity();<br>
+	gluLookAt(viewer[0] + VIEWERX, viewer[1] + VIEWERY, viewer[2] + VIEWERZ, at[0], at[1], at[2], 0.0, 1.0, 0.0);<br>
+<br>
+	if (METHOD == 1)<br>
+	{<br>
+		glScalef(SCALE, SCALE, SCALE);<br>
+		glTranslated(TRANSLATEX, TRANSLATEY, TRANSLATEZ);<br>
+		glRotatef(ANGLE, ROTATEX, ROTATEY, ROTATEZ);<br>
+		drawBunny1();<br>
+	}<br>
+	else if (METHOD == 2)<br>
+	{<br>
+		glScalef(SCALE, SCALE, SCALE);<br>
+		glTranslated(TRANSLATEX, TRANSLATEY, TRANSLATEZ);<br>
+		glRotatef(ANGLE, ROTATEX, ROTATEY, ROTATEZ);<br>
+		drawBunny2();<br>
+	}<br>
+	else <br>
+	{<br>
+		printf("ERROR: Displaying Bunny");<br>
+	}<br>
+<br>
+	glutSwapBuffers();		// swap buffers			<br>
+    glFlush();				// force OpenGL to render now<br>		
+}<br>
+<br>
+void drawVector(long index1, long index2, long index3)<br>
+{<br>
+	glBegin(GL_POLYGON);<br>
+			<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, bunny_color);<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, bunny_color);<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, bunny_color);<br>
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);<br>
+<br>
+		glNormal3f(VectorArray[index1].normal_ver.x, VectorArray[index1].normal_ver.y, VectorArray[index1].normal_ver.z);<br>
+		glVertex3f(VectorArray[index1].ver.x, VectorArray[index1].ver.y, VectorArray[index1].ver.z);<br>
+<br>
+		glNormal3f(VectorArray[index2].normal_ver.x, VectorArray[index2].normal_ver.y, VectorArray[index2].normal_ver.z);<br>
+		glVertex3f(VectorArray[index2].ver.x, VectorArray[index2].ver.y, VectorArray[index2].ver.z);<br>
+			<br>
+		glNormal3f(VectorArray[index3].normal_ver.x, VectorArray[index3].normal_ver.y, VectorArray[index3].normal_ver.z);<br>
+		glVertex3f(VectorArray[index3].ver.x, VectorArray[index3].ver.y, VectorArray[index3].ver.z);<br>
+<br>
+	glEnd();<br>
+}<br>
+<br>
+void drawTriangle(long j, long index1, long index2, long index3)<br>
+{<br>
+
+	glBegin(GL_POLYGON);<br>
+		<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, bunny_color);<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, bunny_color);<br>
+		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, bunny_color);<br>
+		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, shininess);<br>
+<br>
+		glNormal3f(TriangleArray[j].normal_tri.x, TriangleArray[j].normal_tri.y, TriangleArray[j].normal_tri.z );<br>
+		glVertex3f(VectorArray[index1].ver.x, VectorArray[index1].ver.y, VectorArray[index1].ver.z);<br>
+<br>
+		glNormal3f(TriangleArray[j].normal_tri.x, TriangleArray[j].normal_tri.y, TriangleArray[j].normal_tri.z);<br>
+		glVertex3f(VectorArray[index2].ver.x, VectorArray[index2].ver.y, VectorArray[index2].ver.z);<br>
+	<br>
+		glNormal3f(TriangleArray[j].normal_tri.x, TriangleArray[j].normal_tri.y, TriangleArray[j].normal_tri.z);<br>
+		glVertex3f(VectorArray[index3].ver.x, VectorArray[index3].ver.y, VectorArray[index3].ver.z);<br>
+	glEnd();<br>
+}<br>
+<br>
+void drawBunny1()<br>
+{<br>
+	long j = 0;<br>
+<br>
+	for (j = 0; j %3c NumTri; j++)<br>
+	{<br>
+		drawTriangle(j, TriangleArray[j].vertex0, TriangleArray[j].vertex1, TriangleArray[j].vertex2);<br>
+	}<br>
+<br>
+}<br>
+<br>
+void drawBunny2()<br>
+{<br>
+	long i = 0;<br>
+<br>
+	for (i = 0; i %3c NumVer; i++)<br>
+	{<br>
+		drawVector(TriangleArray[i].vertex0, TriangleArray[i].vertex1, TriangleArray[i].vertex2);<br>
+	}<br>
+}<br>
+//-----------------------------------------------------------------------<br>
+// Keyboard program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+void myKeyboard(unsigned char c, int x, int y)<br>
+{<br>
+    switch (c)<br>
+    {<br>
+      case 'q':<br>
+		  exit(0);			// exit<br>
+		  break;<br>
+	<br>
+	}<br>
+	glutPostRedisplay();		// request redisplay<br>
+}<br>
+//-----------------------------------------------------------------------<br>
+// Menu program<br>
+//	<br>
+//-----------------------------------------------------------------------<br>
+void myMenu()<br>
+{<br>
+	int menu, scaleMenu, translateMenu, rotateMenu, shadingMenu, viewerMenu;<br>
+<br>
+	scaleMenu = glutCreateMenu(myMenuEvents);<br>
+	glutAddMenuEntry("Double", 1);<br>
+	glutAddMenuEntry("Half", 2);<br>
+	glutAddMenuEntry("20%", 3);<br>
+<br>
+	translateMenu = glutCreateMenu(myMenuEvents);<br>
+	glutAddMenuEntry("+X", 4);<br>
+	glutAddMenuEntry("-X", 5);<br>
+	glutAddMenuEntry("+Y", 6);<br>
+	glutAddMenuEntry("-Y", 7);<br>
+	glutAddMenuEntry("+Z", 8);<br>
+	glutAddMenuEntry("-Z", 9);<br>
+<br>
+	rotateMenu = glutCreateMenu(myMenuEvents);<br>
+	glutAddMenuEntry("+X", 10);<br>
+	glutAddMenuEntry("-X", 11);<br>
+	glutAddMenuEntry("+Y", 12);<br>
+	glutAddMenuEntry("-Y", 13);<br>
+	glutAddMenuEntry("+Z", 14);<br>
+	glutAddMenuEntry("-Z", 15);	<br>
+<br>
+	shadingMenu = glutCreateMenu(myMenuEvents);<br>
+	glutAddMenuEntry("Method 1", 16);<br>
+	glutAddMenuEntry("Method 2", 17);<br>
+<br>
+	viewerMenu = glutCreateMenu(myMenuEvents);<br>
+	glutAddMenuEntry("+X", 18);<br>
+	glutAddMenuEntry("-X", 19);<br>
+	glutAddMenuEntry("+Y", 20);<br>
+	glutAddMenuEntry("-Y", 21);<br>
+	glutAddMenuEntry("+Z", 22);<br>
+	glutAddMenuEntry("-Z", 23);<br>
+<br>
+	menu = glutCreateMenu(myMenuEvents);<br>
+	glutAddSubMenu("Scale Options", scaleMenu);<br>
+	glutAddSubMenu("Translate Options", translateMenu);<br>
+	glutAddSubMenu("Rotate Options", rotateMenu);<br>
+	glutAddSubMenu("Switch Shading Option", shadingMenu);<br>
+	glutAddSubMenu("Viewer Option", viewerMenu);<br>
+<br>
+	glutAttachMenu(GLUT_RIGHT_BUTTON);<br>
+<br>
+}<br>
+<br>
+void myMenuEvents(int option) <br>
+{<br>
+	switch (option) {<br>
+		case 1:  <br>
+			printf("Double Scale\n"); <br>
+			SCALE += 2;<br>
+			break;<br>
+		case 2:	  printf("Half Scale\n"); <br>
+			SCALE -= 2;<br>
+			break;<br>
+		case 3:  printf("Twenty % scale\n");<br>
+			SCALE -= .2;<br>
+			break;<br>
+		case 4:    printf("Positive X trans\n");<br>
+			TRANSLATEX += 1;<br>
+			break;<br>
+		case 5:	  printf("Negative X trans");<br>
+			TRANSLATEX -= 1;<br>
+			break;<br>
+		case 6:    printf("Pos Y trans\n");<br>
+			TRANSLATEY += 1;<br>
+			break;<br>
+		case 7:	  printf("Neg Y trans\n");<br>
+			TRANSLATEY -= 1;<br>
+			break;<br>
+		case 8:    printf("Pos Z trans\n");<br>
+			TRANSLATEZ += 1;<br>
+			break;<br>
+		case 9:	  printf("Neg Z trans\n");<br>
+			TRANSLATEZ -= 1;<br>
+			break;<br>
+		case 10:   printf("Post X Rot\n");<br>
+			ANGLE += 30;<br>
+			ROTATEX += 1;<br>
+			break;<br>
+		case 11:	  printf("Neg X rot\n");<br>
+			ANGLE -= 30;<br>
+			ROTATEX -= 1;<br>
+			break;<br>
+		case 12:   printf("Pos Y Rot\n");<br>
+			ANGLE += 30;<br>
+			ROTATEY += 1;<br>
+			break;<br>
+		case 13:   printf("Neg Y rot\n");<br>
+			ANGLE -= 30;<br>
+			ROTATEY -= 1;<br>
+			break;<br>
+		case 14:   printf("Pos Z rot\n");<br>
+			ANGLE += 30;<br>
+			ROTATEZ += 1;<br>
+			break;<br>
+		case 15:   printf("Neg Z rot\n");<br>
+			ANGLE -= 30;<br>
+			ROTATEZ -= 1;<br>
+			break;<br>
+		case 16:   printf("drawBunny1\n");<br>
+			METHOD = 1;<br>
+			break;<br>
+		case 17:   printf("drawBunny2\n");<br>
+			METHOD = 2;<br>
+			break;<br>
+		case 18:    printf("Positive X view\n");<br>
+			VIEWERX += 5;<br>
+			break;<br>
+		case 19:	  printf("Negative X view");<br>
+			VIEWERX -= 5;<br>
+			break;<br>
+		case 20:    printf("Pos Y view\n");<br>
+			VIEWERY += 5;<br>
+			break;<br>
+		case 21:	  printf("Neg Y view\n");<br>
+			VIEWERY -= 5;<br>
+			break;<br>
+		case 22:    printf("Pos Z view\n");<br>
+			VIEWERZ += 5;<br>
+			break;<br>
+		case 23:	  printf("Neg Z view\n"); <br>
+			VIEWERZ -= 5;<br>
+			break;<br>
+	}<br>
+	glutPostRedisplay();		// request redisplay<br>
+}<br>
+<br>

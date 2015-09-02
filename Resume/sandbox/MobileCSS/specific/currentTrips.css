@@ -1,0 +1,15 @@
+span.subTitle{ 
+    margin-bottom: 10px;
+    overflow:hidden;
+}
+
+#newTrip {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow:hidden;
+}
+#currentTrip {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow:hidden;
+}
