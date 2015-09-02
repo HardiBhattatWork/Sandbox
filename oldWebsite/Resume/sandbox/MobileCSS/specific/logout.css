@@ -1,9 +1,0 @@
-/* logout.jsp */
-ul#loginIcons { list-style-type: none; display: block; width: 100%; margin: 0px 0 10px 0; padding: 20px 0 0 0; border-top: 1px solid #E7E7E7; border-bottom: 1px solid #E7E7E7; }
-ul#loginIcons li { display: block; width: 100%; margin: 0 0 20px 0; cursor: pointer; }
-ul#loginIcons li.icon { display: block; float: left; height: 60px; background: url('../../../../img/base/mobile/mobile-login-sprite@2x.png') 0 0 no-repeat; background-size: 85px 210px; background-position: 1px 2px; }
-ul#loginIcons li.store { background-position: 0 -50px !important; }
-ul#loginIcons li div { margin-left: 80px; width: 60%; }
-ul#loginIcons li div.arrow { display: block; width: 25px; height: 45px; margin: 7px 0 7px 0; padding: 0 !important; float: right; background-position: -10px -90px; }
-
-ul#loginIcons li a div.floatleft { color: #000000;}
