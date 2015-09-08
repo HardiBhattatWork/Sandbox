@@ -1,0 +1,20 @@
+
+ <table st-table="rowCollection" class="table table-striped">
+  <thead>
+  <tr>
+    <th>Unpublished Articles</th>
+    <th>Author</th>
+    <th>Words</th>
+    <th>Submitted</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr ng-repeat="row in rowCollection">
+    <td>{{row.firstName}}</td>
+    <td>{{row.lastName}}</td>
+    <td>{{row.birthDate}}</td>
+    <td>{{row.balance}}</td>
+  </tr>
+  </tbody>
+</table>
+
