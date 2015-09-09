@@ -1,17 +1,15 @@
-<h2 ng-bind="count"></h2> 
-
-<table st-table="rowCollection" class="table">
-  <thead>
+<table st-table="rowCollection" class="table table-hover table-bordered">
+  <thead class="bg-danger">
     <tr>
-      <th st-sort="title">Unpublished Articles</th>
-      <th st-sort="author">Author</th>
+      <th>Unpublished Articles</th>
+      <th>Author</th>
       <th st-sort="words">Words</th>
       <th st-sort="publish_at">Submitted</th>
     </tr>
   </thead>
-  <tbody>
-    <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in rowCollection">
-      <td>{{row.title | uppercase}}</td>
+  <tbody class="bg-warning">
+    <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in rowCollection | limitTo: paginationLimit()">
+      <td><a ng-href="{{row.url}}">{{row.title | uppercase}}</a></td>
       <td>{{row.profile.first_name}} {{row.profile.last_name}}</td>
       <td>{{row.words | number}}</td>
       <td>{{row.publish_at | date}}</td>
@@ -19,4 +17,4 @@
   </tbody>
 </table>
 
-<button class="more btn btn-primary btn-block" data-ng-click="loadMore($event)">Load More</button>
+<button class="more btn btn-primary btn-block" data-ng-show="hasMoreItemsToShow()" data-ng-click="showMoreItems($event)">Load More</button>
