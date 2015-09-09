@@ -1,20 +1,22 @@
+<h2 ng-bind="count"></h2> 
 
- <table st-table="rowCollection" class="table table-striped">
+<table st-table="rowCollection" class="table">
   <thead>
-  <tr>
-    <th>Unpublished Articles</th>
-    <th>Author</th>
-    <th>Words</th>
-    <th>Submitted</th>
-  </tr>
+    <tr>
+      <th st-sort="title">Unpublished Articles</th>
+      <th st-sort="author">Author</th>
+      <th st-sort="words">Words</th>
+      <th st-sort="publish_at">Submitted</th>
+    </tr>
   </thead>
   <tbody>
-  <tr ng-repeat="row in rowCollection">
-    <td>{{row.firstName}}</td>
-    <td>{{row.lastName}}</td>
-    <td>{{row.birthDate}}</td>
-    <td>{{row.balance}}</td>
-  </tr>
+    <tr st-select-row="row" st-select-mode="multiple" ng-repeat="row in rowCollection">
+      <td>{{row.title | uppercase}}</td>
+      <td>{{row.profile.first_name}} {{row.profile.last_name}}</td>
+      <td>{{row.words | number}}</td>
+      <td>{{row.publish_at | date}}</td>
+    </tr>
   </tbody>
 </table>
 
+<button class="more btn btn-primary btn-block" data-ng-click="loadMore($event)">Load More</button>
